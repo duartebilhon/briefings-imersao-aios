@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefings — Imersão AIOS Squad</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c04a;
+    --gold-dim: rgba(201,162,39,0.15);
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #12122a;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%);
+    border-bottom: 1px solid rgba(201,162,39,0.3);
+    padding: 48px 64px 40px;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-left p {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: #fff;
+    line-height: 1.15;
+  }
+  .header-left h1 span { color: var(--gold); }
+  .header-stats {
+    display: flex;
+    gap: 32px;
+  }
+  .hstat { text-align: center; }
+  .hstat .val { font-size: 32px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .hstat .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* SEARCH + FILTER */
+  .toolbar {
+    max-width: 1100px;
+    margin: 32px auto 0;
+    padding: 0 64px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px 16px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: rgba(201,162,39,0.5); }
+  .search-box::placeholder { color: var(--muted); }
+  .filter-btn {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: var(--bg2);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--gold-dim); color: var(--gold); border-color: rgba(201,162,39,0.4); }
+
+  /* GRID */
+  .grid {
+    max-width: 1100px;
+    margin: 32px auto 64px;
+    padding: 0 64px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  /* CLIENT CARD */
+  .card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 28px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .card:hover {
+    border-color: rgba(201,162,39,0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .card-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    border: 2px solid rgba(201,162,39,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .card-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 99px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .badge-fervendo { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+  .badge-quente { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
+  .badge-morno { background: rgba(234,179,8,0.12); color: #fbbf24; border: 1px solid rgba(234,179,8,0.25); }
+  .badge-frio { background: rgba(99,102,241,0.12); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.25); }
+  .badge-score { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .card-segment {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .card-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-bottom: 16px;
+  }
+
+  .card-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .meta-item .meta-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+  .meta-item .meta-value { font-size: 13px; color: var(--text); font-weight: 500; }
+  .meta-item .meta-value.gold { color: var(--gold); }
+  .meta-item .meta-value.green { color: #4ade80; }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-call {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-call .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .card-arrow {
+    width: 32px; height: 32px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .card:hover .card-arrow { background: var(--gold); color: #07070f; }
+
+  /* EMPTY STATE */
+  .empty {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
+    display: none;
+  }
+  .empty.show { display: block; }
+  .empty p { font-size: 16px; margin-top: 12px; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .footer span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <p>Imersão AIOS Squad · Florianópolis 19–20/03/2026</p>
+      <h1>Central de <span>Briefings</span></h1>
+    </div>
+    <div class="header-stats">
+      <div class="hstat">
+        <div class="val" id="stat-total">3</div>
+        <div class="lbl">Briefings</div>
+      </div>
+      <div class="hstat">
+        <div class="val" id="stat-hoje">2</div>
+        <div class="lbl">Hoje</div>
+      </div>
+      <div class="hstat">
+        <div class="val">19</div>
+        <div class="lbl">Compradores</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <input class="search-box" type="text" placeholder="Buscar por nome, segmento, SDR..." oninput="filterCards()" id="search">
+  <button class="filter-btn active" onclick="setFilter('todos', this)">Todos</button>
+  <button class="filter-btn" onclick="setFilter('Fervendo', this)">Fervendo</button>
+  <button class="filter-btn" onclick="setFilter('Quente', this)">Quente</button>
+  <button class="filter-btn" onclick="setFilter('Morno', this)">Morno</button>
+</div>
+
+<!-- GRID -->
+<div class="grid" id="grid">
+
+  <!-- ALLEFY MIGUEL -->
+  <a class="card" href="briefing-allefy-miguel.html" data-temp="Quente" data-search="allefy miguel allefymundotv farmacêutico longevidade china global taise duarte">
+    <div class="card-top">
+      <div class="card-avatar">A</div>
+      <div class="card-badges">
+        <span class="badge badge-quente">Quente</span>
+        <span class="badge badge-score">Score 67</span>
+      </div>
+    </div>
+    <div class="card-name">Allefy Miguel</div>
+    <div class="card-segment">Farmacêutico · Longevidade · Fábrica na China · Vendas Globais</div>
+    <div class="card-divider"></div>
+    <div class="card-meta">
+      <div class="meta-item">
+        <div class="meta-label">Faturamento</div>
+        <div class="meta-value green">R$1M – R$3M</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Equipe</div>
+        <div class="meta-value">6 a 15 pessoas</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">SDR</div>
+        <div class="meta-value">Taise</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Closer</div>
+        <div class="meta-value gold">Duarte</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-call">
+        <div class="dot"></div>
+        Call hoje · 13/03 · 15h00 · Com diretor/head
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+  </a>
+
+  <!-- TIAGO CARNEIRO -->
+  <a class="card" href="briefing-tiago-carneiro.html" data-temp="Quente" data-search="tiago carneiro tico.carneiro engenharia infraestrutura civil3d saneamento drenagem mariana duarte">
+    <div class="card-top">
+      <div class="card-avatar">T</div>
+      <div class="card-badges">
+        <span class="badge badge-quente">Quente</span>
+        <span class="badge badge-score">Score 59</span>
+      </div>
+    </div>
+    <div class="card-name">Tiago Carneiro</div>
+    <div class="card-segment">Engenharia de Infraestrutura · Saneamento · Drenagem · Geotecnia</div>
+    <div class="card-divider"></div>
+    <div class="card-meta">
+      <div class="meta-item">
+        <div class="meta-label">Faturamento</div>
+        <div class="meta-value" style="color:#f87171;">&lt; R$500k</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Equipe</div>
+        <div class="meta-value">Até 5 pessoas</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">SDR</div>
+        <div class="meta-value">Mariana</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Closer</div>
+        <div class="meta-value gold">Duarte</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-call">
+        <div class="dot"></div>
+        Call hoje · 13/03 · 20h00 · Solo
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+  </a>
+
+  <!-- FELIPE GERMANO -->
+  <a class="card" href="briefing-felipe-germano.html" data-temp="Quente" data-search="felipe germano felipegermano17 20apy carry trade financeiro juros taise duarte">
+    <div class="card-top">
+      <div class="card-avatar">F</div>
+      <div class="card-badges">
+        <span class="badge badge-quente">Quente</span>
+        <span class="badge badge-score">Score 75</span>
+      </div>
+    </div>
+    <div class="card-name">Felipe Germano</div>
+    <div class="card-segment">Finanças · Carry Trade · Investidores · 20APY</div>
+    <div class="card-divider"></div>
+    <div class="card-meta">
+      <div class="meta-item">
+        <div class="meta-label">Faturamento</div>
+        <div class="meta-value green">Acima de R$5M</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Equipe</div>
+        <div class="meta-value">Até 5 pessoas</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">SDR</div>
+        <div class="meta-value">Taise</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Closer</div>
+        <div class="meta-value gold">Duarte</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-call">
+        <span style="color:var(--muted);font-size:12px;">Call realizada · 06/03 · 15h00 · Com sócio</span>
+      </div>
+      <div class="card-arrow">→</div>
+    </div>
+  </a>
+
+  <div class="empty" id="empty">
+    <div style="font-size:40px;">🔍</div>
+    <p>Nenhum briefing encontrado para essa busca.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Central de Briefings · <span>Imersão AIOS Squad</span> · Bilhon · 2026
+</div>
+
+<script>
+  let currentFilter = 'todos';
+
+  function setFilter(temp, btn) {
+    currentFilter = temp;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function filterCards() { applyFilters(); }
+
+  function applyFilters() {
+    const query = document.getElementById('search').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const search = card.dataset.search || '';
+      const temp = card.dataset.temp || '';
+      const matchSearch = !query || search.includes(query);
+      const matchTemp = currentFilter === 'todos' || temp === currentFilter;
+      if (matchSearch && matchTemp) {
+        card.style.display = '';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    document.getElementById('empty').classList.toggle('show', visible === 0);
+    document.getElementById('stat-total').textContent = visible;
+  }
+</script>
+
+</body>
+</html>

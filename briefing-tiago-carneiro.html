@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Tiago Carneiro | Call 13/03 20h</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c04a;
+    --gold-dim: rgba(201,162,39,0.15);
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #12122a;
+    --indigo: #6366f1;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .sticky-top { position: sticky; top: 0; z-index: 100; }
+
+  .header {
+    background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%);
+    border-bottom: 1px solid rgba(201,162,39,0.3);
+    padding: 40px 48px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .header-left h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #fff; line-height: 1.2; margin-bottom: 6px; }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p { color: var(--muted); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .badge-quente { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
+  .badge-score { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-hoje { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .badge-alerta { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+
+  .timer-box { background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); border-radius: 12px; padding: 12px 20px; text-align: center; }
+  .timer-box .timer-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .timer-box .timer-value { font-size: 28px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+  .tabs { display: flex; gap: 0; padding: 0 48px; background: var(--bg2); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .tab { padding: 14px 22px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .content { padding: 40px 48px; max-width: 1000px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .card { background: var(--bg2); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  .card-gold { border-color: rgba(201,162,39,0.3); }
+  .card-red { border-color: rgba(239,68,68,0.3); }
+  .card-green { border-color: rgba(34,197,94,0.25); }
+
+  .card-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .card-title .icon { font-size: 20px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .info-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 16px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--muted); font-size: 13px; min-width: 130px; }
+  .info-value { color: var(--text); font-size: 14px; text-align: right; flex: 1; }
+  .info-value.gold { color: var(--gold); font-weight: 600; }
+  .info-value.green { color: #4ade80; font-weight: 600; }
+  .info-value.red { color: #f87171; font-weight: 600; }
+
+  .stat-card { background: var(--bg3); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 20px; text-align: center; }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .phase { background: var(--bg2); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
+  .phase-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; cursor: pointer; transition: background 0.2s; }
+  .phase-header:hover { background: rgba(255,255,255,0.03); }
+  .phase-header.active { background: rgba(201,162,39,0.07); }
+  .phase-left { display: flex; align-items: center; gap: 16px; }
+  .phase-number { width: 36px; height: 36px; border-radius: 50%; background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); color: var(--gold); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .phase-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .phase-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .phase-timer { background: var(--bg3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 4px 12px; font-size: 12px; color: var(--muted); }
+  .phase-content { display: none; padding: 0 24px 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .phase-content.open { display: block; }
+
+  .script-block { background: var(--bg3); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 14px 0; font-style: italic; color: #cbd5e1; font-size: 14px; line-height: 1.8; }
+  .script-block strong { color: var(--gold); font-style: normal; }
+
+  .tip-block { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #a5b4fc; }
+  .tip-block strong { color: #818cf8; }
+
+  .warning-block { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #fca5a5; }
+
+  .question-list { list-style: none; }
+  .question-list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text); display: flex; gap: 12px; }
+  .question-list li:last-child { border-bottom: none; }
+  .question-list li::before { content: "→"; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+  .objection { background: var(--bg3); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .objection-trigger { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+  .objection-trigger:hover { background: rgba(255,255,255,0.03); }
+  .objection-label { font-size: 14px; font-weight: 500; color: #fca5a5; }
+  .objection-arrow { color: var(--muted); transition: transform 0.2s; font-size: 12px; }
+  .objection-body { display: none; padding: 0 20px 18px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .objection-body.open { display: block; }
+  .objection-response { font-style: italic; color: #cbd5e1; font-size: 14px; line-height: 1.8; margin: 14px 0 10px; }
+  .objection-why { font-size: 12px; color: var(--muted); }
+
+  .checklist { list-style: none; }
+  .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text); }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box { width: 20px; height: 20px; border: 2px solid rgba(201,162,39,0.4); border-radius: 4px; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 1px; }
+  .check-box:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .check-box.checked { background: var(--gold); border-color: var(--gold); }
+  .check-box.checked::after { content: "✓"; color: #07070f; font-size: 12px; font-weight: 700; }
+
+  .quote-block { font-family: 'Playfair Display', serif; font-style: italic; font-size: 18px; color: var(--gold-light); border-left: 3px solid var(--gold); padding: 16px 24px; margin: 20px 0; line-height: 1.6; }
+
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 6px; }
+  .tag-gold { background: var(--gold-dim); color: var(--gold); }
+  .tag-red { background: rgba(239,68,68,0.12); color: #f87171; }
+  .tag-green { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .tag-blue { background: rgba(99,102,241,0.12); color: #818cf8; }
+
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; margin-top: 24px; }
+  .section-label:first-child { margin-top: 0; }
+
+  p { margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+  ul.notes { padding-left: 18px; }
+  ul.notes li { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  ul.notes li strong { color: var(--text); }
+
+  .btn-save { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); border-radius: 10px; color: var(--gold); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 32px; }
+  .btn-save:hover { background: rgba(201,162,39,0.25); }
+
+  @media print {
+    .tabs, .btn-save, .timer-box { display: none; }
+    .tab-panel { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <p>Call de Diagnóstico · Imersão AIOS Squad · Duarte</p>
+    <h1>Tiago <span>Carneiro</span></h1>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <span class="badge badge-hoje">Hoje · 13/03 · 20h00</span>
+      <span class="badge badge-quente">Quente</span>
+      <span class="badge badge-score">Score 59</span>
+      <span class="badge badge-alerta">Cético — "Ainda não acredito"</span>
+      <span class="badge" style="background:rgba(99,102,241,0.12);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25);">Sem segunda cadeira</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="timer-box">
+      <div class="timer-label">Tempo de call</div>
+      <div class="timer-value" id="timer">50:00</div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button onclick="startTimer()" style="background:var(--gold);color:#07070f;border:none;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">START</button>
+        <button onclick="resetTimer()" style="background:var(--bg3);color:var(--muted);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;">RESET</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('briefing', event)">Briefing</div>
+  <div class="tab" onclick="showTab('script', event)">Script da Call</div>
+  <div class="tab" onclick="showTab('objections', event)">Objeções</div>
+  <div class="tab" onclick="showTab('fechamento', event)">Fechamento</div>
+</div>
+</div><!-- /sticky-top -->
+
+<!-- CONTENT -->
+<div class="content">
+
+  <button class="btn-save" onclick="window.print()">Salvar como PDF</button>
+
+  <!-- TAB: BRIEFING -->
+  <div class="tab-panel active" id="tab-briefing">
+
+    <div class="warning-block" style="margin-bottom:24px;">
+      <strong>ALERTA PRINCIPAL:</strong> Tiago entra na call CÉTICO. Ele disse "Ainda não acredito". Seu trabalho nos primeiros 10 minutos é entender exatamente onde está a dúvida dele — e construir a prova sobre o caso de uso dele, não sobre IA em geral.
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-gold">
+        <div class="card-title"><span class="icon">👤</span> Perfil do Lead</div>
+        <div class="info-row">
+          <span class="info-label">Nome</span>
+          <span class="info-value gold">Tiago Carneiro</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Instagram</span>
+          <span class="info-value">@tico.carneiro</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Telefone</span>
+          <span class="info-value">55 71992794009</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value">tiagocarneiroea@gmail.com</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Categoria</span>
+          <span class="info-value">Dono / Empresário</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">SDR</span>
+          <span class="info-value">Mariana</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Closer</span>
+          <span class="info-value gold">Duarte</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Qualificação</div>
+        <div class="info-row">
+          <span class="info-label">Faturamento</span>
+          <span class="info-value red">Menos de R$ 500.000</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Colaboradores</span>
+          <span class="info-value">Até 5 pessoas</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Segunda cadeira</span>
+          <span class="info-value" style="color:var(--muted);">Não</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Pode ir a Floripa</span>
+          <span class="info-value green">Sim, sem dúvida!</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Investir R$100k</span>
+          <span class="info-value green">Claro! Quero imediatamente</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Score</span>
+          <span class="info-value gold">59 / 100</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Temperatura</span>
+          <span class="info-value" style="color:#fb923c;">Quente</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-red" style="margin-bottom:24px;">
+      <div class="card-title"><span class="icon">⚠️</span> Tensão Central deste Lead</div>
+      <p style="color:var(--text);font-size:14px;">Tiago apresenta uma contradição: faturamento abaixo de R$500k (financeiramente limitante para R$100k) mas declarou disposição de investir imediatamente. Isso pode indicar:</p>
+      <ul class="notes" style="margin-top:8px;">
+        <li><strong>Capital pessoal / reservas:</strong> faturamento da empresa baixo não significa que ele não tem dinheiro</li>
+        <li><strong>Empresa nova mas empresário experiente:</strong> pode ter outros negócios ou saído de emprego bem remunerado</li>
+        <li><strong>Impulsividade:</strong> marcou "claro!" sem ponderar o valor — valide com calma na call</li>
+      </ul>
+      <div class="tip-block" style="margin-top:16px;">
+        <strong>Ação:</strong> Pergunte cedo: "Como está a saúde financeira do seu negócio hoje?" — isso abre o diálogo sem ser invasivo. Se o ticket for inviável, vá direto para o CoHort.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🏗️</span> O Negócio — Infraestrutura de Engenharia</div>
+      <div class="quote-block">
+        "Quero sondar para ver se consegue otimizar tarefas de projeto e orçamento de engenharia. Que consiga trabalhar com softwares como Civil3D, modelar estruturas, levantar quantitativos..."
+      </div>
+      <div class="section-label">O que ele faz</div>
+      <ul class="notes">
+        <li><strong>Projetos de infraestrutura:</strong> abastecimento de água, esgotamento sanitário, drenagem urbana, sistemas viários</li>
+        <li><strong>Estruturas:</strong> concreto armado, madeira, estruturas metálicas</li>
+        <li><strong>Geotecnia:</strong> sondagens SPT, estabilidade de talude, fundações</li>
+        <li><strong>Hidráulica avançada:</strong> modelagens hidrodinâmicas 1D e 3D, mecânica dos fluidos aplicada</li>
+        <li><strong>Software mencionado:</strong> Civil3D (Autodesk) — padrão de mercado para engenharia civil</li>
+      </ul>
+      <div class="section-label">Dor implícita mais provável</div>
+      <ul class="notes">
+        <li><strong>Orçamentação manual:</strong> levantar quantitativos de um projeto é extremamente trabalhoso — horas lendo pranchas e planilhando materiais</li>
+        <li><strong>Memoriais descritivos e especificações técnicas:</strong> documentos repetitivos que consomem tempo de engenheiro sênior</li>
+        <li><strong>Propostas comerciais:</strong> converter dados técnicos em proposta para o cliente final</li>
+        <li><strong>Análise de editais de licitação:</strong> identificar exigências técnicas, prazos, critérios de habilitação</li>
+      </ul>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-value">&lt;500k</div>
+        <div class="stat-label">Faturamento anual</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">59</div>
+        <div class="stat-label">Score qualificação</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Decisor na call</div>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-top:24px;">
+      <div class="card-title"><span class="icon">⚡</span> Inteligência Estratégica — O que a IA pode fazer por ele</div>
+
+      <div class="section-label">Agentes AIOS específicos para engenharia de infraestrutura</div>
+      <ul class="notes">
+        <li><strong>Agente de orçamento:</strong> lê PDFs de projetos e pranchas técnicas, extrai quantitativos automaticamente, gera planilha de custos com composições unitárias (SINAPI/SICRO)</li>
+        <li><strong>Agente de memorial descritivo:</strong> recebe dados do projeto, gera automaticamente o memorial descritivo e especificações técnicas dentro das normas ABNT</li>
+        <li><strong>Agente de análise de licitação:</strong> lê o edital, identifica exigências técnicas, verifica capacidade de habilitação, cria checklist de documentação</li>
+        <li><strong>Agente de proposta comercial:</strong> transforma os dados técnicos em proposta clara e visual para o cliente final — sem retrabalho manual</li>
+        <li><strong>Agente de conformidade normativa:</strong> verifica se o projeto atende às normas ABNT, resoluções CONAMA, padrões CREA — aponta pendências automaticamente</li>
+      </ul>
+
+      <div class="section-label">Como responder ao ceticismo dele sobre Civil3D</div>
+      <div class="tip-block">
+        <strong>O que dizer:</strong> "Tiago, a IA não entra dentro do Civil3D para modelar. O que ela faz é trabalhar com os dados que saem dele — PDFs, DWGs exportados, planilhas — para eliminar o trabalho manual de processar e documentar. O engenheiro continua fazendo o projeto. A IA elimina as horas de papelada."
+      </div>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span class="icon">⚠️</span> Pontos de Atenção</div>
+      <ul class="notes">
+        <li><strong>Ceticismo técnico real:</strong> ele trabalha com softwares especializados (Civil3D, HEC-RAS, SWMM). Se você tentar vender IA genérica, vai perder. Foque nos inputs e outputs dos softwares, não no software em si.</li>
+        <li><strong>Faturamento vs. ticket:</strong> R$100k em uma empresa com faturamento &lt;500k é 20%+ da receita anual. Explore o financeiro antes de apresentar o preço — não force o fechamento antes de entender a capacidade real.</li>
+        <li><strong>"Ainda não acredito":</strong> ele é científico por formação. Não use depoimentos ou entusiasmo. Use lógica, exemplos concretos e processo passo a passo.</li>
+        <li><strong>Segmento técnico e regulado:</strong> projetos de engenharia têm ART, CREA, responsabilidade técnica. Ele vai questionar se a IA pode assinar algo. Resposta pronta na aba Objeções.</li>
+        <li><strong>Decisão solo:</strong> sem sócio — vantagem (não precisa convencer dois), mas sem âncora emocional de grupo. A decisão é 100% racional dele.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TAB: SCRIPT -->
+  <div class="tab-panel" id="tab-script">
+
+    <div class="warning-block">
+      <strong>Premissa desta call:</strong> Tiago é cético e técnico. Não comece vendendo — comece investigando. Deixe ele descrever o problema em detalhes e use isso como espelho. Quanto mais ele falar sobre as dores, mais ele se convence sozinho.
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">1</div>
+          <div class="phase-info">
+            <h3>Rapport & Abertura</h3>
+            <p>Quebrar gelo, validar o perfil técnico, alinhar expectativas</p>
+          </div>
+        </div>
+        <span class="phase-timer">3–5 min</span>
+      </div>
+      <div class="phase-content open">
+        <div class="script-block">
+          "Tiago, boa noite. Duarte aqui da Bilhon. Obrigado por reservar um espaço hoje — vi que você trabalha com projetos de infraestrutura. Engenharia civil pesada, tipo saneamento, drenagem, estruturas... é isso?"
+        </div>
+        <div class="tip-block">
+          <strong>Por que perguntar isso:</strong> mostra que você leu o formulário com cuidado. Engenheiros valorizam quem entende o que eles fazem. Abre espaço para ele detalhar o trabalho antes de você apresentar qualquer coisa.
+        </div>
+        <div class="script-block">
+          "Essa call tem 50 minutos. Meu objetivo não é te convencer de nada — é entender se o que a gente faz em Florianópolis faz sentido real para o seu dia a dia de trabalho. Se não fizer, eu mesmo vou te dizer. Combinado?"
+        </div>
+        <div class="tip-block">
+          <strong>Esse framing é importante:</strong> ele entrou cético. Dizer que você também vai ser honesto se não fizer sentido derruba a guarda e cria confiança. Engenheiros odeiam papo de vendedor.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">2</div>
+          <div class="phase-info">
+            <h3>S — Situação</h3>
+            <p>Mapear a operação: tipos de projeto, volume, equipe, ferramentas</p>
+          </div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="section-label">Perguntas de situação</div>
+        <ul class="question-list">
+          <li>Que tipo de projeto você está fazendo agora — é mais saneamento, estruturas, ou varia bastante?</li>
+          <li>Você trabalha com projetos contratados direto por prefeituras, construtoras, ou pessoa física?</li>
+          <li>Sua equipe é só você ou tem outros engenheiros / desenhistas?</li>
+          <li>Como está o volume de projetos hoje — você está com a agenda cheia, ou tem capacidade ociosa?</li>
+          <li>Você usa Civil3D no dia a dia? E além dele — usa algum outro software específico (HEC-RAS, SAP2000, AltoQI...)?</li>
+        </ul>
+        <div class="tip-block">
+          <strong>Ouça os softwares que ele menciona.</strong> Cada um deles tem inputs e outputs documentais que a IA processa. Quanto mais ele descrever o fluxo de trabalho, mais pontos de automação você consegue identificar para a Fase 5.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">3</div>
+          <div class="phase-info">
+            <h3>P — Problema</h3>
+            <p>Identificar onde está o atrito, o retrabalho, a hora desperdiçada</p>
+          </div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="section-label">Perguntas de problema</div>
+        <ul class="question-list">
+          <li>No processo de um projeto — desde o recebimento da demanda até a entrega — qual etapa consome mais tempo do seu time sem necessariamente agregar valor técnico?</li>
+          <li>Levantamento de quantitativos: quanto tempo médio leva em um projeto típico? É feito por você ou por alguém da sua equipe?</li>
+          <li>Você faz memoriais descritivos e especificações técnicas manualmente? Ou usa algum template?</li>
+          <li>Já perdeu algum projeto ou oportunidade porque a proposta demorou demais ou o orçamento estava errado?</li>
+          <li>Quando vem um edital de licitação, quanto tempo você gasta só para entender o que está sendo pedido e montar a documentação?</li>
+        </ul>
+        <div class="script-block">
+          <strong>[Se ele mencionar levantamento de quantitativos manual:]</strong> "Exato — isso é exatamente o tipo de coisa que um agente de IA faz em minutos. Ele lê o projeto em PDF, identifica os elementos, associa às composições do SINAPI e já entrega a planilha. O engenheiro ainda confere — mas o trabalho braçal sai da sua mão."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">4</div>
+          <div class="phase-info">
+            <h3>I — Implicação</h3>
+            <p>Amplificar o custo real de continuar no mesmo ritmo</p>
+          </div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="section-label">Perguntas de implicação</div>
+        <ul class="question-list">
+          <li>Se você conseguisse entregar o dobro de projetos sem contratar ninguém — o que isso representaria em receita para você?</li>
+          <li>Quanto do seu tempo hoje é gasto em trabalho que não exige seu conhecimento técnico de engenheiro? (burocracia, digitação, formatação)</li>
+          <li>Se uma concorrente começar a usar IA para entregar orçamentos em 24h enquanto você leva uma semana, o que acontece com os seus contratos?</li>
+          <li>Tem algum projeto que você deixou de pegar porque não tinha capacidade de equipe para executar?</li>
+        </ul>
+        <div class="script-block">
+          <strong>[Âncora financeira — adapte ao faturamento dele:]</strong> "Pensa assim: se os agentes liberarem 30% do seu tempo de trabalho técnico, e você usar isso para pegar mais um projeto por mês — qual seria o valor médio desse contrato? Isso é o retorno da IA pra você."
+        </div>
+        <div class="tip-block">
+          <strong>Com faturamento &lt;500k:</strong> não use números de R$5M como âncora. Use o contexto real dele — 1 ou 2 contratos adicionais por mês, redução de custo de equipe, velocidade de entrega.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">5</div>
+          <div class="phase-info">
+            <h3>N — Necessidade & Apresentação</h3>
+            <p>Conectar a solução às dores específicas de engenharia</p>
+          </div>
+        </div>
+        <span class="phase-timer">8–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Tiago, baseado no que você me contou — [resumir 2-3 dores específicas que ele mencionou] — deixa eu te mostrar como isso se traduz em agentes reais. Não estou falando de IA genérica. Estou falando de agentes construídos especificamente para o fluxo de trabalho de uma empresa de engenharia de infraestrutura."
+        </div>
+        <div class="section-label">O que ele vai construir nos dois dias (personalizado)</div>
+        <ul class="notes">
+          <li><strong>Agente de orçamento:</strong> lê PDF do projeto + tabela SINAPI/SICRO, extrai quantitativos e gera planilha de custos estruturada — o que hoje leva horas, ele faz em minutos</li>
+          <li><strong>Agente de memorial descritivo:</strong> recebe os parâmetros do projeto e gera automaticamente o memorial dentro das normas ABNT, pronto para revisão técnica</li>
+          <li><strong>Agente de análise de edital:</strong> lê o edital de licitação, identifica exigências técnicas, prazos e montagem de documentação — sem você ler 100 páginas do zero</li>
+          <li><strong>Agente de proposta comercial:</strong> transforma os dados técnicos em proposta visualmente clara para o cliente, com valor, prazo e escopo — em minutos</li>
+        </ul>
+        <div class="script-block">
+          "A IA não substitui você como engenheiro responsável. Ela elimina o trabalho de escritório que hoje drena o seu tempo técnico. Você continua assinando a ART, você continua sendo o responsável. O que muda é que você tem tempo para ser engenheiro — e não digitador."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">6</div>
+          <div class="phase-info">
+            <h3>Fechamento</h3>
+            <p>Colher decisão — ou encaminhar para CoHort se R$100k for inviável</p>
+          </div>
+        </div>
+        <span class="phase-timer">5–8 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="warning-block">
+          <strong>Atenção ao financeiro:</strong> com faturamento &lt;R$500k, explore antes de apresentar o preço: "Como está a saúde financeira do negócio hoje?" — se o R$100k for inviável, vá para o CoHort sem hesitar. Não force o fechamento da Imersão se o lead não tem capacidade real.
+        </div>
+        <div class="script-block">
+          "Tiago, faz sentido pra você o que a gente conversou? Você já consegue visualizar onde esses agentes entrariam no seu fluxo de projeto?"
+        </div>
+        <div class="tip-block">
+          <strong>Ouça a resposta antes de apresentar o preço.</strong> Se ele disser "sim, faz sentido" — aí você apresenta. Se ele ainda estiver cético, volte para mais uma pergunta de implicação.
+        </div>
+        <div class="script-block">
+          "Temos 19 empresários confirmados. A Imersão é nos dias 19 e 20 em Florianópolis — em 6 dias. Faz sentido garantir sua vaga agora?"
+        </div>
+        <div class="script-block">
+          <strong>[Se hesitar no preço:]</strong> "Tiago, me ajuda a entender — o que está travando a decisão? É o valor, é uma dúvida técnica, ou tem outra coisa que precisa alinhar?"
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: OBJEÇÕES -->
+  <div class="tab-panel" id="tab-objections">
+
+    <div class="tip-block" style="margin-bottom:24px;">
+      Tiago é engenheiro — raciocínio lógico e ceticismo saudável são parte da personalidade dele. Não use entusiasmo para responder objeções. Use lógica, exemplos concretos e process thinking.
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"IA não consegue trabalhar com Civil3D / softwares específicos de engenharia"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Você está certo que a IA não entra dentro do Civil3D para modelar — e não é isso que ela faz. O que ela faz é trabalhar com os outputs: os PDFs que o Civil3D gera, as planilhas de quantitativos, os memoriais descritivos. O engenheiro projeta no Civil3D. A IA processa a documentação que sai dele. É como ter um assistente técnico que lê tudo que você produz e cuida da burocracia."
+        </div>
+        <div class="objection-why">Por que funciona: separa o que a IA faz (processar documentos e dados) do que ela não faz (modelagem CAD). Valida o conhecimento técnico dele sem entrar em confronto.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Meus projetos têm responsabilidade técnica / ART / CREA — IA não pode assinar nada"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Concordo 100% — e nenhum agente vai assinar ART por você. A responsabilidade técnica continua sendo sua, sempre. O que muda é o seguinte: hoje, quanto do seu tempo é gasto em atividades que não exigem responsabilidade técnica? Formatação de documentos, digitação de especificações, leitura de editais, montagem de proposta comercial — isso não precisa de engenheiro responsável. É exatamente isso que os agentes assumem."
+        </div>
+        <div class="objection-why">Por que funciona: reposiciona a IA como assistente operacional, não como substituto técnico. Elimina o medo regulatório e foca no que ele pode automatizar com segurança.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"R$100k é muito para o meu faturamento atual"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Entendo. Me ajuda a entender melhor: o faturamento que você colocou no formulário é o da empresa hoje, mas você tem outras fontes de receita ou reserva para esse investimento? Porque dependendo da sua situação, o CoHort pode ser um primeiro passo mais inteligente — R$24.888, 8 semanas online, você implementa os mesmos agentes no ritmo de vocês."
+        </div>
+        <div class="objection-why">Por que funciona: não força o fechamento em algo que pode ser inviável. Abre a conversa de forma respeitosa e apresenta o CoHort como alternativa real, não como consolação.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Ainda não acredito que a IA consegue fazer isso"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Boa — o ceticismo é saudável. Me diz: qual seria o teste que te convenceria? Se eu te mostrar um agente que recebe um projeto de abastecimento de água em PDF e entrega uma planilha de quantitativos estruturada em 3 minutos — isso mudaria sua perspectiva? Porque esse agente existe e pode ser construído em Floripa exatamente para o seu tipo de projeto."
+        </div>
+        <div class="objection-why">Por que funciona: vira o ceticismo a favor da venda. Pede a ele que defina o critério de convencimento — e então você apresenta exatamente isso. Engenheiros respondem a evidências, não a entusiasmo.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Preciso pensar / vou avaliar melhor"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Tiago, você é a única pessoa que vai decidir isso — e eu respeito. Mas me diz: o que você ainda precisa entender para tomar essa decisão com confiança? É algo técnico que não ficou claro, é o valor, é a logística de Floripa? Quero garantir que você saia dessa call com as informações certas, não que a decisão fique vaga."
+        </div>
+        <div class="objection-why">Por que funciona: identifica a objeção real por trás do "preciso pensar". Com Tiago, provavelmente é uma dúvida técnica que ele não verbalizou ainda.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Meus projetos são muito específicos / únicos"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "É exatamente por isso que a Imersão funciona — você não recebe um sistema genérico pronto. Você constrói os agentes a partir do seu fluxo de trabalho, com os seus tipos de projeto, com as suas normas e referências. Em dois dias, você sai com agentes que entendem infraestrutura, não com um chatbot que não sabe o que é SINAPI."
+        </div>
+        <div class="objection-why">Por que funciona: transforma a especificidade do negócio dele em argumento a favor da Imersão, não contra. O fato de ser específico é justamente o motivo para construir do zero com orientação especializada.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: FECHAMENTO -->
+  <div class="tab-panel" id="tab-fechamento">
+
+    <div class="card card-green">
+      <div class="card-title"><span class="icon">✅</span> Checklist Pré-Fechamento</div>
+      <ul class="checklist" id="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Dor principal mapeada e nomeada (ex: "você perde X horas/semana em orçamentação manual")</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Ceticismo técnico foi tratado com exemplo concreto — não com entusiasmo genérico</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Situação financeira real foi explorada antes de apresentar o preço de R$100k</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>ROI apresentado no contexto dele (projetos adicionais / tempo liberado)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Objeção sobre ART / responsabilidade técnica foi tratada se surgiu</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Pergunta de fechamento feita + silêncio mantido</li>
+      </ul>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-title"><span class="icon">🔒</span> Frases de Fechamento</div>
+
+      <div class="section-label">Fechamento direto</div>
+      <div class="script-block">
+        "Temos 19 empresários confirmados. Você seria o 20. Restam poucos dias para os dias 19 e 20. Faz sentido garantir agora?"
+      </div>
+
+      <div class="section-label">Fechamento por urgência</div>
+      <div class="script-block">
+        "Os dias 19 e 20 estão em 6 dias. Essa é a única edição da Imersão em 2026. Decisão precisa ser hoje para você ter tempo de preparação."
+      </div>
+
+      <div class="section-label">Fechamento por ROI para engenharia</div>
+      <div class="script-block">
+        "Tiago, você me disse que [dor que ele mencionou] consome [X tempo/semana]. Se a IA eliminar esse trabalho e você usar esse tempo para fechar mais um contrato por mês — qual é o valor médio de um contrato seu? O R$100k volta em quanto tempo?"
+      </div>
+
+      <div class="section-label">Fechamento técnico (para céticos)</div>
+      <div class="script-block">
+        "Você entrou cético — isso é bom. Quer saber o que eu vejo em quem sai da Imersão? Engenheiros são os que mais se surpreendem, porque entendem a lógica dos processos melhor do que ninguém. Você vai entrar questionando e vai sair querendo construir mais."
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💳</span> Pós-Fechamento — Não Desligues Antes</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Contrato enviado no WhatsApp (Clicksign/DocuSign) durante a call</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Link de pagamento enviado</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Confirmação de recebimento dos dois documentos</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Boas-vindas feitas — "você agora faz parte do grupo"</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Próximo passo claro combinado</li>
+      </ul>
+    </div>
+
+    <div class="card" style="background:rgba(201,162,39,0.05);border-color:rgba(201,162,39,0.3);">
+      <div class="card-title"><span class="icon">📋</span> Downsell — Prioridade Alta para Este Lead</div>
+      <p style="color:var(--text);font-size:14px;margin-bottom:12px;">Dado o faturamento &lt;R$500k, o CoHort é uma alternativa altamente provável e legítima. Não trate como "plano B" — apresente como a entrada mais inteligente dado o momento do negócio dele.</p>
+      <div class="script-block">
+        "Tiago, olhando o momento do seu negócio, o CoHort pode ser a entrada mais inteligente. São 8 semanas online, começa em abril, R$24.888. Você implementa os mesmos agentes de engenharia — orçamento, memorial, licitação — mas no seu ritmo, sem viajar. Você prova o resultado e a Imersão fica para a próxima edição com o negócio maior. Faz sentido?"
+      </div>
+      <div class="info-row">
+        <span class="info-label">Produto</span>
+        <span class="info-value">CoHort AIOS Advanced — Turma 2</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Preço</span>
+        <span class="info-value gold">R$ 24.888 (ou 12x R$ 2.488)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Início</span>
+        <span class="info-value">08/04/2026</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Formato</span>
+        <span class="info-value">Online · 8 semanas · 80+ agentes IA</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function showTab(id, event) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function togglePhase(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    header.classList.toggle('active', !isOpen);
+  }
+
+  function toggleObj(trigger) {
+    const body = trigger.nextElementSibling;
+    const arrow = trigger.querySelector('.objection-arrow');
+    body.classList.toggle('open');
+    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+  }
+
+  function toggleCheck(box) {
+    box.classList.toggle('checked');
+  }
+
+  let timerInterval;
+  let seconds = 50 * 60;
+
+  function updateDisplay() {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    document.getElementById('timer').textContent =
+      String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (seconds <= 300) {
+      document.getElementById('timer').style.color = '#ef4444';
+    } else if (seconds <= 600) {
+      document.getElementById('timer').style.color = '#f97316';
+    } else {
+      document.getElementById('timer').style.color = 'var(--gold)';
+    }
+  }
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      if (seconds > 0) { seconds--; updateDisplay(); }
+      else { clearInterval(timerInterval); document.getElementById('timer').textContent = 'FIM'; }
+    }, 1000);
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    seconds = 50 * 60;
+    updateDisplay();
+  }
+</script>
+
+</body>
+</html>

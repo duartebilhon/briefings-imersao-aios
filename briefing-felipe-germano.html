@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Felipe Germano | Call 06/03 15h</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c04a;
+    --gold-dim: rgba(201,162,39,0.15);
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #12122a;
+    --indigo: #6366f1;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  .sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%);
+    border-bottom: 1px solid rgba(201,162,39,0.3);
+    padding: 40px 48px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p {
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-quente { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
+  .badge-score { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-hoje { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .timer-box {
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    border-radius: 12px;
+    padding: 12px 20px;
+    text-align: center;
+  }
+  .timer-box .timer-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .timer-box .timer-value { font-size: 28px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 48px;
+    background: var(--bg2);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .tab {
+    padding: 14px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* CONTENT */
+  .content { padding: 40px 48px; max-width: 1000px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .card-gold { border-color: rgba(201,162,39,0.3); }
+  .card-red { border-color: rgba(239,68,68,0.3); }
+  .card-green { border-color: rgba(34,197,94,0.25); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon { font-size: 20px; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* INFO ROWS */
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    gap: 16px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--muted); font-size: 13px; min-width: 130px; }
+  .info-value { color: var(--text); font-size: 14px; text-align: right; flex: 1; }
+  .info-value.gold { color: var(--gold); font-weight: 600; }
+  .info-value.green { color: #4ade80; font-weight: 600; }
+
+  /* STAT CARDS */
+  .stat-card {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* SCRIPT PHASES */
+  .phase {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .phase-header:hover { background: rgba(255,255,255,0.03); }
+  .phase-header.active { background: rgba(201,162,39,0.07); }
+  .phase-left { display: flex; align-items: center; gap: 16px; }
+  .phase-number {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .phase-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .phase-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .phase-timer {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .phase-content {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .phase-content.open { display: block; }
+
+  /* SCRIPT LINES */
+  .script-block {
+    background: var(--bg3);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-style: italic;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .script-block strong { color: var(--gold); font-style: normal; }
+
+  .tip-block {
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #a5b4fc;
+  }
+  .tip-block strong { color: #818cf8; }
+
+  .warning-block {
+    background: rgba(239,68,68,0.07);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #fca5a5;
+  }
+
+  /* QUESTIONS */
+  .question-list { list-style: none; }
+  .question-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    gap: 12px;
+  }
+  .question-list li:last-child { border-bottom: none; }
+  .question-list li::before {
+    content: "→";
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* OBJECTIONS */
+  .objection {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .objection-trigger {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .objection-trigger:hover { background: rgba(255,255,255,0.03); }
+  .objection-label { font-size: 14px; font-weight: 500; color: #fca5a5; }
+  .objection-arrow { color: var(--muted); transition: transform 0.2s; font-size: 12px; }
+  .objection-body {
+    display: none;
+    padding: 0 20px 18px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .objection-body.open { display: block; }
+  .objection-response {
+    font-style: italic;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 14px 0 10px;
+  }
+  .objection-why { font-size: 12px; color: var(--muted); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: var(--text);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(201,162,39,0.4);
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .check-box:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .check-box.checked { background: var(--gold); border-color: var(--gold); }
+  .check-box.checked::after { content: "✓"; color: #07070f; font-size: 12px; font-weight: 700; }
+
+  /* QUOTE */
+  .quote-block {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    padding: 16px 24px;
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 6px;
+  }
+  .tag-gold { background: var(--gold-dim); color: var(--gold); }
+  .tag-red { background: rgba(239,68,68,0.12); color: #f87171; }
+  .tag-green { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .tag-blue { background: rgba(99,102,241,0.12); color: #818cf8; }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    margin-top: 24px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  p { margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+  ul.notes { padding-left: 18px; }
+  ul.notes li { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  ul.notes li strong { color: var(--text); }
+
+  /* PRINT BUTTON */
+  .btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    border-radius: 10px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 32px;
+  }
+  .btn-save:hover { background: rgba(201,162,39,0.25); }
+
+  @media print {
+    .tabs, .btn-save, .timer-box { display: none; }
+    .tab-panel { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <p>Call de Diagnóstico · Imersão AIOS Squad · Duarte</p>
+    <h1>Felipe <span>Germano</span></h1>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <span class="badge badge-hoje">Hoje · 06/03 · 15h00</span>
+      <span class="badge badge-quente">Quente</span>
+      <span class="badge badge-score">Score 75</span>
+      <span class="badge" style="background:rgba(99,102,241,0.12);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25);">Com sócio</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="timer-box">
+      <div class="timer-label">Tempo de call</div>
+      <div class="timer-value" id="timer">50:00</div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button onclick="startTimer()" style="background:var(--gold);color:#07070f;border:none;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">START</button>
+        <button onclick="resetTimer()" style="background:var(--bg3);color:var(--muted);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;">RESET</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('briefing')">Briefing</div>
+  <div class="tab" onclick="showTab('script')">Script da Call</div>
+  <div class="tab" onclick="showTab('objections')">Objeções</div>
+  <div class="tab" onclick="showTab('fechamento')">Fechamento</div>
+</div>
+</div><!-- /sticky-top -->
+
+<!-- CONTENT -->
+<div class="content">
+
+  <button class="btn-save" onclick="window.print()">Salvar como PDF</button>
+
+  <!-- TAB: BRIEFING -->
+  <div class="tab-panel active" id="tab-briefing">
+
+    <div class="grid-2">
+      <div class="card card-gold">
+        <div class="card-title"><span class="icon">👤</span> Perfil do Lead</div>
+        <div class="info-row">
+          <span class="info-label">Nome</span>
+          <span class="info-value gold">Felipe Germano</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Instagram</span>
+          <span class="info-value">@felipegermano17</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Telefone</span>
+          <span class="info-value">55 31999876010</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value">germano@20apy.com</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Categoria</span>
+          <span class="info-value">Dono / Empresário</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">SDR</span>
+          <span class="info-value">Taise</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Closer</span>
+          <span class="info-value gold">Duarte</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Qualificação</div>
+        <div class="info-row">
+          <span class="info-label">Faturamento</span>
+          <span class="info-value green">Acima de R$ 5M</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Colaboradores</span>
+          <span class="info-value">Até 5 pessoas</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Segunda cadeira</span>
+          <span class="info-value gold">Sim — vai trazer sócio</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Pode ir a Floripa</span>
+          <span class="info-value green">Sim, sem dúvida!</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Investir R$100k</span>
+          <span class="info-value green">Claro! Quero imediatamente</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Score</span>
+          <span class="info-value gold">75 / 100</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Temperatura</span>
+          <span class="info-value" style="color:#fb923c;">Quente</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🏦</span> O Negócio — 20APY</div>
+      <div class="quote-block">
+        "Carry trade para investidores estrangeiros/brasileiros financiarem operações de crédito no Brasil dando a oportunidade de reduzir a taxa de juros abusivos praticado no país e ainda conseguir um retorno vantajoso."
+      </div>
+      <div class="section-label">O que é o negócio dele</div>
+      <ul class="notes">
+        <li><strong>Carry trade:</strong> aproveita diferencial de taxa de juros entre países — capta barato no exterior, financia caro no Brasil</li>
+        <li><strong>20APY.com:</strong> promete 20% de retorno anual para investidores — produto financeiro estruturado</li>
+        <li><strong>Operação enxuta:</strong> até 5 pessoas, mas faturamento acima de R$5M → alavancagem financeira alta por pessoa</li>
+        <li><strong>Regulatório:</strong> mercado de crédito e câmbio = ambiente regulado (CVM, Bacen) — isso vai aparecer como objeção</li>
+      </ul>
+      <div class="section-label" style="margin-top:20px;">Por que quer o AIOS</div>
+      <div class="warning-block">
+        <strong>Atenção:</strong> "Vocês vão mudar o conceito de AGI" — resposta muito curta e genérica (40 chars). Entusiasmo alto, mas pouca profundidade. Valide se ele entende o que está comprando ou se é hype de IA.
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-value">R$5M+</div>
+        <div class="stat-label">Faturamento anual</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">75</div>
+        <div class="stat-label">Score qualificação</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Decisores na call</div>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-top:24px;">
+      <div class="card-title"><span class="icon">⚡</span> Inteligência Estratégica</div>
+
+      <div class="section-label">Onde a IA pode mudar o jogo dele</div>
+      <ul class="notes">
+        <li><strong>Agente SDR:</strong> prospecção de novos investidores (BR + EUA) em escala — hoje provavelmente feito manualmente</li>
+        <li><strong>Agente de análise de crédito:</strong> scoring automático de operações de crédito — elimina analista humano</li>
+        <li><strong>Agente de relatórios:</strong> relatórios mensais automáticos para investidores com dados da carteira</li>
+        <li><strong>Agente de onboarding:</strong> KYC, contratos, compliance — a parte burocrática que trava o crescimento</li>
+        <li><strong>Agente de monitoramento:</strong> alertas de inadimplência, variação cambial, risco de portfólio</li>
+      </ul>
+
+      <div class="section-label">Dor mais provável (ainda não mapeada)</div>
+      <ul class="notes">
+        <li>Com até 5 pessoas e R$5M+, o gargalo é <strong>escala sem contratar</strong> — ele não pode triplicar a equipe para triplicar o faturamento</li>
+        <li>Compliance e due diligence consomem tempo humano caro — perfeito para automação</li>
+      </ul>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span class="icon">⚠️</span> Pontos de Atenção</div>
+      <ul class="notes">
+        <li><strong>Dois decisores:</strong> sócio vai estar na call. Se um fechar e o outro hesitar, você perde os dois. Trate-os como uma unidade.</li>
+        <li><strong>"Por que AIOS" fraco:</strong> ele pode estar empolgado com IA em geral, não especificamente com a Imersão. Ancore no negócio dele cedo.</li>
+        <li><strong>Mercado regulado:</strong> pode usar compliance como objeção ("não posso automatizar tudo por questões regulatórias"). Resposta preparada na aba de Objeções.</li>
+        <li><strong>Financeiro ≠ Tech:</strong> ele pode não ter projeto técnico definido — verifique se tem Claude Pro/Max e alguém de tech no time.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TAB: SCRIPT -->
+  <div class="tab-panel" id="tab-script">
+
+    <div class="tip-block">
+      <strong>Lembre:</strong> Dois decisores na call. Apresente-se para os dois, faça perguntas para os dois, feche os dois juntos. Nunca deixe um silencioso.
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">1</div>
+          <div class="phase-info">
+            <h3>Rapport & Abertura</h3>
+            <p>Quebrar gelo, estabelecer autoridade, alinhar expectativas</p>
+          </div>
+        </div>
+        <span class="phase-timer">3–5 min</span>
+      </div>
+      <div class="phase-content open">
+        <div class="script-block">
+          "Felipe, boa tarde. Duarte aqui da Bilhon. Antes de tudo, seja bem-vindo — e bem-vindo ao sócio também. Fico feliz que vocês dois estejam aqui, porque essa conversa vai precisar dos dois para fazer sentido completo."
+        </div>
+        <div class="script-block">
+          "Essa call tem 50 minutos. Vou fazer algumas perguntas pra entender o negócio de vocês em profundidade — não é uma apresentação, é um diagnóstico. Se fizer sentido avançar, você vai saber exatamente o que vai acontecer nos dias 19 e 20 em Florianópolis."
+        </div>
+        <div class="tip-block">
+          <strong>Para o sócio:</strong> "Qual o nome do seu sócio?" → dirija pelo menos uma pergunta específica para ele nos próximos 5 minutos para não deixá-lo invisível.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">2</div>
+          <div class="phase-info">
+            <h3>S — Situação</h3>
+            <p>Entender o negócio atual, estrutura, volume, operação</p>
+          </div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="section-label">Perguntas de situação</div>
+        <ul class="question-list">
+          <li>Me conta mais sobre a 20APY. Como funciona o modelo de carry trade de vocês na prática?</li>
+          <li>Hoje vocês têm quantos investidores ativos na carteira? E qual o ticket médio por investidor?</li>
+          <li>A equipe de vocês é basicamente os dois sócios? Tem mais alguém operando?</li>
+          <li>Como vocês captam novos investidores hoje — indicação, prospecção ativa, digital?</li>
+          <li>O processo de onboarding de um novo investidor, do interesse até ele depositar — quanto tempo leva e o que envolve?</li>
+        </ul>
+        <div class="tip-block">
+          <strong>Ouça o volume.</strong> Com R$5M+ e até 5 pessoas, existe muita operação concentrada. Cada processo que ele descrever, mentalize: "qual agente faria isso?"
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">3</div>
+          <div class="phase-info">
+            <h3>P — Problema</h3>
+            <p>Identificar onde está o atrito, o gargalo, a dor real</p>
+          </div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="section-label">Perguntas de problema</div>
+        <ul class="question-list">
+          <li>Se vocês quisessem dobrar o número de investidores em 6 meses, o que travaria primeiro?</li>
+          <li>Tem alguma parte da operação que vocês sabem que está deixando dinheiro na mesa por falta de capacidade?</li>
+          <li>Relatórios para investidores, due diligence, compliance — quanto tempo por semana isso consome da equipe?</li>
+          <li>Já aconteceu de perder um investidor qualificado porque o processo demorou muito ou a comunicação falhou?</li>
+          <li>O que te impede de contratar mais pessoas para resolver esses gargalos?</li>
+        </ul>
+        <div class="script-block">
+          <strong>[Se ele mencionar processo manual]</strong> "Isso é exatamente o tipo de coisa que a gente vai atacar em Floripa — não com um sistema genérico, mas com agentes construídos especificamente para o modelo de carry trade e gestão de investidores de vocês."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">4</div>
+          <div class="phase-info">
+            <h3>I — Implicação</h3>
+            <p>Amplificar o custo real de não resolver</p>
+          </div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="section-label">Perguntas de implicação</div>
+        <ul class="question-list">
+          <li>Se esse gargalo de [dor que ele mencionou] continuar por mais 12 meses, o que deixa de acontecer no negócio?</li>
+          <li>Vocês já calcularam quanto está custando manter isso manual — em horas dos sócios, oportunidades perdidas?</li>
+          <li>Se um concorrente implementar IA na captação e onboarding antes de vocês, o que muda na competição?</li>
+        </ul>
+        <div class="script-block">
+          <strong>[Âncora financeira]</strong> "Vocês faturam R$5M+. Se a IA conseguir aumentar 20% a capacidade de captação sem contratar ninguém, estamos falando de R$1M+ adicional. Esse é o número que quero que vocês tenham em mente."
+        </div>
+        <div class="tip-block">
+          <strong>Para os dois:</strong> "Você [sócio], na parte que você toca do negócio — tem algum processo que você já quis automatizar mas não sabia como?"
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">5</div>
+          <div class="phase-info">
+            <h3>N — Necessidade & Apresentação</h3>
+            <p>Conectar a solução à dor específica deles</p>
+          </div>
+        </div>
+        <span class="phase-timer">8–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Baseado no que vocês me contaram — [resumir 2-3 dores específicas deles] — a Imersão AIOS Squad foi feita exatamente pra isso. Dois dias em Florianópolis onde vocês vão sair com agentes de IA implementados e rodando no negócio de vocês. Não teoria. Implementação real."
+        </div>
+        <div class="section-label">O que eles vão construir (personalizado para 20APY)</div>
+        <ul class="notes">
+          <li><strong>Agente de prospecção:</strong> identifica e aborda investidores qualificados automaticamente</li>
+          <li><strong>Agente de onboarding:</strong> conduz KYC, coleta documentos, envia contratos — sem intervenção humana</li>
+          <li><strong>Agente de relatórios:</strong> gera relatórios personalizados para cada investidor mensalmente</li>
+          <li><strong>Agente de monitoramento:</strong> alerta sobre risco, inadimplência, variações de câmbio</li>
+        </ul>
+        <div class="script-block">
+          "Alan Nikolas e Thiago Finch vão estar presentes durante os dois dias. São eles que construíram o AIOS — então vocês vão ter acesso direto a quem criou o sistema, para calibrar exatamente para o modelo de vocês."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">6</div>
+          <div class="phase-info">
+            <h3>Fechamento</h3>
+            <p>Colher decisão, processar pagamento, dar boas-vindas</p>
+          </div>
+        </div>
+        <span class="phase-timer">5–8 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Temos 13 empresários confirmados. Vocês seriam os 14 e 15. Restam poucas vagas para os dias 19 e 20. Faz sentido pra vocês garantir agora?"
+        </div>
+        <div class="tip-block">
+          <strong>Silêncio após essa frase.</strong> Não preencha o silêncio. Quem falar primeiro, perde.
+        </div>
+        <div class="script-block">
+          <strong>[Se houver hesitação]</strong> "O que vocês precisam ver ou entender para tomar a decisão hoje?"
+        </div>
+        <div class="script-block">
+          <strong>[Confirmação]</strong> "Perfeito. Vou enviar o contrato no WhatsApp agora mesmo — é assinatura digital, leva 2 minutos. Depois disso, vocês entram no grupo dos empresários confirmados e já recebem a preparação para os dois dias."
+        </div>
+        <div class="warning-block">
+          <strong>Não desligue antes de:</strong> enviar o contrato + link de pagamento + confirmar que foram recebidos.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: OBJEÇÕES -->
+  <div class="tab-panel" id="tab-objections">
+
+    <div class="tip-block" style="margin-bottom:24px;">
+      Com dois decisores, uma objeção de um pode ser amplificada pelo outro. Resolva sempre para os dois: "Isso faz sentido pra vocês dois?"
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Meu negócio é muito regulado / não posso automatizar tudo"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Entendo completamente. Mas pensa comigo — tem uma parte da operação de vocês que é front-office: prospecção, comunicação com investidores, relatórios, onboarding. E tem o back-office regulado: compliance, laudos, operações cambiais. A gente não vai tocar no que o Bacen proíbe. A gente vai colocar IA no que hoje está consumindo o tempo de vocês desnecessariamente."
+        </div>
+        <div class="objection-why">Por que funciona: separa o que é regulado do que é operacional. Ele não precisa automatizar o que é proibido — precisa automatizar o que é permitido e não está sendo automatizado.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"R$100k é muito para dois dias"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Vocês faturam acima de R$5M. Se os agentes que vão sair desses dois dias conseguirem captar mais 3-4 investidores que vocês não conseguiriam alcançar manualmente — o R$100k já está pago no primeiro mês. A pergunta não é se vale R$100k. A pergunta é: quanto custa não ter isso funcionando em 2025?"
+        </div>
+        <div class="objection-why">Por que funciona: ancora o valor no retorno específico deles, não no preço.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Precisamos pensar / vou conversar com meu sócio depois"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "O sócio está aqui agora — o que vocês precisam discutir que não consigo esclarecer agora? Prefiro que a decisão seja tomada juntos do que ter ruído depois. O que está travando?"
+        </div>
+        <div class="objection-why">Por que funciona: neutraliza o adiamento usando o fato de que o sócio está presente. Se os dois estão na call, não há motivo para "consultar" depois.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não temos time de tech / não sei programar"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "A Imersão foi construída exatamente pra empresários, não pra devs. Você precisa ter Claude Pro — isso é tudo. Os sistemas que vão sair dos dois dias não exigem equipe de tech. Inclusive, a premissa do AIOS é justamente eliminar a dependência de equipe técnica."
+        </div>
+        <div class="objection-why">Por que funciona: remove a barreira técnica que é frequentemente usada como bloqueio em negócios financeiros.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Já usamos IA / já temos automações"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Ótimo ponto de partida. O AIOS não é sobre usar IA — é sobre orquestrar um sistema de agentes que trabalham em conjunto como um squad. O que vocês têm hoje provavelmente são ferramentas isoladas. O que sai de Floripa é um sistema integrado, com memória, contexto e tomada de decisão encadeada."
+        </div>
+        <div class="objection-why">Por que funciona: eleva o nível da conversa de "ferramentas de IA" para "sistema de agentes" — posicionamento diferente do que eles já têm.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não posso ir a Florianópolis nessa data"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Ele já marcou 'Sim, sem dúvida' no formulário — use isso: 'No formulário você marcou que conseguia. O que mudou?' Se for real, explore se é um dos dois que não consegue ir, ou os dois. Se só um, explore a segunda cadeira com o sócio."
+        </div>
+        <div class="objection-why">Use a informação do formulário como âncora. Ele disse que conseguia — coloca a responsabilidade nele justificar a mudança.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: FECHAMENTO -->
+  <div class="tab-panel" id="tab-fechamento">
+
+    <div class="card card-green">
+      <div class="card-title"><span class="icon">✅</span> Checklist Pré-Fechamento</div>
+      <ul class="checklist" id="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Sócio foi incluído na conversa com pelo menos uma pergunta direta</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Dor principal mapeada e nomeada ("Então vocês querem X mas estão travados em Y")</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>ROI apresentado no contexto específico do 20APY</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Os dois decisores estão alinhados (ou a divergência foi tratada)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Objeção sobre regulação abordada se surgiu</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Pergunta de fechamento feita + silêncio mantido</li>
+      </ul>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-title"><span class="icon">🔒</span> Frases de Fechamento</div>
+
+      <div class="section-label">Fechamento direto</div>
+      <div class="script-block">
+        "Temos 13 empresários confirmados. Com vocês dois, seríamos 15. As vagas estão quase esgotadas. Faz sentido garantir agora?"
+      </div>
+
+      <div class="section-label">Fechamento por urgência</div>
+      <div class="script-block">
+        "Os 19 e 20 de março estão em 13 dias. Quanto mais cedo vocês confirmam, mais tempo de preparação têm. A decisão precisa ser hoje."
+      </div>
+
+      <div class="section-label">Fechamento por exclusividade</div>
+      <div class="script-block">
+        "Essa é a única edição da Imersão em 2026. Não há próxima turma. Se vocês saírem hoje sem confirmar, não tem opção de 'esperar a próxima'."
+      </div>
+
+      <div class="section-label">Fechamento por ROI</div>
+      <div class="script-block">
+        "Vocês faturam R$5M+. Se os agentes ajudarem a captar mais 3 investidores no próximo trimestre, o R$100k já voltou. Com juros. Esse é o risco que vale correr."
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💳</span> Pós-Fechamento — Não Desligues Antes</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Contrato enviado no WhatsApp (Clicksign/DocuSign) durante a call</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Link de pagamento enviado</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Confirmação de recebimento dos dois documentos</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Data de assinatura + pagamento acordada (se não for imediato)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Boas-vindas feitas — "vocês agora fazem parte do grupo"</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Próximo passo claro combinado</li>
+      </ul>
+    </div>
+
+    <div class="card" style="background:rgba(201,162,39,0.05);border-color:rgba(201,162,39,0.3);">
+      <div class="card-title"><span class="icon">📋</span> Downsell — Se não fechar R$100k</div>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:16px;">Se o bloqueio for financeiro ou de timing, apresente o CoHort Advanced:</p>
+      <div class="script-block">
+        "Entendo. Temos uma outra entrada — o CoHort AIOS Advanced. São 8 semanas online, começa em abril, por R$24.888. Vocês implementam os mesmos agentes, mas no ritmo de vocês, sem precisar viajar. Faz sentido como próximo passo?"
+      </div>
+      <div class="info-row">
+        <span class="info-label">Produto</span>
+        <span class="info-value">CoHort AIOS Advanced — Turma 2</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Preço</span>
+        <span class="info-value gold">R$ 24.888 (ou 12x R$ 2.488)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Início</span>
+        <span class="info-value">08/04/2026</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Formato</span>
+        <span class="info-value">Online · 8 semanas · 80+ agentes IA</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // TABS
+  function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // PHASES
+  function togglePhase(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    header.classList.toggle('active', !isOpen);
+  }
+
+  // OBJECTIONS
+  function toggleObj(trigger) {
+    const body = trigger.nextElementSibling;
+    const arrow = trigger.querySelector('.objection-arrow');
+    body.classList.toggle('open');
+    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+  }
+
+  // CHECKLIST
+  function toggleCheck(box) {
+    box.classList.toggle('checked');
+  }
+
+  // TIMER
+  let timerInterval;
+  let seconds = 50 * 60;
+
+  function updateDisplay() {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    document.getElementById('timer').textContent =
+      String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (seconds <= 300) {
+      document.getElementById('timer').style.color = '#ef4444';
+    } else if (seconds <= 600) {
+      document.getElementById('timer').style.color = '#f97316';
+    } else {
+      document.getElementById('timer').style.color = 'var(--gold)';
+    }
+  }
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      if (seconds > 0) {
+        seconds--;
+        updateDisplay();
+      } else {
+        clearInterval(timerInterval);
+        document.getElementById('timer').textContent = 'FIM';
+      }
+    }, 1000);
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    seconds = 50 * 60;
+    updateDisplay();
+  }
+</script>
+
+</body>
+</html>

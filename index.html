@@ -295,7 +295,7 @@
 <div class="grid" id="grid">
 
   <!-- ALLEFY MIGUEL -->
-  <a class="card" href="briefing-allefy-miguel.html" data-temp="Quente" data-search="allefy miguel allefymundotv farmacêutico longevidade china global taise duarte">
+  <a class="card" href="briefing-allefy-miguel.html" data-temp="Quente" data-datetime="2026-03-13T15:00" data-search="allefy miguel allefymundotv farmacêutico longevidade china global taise duarte">
     <div class="card-top">
       <div class="card-avatar">A</div>
       <div class="card-badges">
@@ -334,7 +334,7 @@
   </a>
 
   <!-- TIAGO CARNEIRO -->
-  <a class="card" href="briefing-tiago-carneiro.html" data-temp="Quente" data-search="tiago carneiro tico.carneiro engenharia infraestrutura civil3d saneamento drenagem mariana duarte">
+  <a class="card" href="briefing-tiago-carneiro.html" data-temp="Quente" data-datetime="2026-03-13T20:00" data-search="tiago carneiro tico.carneiro engenharia infraestrutura civil3d saneamento drenagem mariana duarte">
     <div class="card-top">
       <div class="card-avatar">T</div>
       <div class="card-badges">
@@ -373,7 +373,7 @@
   </a>
 
   <!-- FELIPE GERMANO -->
-  <a class="card" href="briefing-felipe-germano.html" data-temp="Quente" data-search="felipe germano felipegermano17 20apy carry trade financeiro juros taise duarte">
+  <a class="card" href="briefing-felipe-germano.html" data-temp="Quente" data-datetime="2026-03-06T15:00" data-search="felipe germano felipegermano17 20apy carry trade financeiro juros taise duarte">
     <div class="card-top">
       <div class="card-avatar">F</div>
       <div class="card-badges">
@@ -423,6 +423,20 @@
 </div>
 
 <script>
+  // Ordenar cards por data/hora (mais recente primeiro)
+  function sortCards() {
+    const grid = document.getElementById('grid');
+    const cards = Array.from(grid.querySelectorAll('.card'));
+    cards.sort((a, b) => {
+      const da = a.dataset.datetime || '0';
+      const db = b.dataset.datetime || '0';
+      return db.localeCompare(da);
+    });
+    const empty = document.getElementById('empty');
+    cards.forEach(c => grid.insertBefore(c, empty));
+  }
+  sortCards();
+
   let currentFilter = 'todos';
 
   function setFilter(temp, btn) {

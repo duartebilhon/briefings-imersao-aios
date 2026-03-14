@@ -125,14 +125,16 @@
   .card {
     background: linear-gradient(
       170deg,
-      #1e1e38 0%,
-      #13132a 35%,
-      #0d0d1c 65%,
-      #060610 100%
+      #26264a 0%,
+      #1a1a38 30%,
+      #101025 65%,
+      #080815 100%
     );
-    border: 1px solid rgba(255,255,255,0.13);
-    border-top: 1px solid rgba(255,255,255,0.26);
-    border-left: 1px solid rgba(255,255,255,0.18);
+    border: 2px solid rgba(255,255,255,0.18);
+    border-top: 2px solid rgba(255,255,255,0.38);
+    border-left: 2px solid rgba(255,255,255,0.26);
+    border-bottom: 2px solid rgba(0,0,0,0.6);
+    border-right: 2px solid rgba(0,0,0,0.4);
     border-radius: 24px;
     padding: 20px 32px 16px;
     cursor: pointer;
@@ -145,36 +147,38 @@
     overflow: hidden;
     box-shadow:
       /* inner bevel — topo e lateral iluminados */
-      inset 0 1px 0 rgba(255,255,255,0.14),
-      inset 1px 0 0 rgba(255,255,255,0.08),
-      inset 0 -1px 0 rgba(0,0,0,0.5),
+      inset 0 2px 0 rgba(255,255,255,0.18),
+      inset 2px 0 0 rgba(255,255,255,0.10),
+      inset 0 -2px 0 rgba(0,0,0,0.6),
       /* sombra de contato nítida */
-      0 1px 2px rgba(0,0,0,0.9),
-      0 3px 6px rgba(0,0,0,0.80),
+      0 2px 4px rgba(0,0,0,0.95),
+      0 6px 12px rgba(0,0,0,0.90),
       /* elevação média */
-      0 14px 32px rgba(0,0,0,0.70),
+      0 20px 48px rgba(0,0,0,0.80),
       /* altitude principal */
-      0 40px 80px rgba(0,0,0,0.55),
+      0 50px 100px rgba(0,0,0,0.65),
       /* penumbra difusa longa */
-      0 70px 130px rgba(0,0,0,0.38),
+      0 80px 160px rgba(0,0,0,0.45),
       /* sombra ambiente ultra-longa */
-      0 100px 200px rgba(0,0,0,0.20);
+      0 120px 240px rgba(0,0,0,0.28),
+      /* halo ambiente dourado suave */
+      0 0 40px rgba(201,162,39,0.06);
   }
 
   /* Faixa de luz no topo — borda iluminada */
   .card::before {
     content: '';
     position: absolute;
-    top: 0; left: 10%; right: 10%;
-    height: 1px;
+    top: 0; left: 8%; right: 8%;
+    height: 2px;
     background: linear-gradient(90deg,
       transparent,
-      rgba(255,255,255,0.35) 30%,
-      rgba(201,162,39,0.6) 50%,
-      rgba(255,255,255,0.35) 70%,
+      rgba(255,255,255,0.45) 25%,
+      rgba(201,162,39,0.85) 50%,
+      rgba(255,255,255,0.45) 75%,
       transparent
     );
-    opacity: 0.6;
+    opacity: 0.75;
     transition: opacity 0.32s;
     border-radius: 50%;
   }
@@ -183,42 +187,44 @@
   .card::after {
     content: '';
     position: absolute;
-    top: -60px; left: -60px;
-    width: 200px; height: 200px;
+    top: -50px; left: -50px;
+    width: 240px; height: 240px;
     background: radial-gradient(
       ellipse at center,
-      rgba(255,255,255,0.06) 0%,
-      transparent 70%
+      rgba(255,255,255,0.09) 0%,
+      transparent 65%
     );
     pointer-events: none;
     transition: opacity 0.32s;
   }
 
   .card:hover {
-    transform: translateY(-14px) scale(1.025);
-    border-color: rgba(201,162,39,0.55);
-    border-top-color: rgba(201,162,39,0.85);
-    border-left-color: rgba(201,162,39,0.40);
+    transform: translateY(-16px) scale(1.028);
+    border-color: rgba(201,162,39,0.70);
+    border-top-color: rgba(201,162,39,0.95);
+    border-left-color: rgba(201,162,39,0.55);
+    border-bottom-color: rgba(201,162,39,0.30);
+    border-right-color: rgba(201,162,39,0.25);
     box-shadow:
       /* inner bevel brilhante */
-      inset 0 1px 0 rgba(255,255,255,0.20),
-      inset 1px 0 0 rgba(255,255,255,0.10),
-      inset 0 -1px 0 rgba(0,0,0,0.6),
+      inset 0 2px 0 rgba(255,255,255,0.25),
+      inset 2px 0 0 rgba(255,255,255,0.14),
+      inset 0 -2px 0 rgba(0,0,0,0.65),
       /* contato */
-      0 2px 4px rgba(0,0,0,0.9),
-      0 6px 12px rgba(0,0,0,0.85),
+      0 4px 8px rgba(0,0,0,0.95),
+      0 10px 20px rgba(0,0,0,0.90),
       /* elevação dramática */
-      0 24px 56px rgba(0,0,0,0.80),
-      0 60px 120px rgba(0,0,0,0.65),
-      0 100px 180px rgba(0,0,0,0.45),
-      0 140px 240px rgba(0,0,0,0.25),
-      /* halo dourado */
-      0 0 0 1px rgba(201,162,39,0.25),
-      0 0 60px rgba(201,162,39,0.10),
-      0 0 120px rgba(201,162,39,0.05);
+      0 30px 70px rgba(0,0,0,0.85),
+      0 70px 140px rgba(0,0,0,0.70),
+      0 110px 200px rgba(0,0,0,0.50),
+      0 160px 280px rgba(0,0,0,0.30),
+      /* halo dourado intenso */
+      0 0 0 1px rgba(201,162,39,0.35),
+      0 0 80px rgba(201,162,39,0.18),
+      0 0 160px rgba(201,162,39,0.08);
   }
   .card:hover::before { opacity: 1; }
-  .card:hover::after { opacity: 1.5; }
+  .card:hover::after { opacity: 1.8; }
 
   .card-top {
     display: flex;

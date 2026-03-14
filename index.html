@@ -22,48 +22,58 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
 
+  /* STICKY WRAP — congela header + toolbar */
+  .sticky-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--bg);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.7), 0 1px 0 rgba(201,162,39,0.15);
+  }
+
   /* HEADER */
   .header {
-    background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%);
-    border-bottom: 1px solid rgba(201,162,39,0.3);
-    padding: 48px 64px 40px;
+    background: linear-gradient(135deg, #0e0e20 0%, #13132a 50%, #0a0a18 100%);
+    border-bottom: 1px solid rgba(201,162,39,0.25);
+    padding: 28px 64px 24px;
   }
   .header-inner {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     gap: 24px;
     flex-wrap: wrap;
   }
   .header-left p {
     color: var(--muted);
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
   .header-left h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 42px;
+    font-size: 32px;
     color: #fff;
     line-height: 1.15;
   }
   .header-left h1 span { color: var(--gold); }
   .header-stats {
     display: flex;
-    gap: 32px;
+    gap: 28px;
   }
   .hstat { text-align: center; }
-  .hstat .val { font-size: 32px; font-weight: 700; color: var(--gold); line-height: 1; }
-  .hstat .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+  .hstat .val { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .hstat .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
 
   /* SEARCH + FILTER */
   .toolbar {
-    max-width: 1100px;
-    margin: 32px auto 0;
-    padding: 0 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 64px 14px;
+    border-top: 1px solid rgba(255,255,255,0.04);
     display: flex;
     gap: 12px;
     align-items: center;
@@ -134,17 +144,21 @@
     position: relative;
     overflow: hidden;
     box-shadow:
-      /* inner top-left highlight — simula plano iluminado */
-      inset 0 1px 0 rgba(255,255,255,0.10),
-      inset 1px 0 0 rgba(255,255,255,0.06),
-      /* sombra de contato (curta e nítida) */
-      0 2px 4px rgba(0,0,0,0.7),
-      /* sombra de elevação média */
-      0 12px 28px rgba(0,0,0,0.65),
-      /* sombra difusa longa — "altitude" do card */
-      0 40px 80px rgba(0,0,0,0.50),
-      /* penumbra extra no fundo */
-      0 60px 120px rgba(0,0,0,0.30);
+      /* inner bevel — topo e lateral iluminados */
+      inset 0 1px 0 rgba(255,255,255,0.14),
+      inset 1px 0 0 rgba(255,255,255,0.08),
+      inset 0 -1px 0 rgba(0,0,0,0.5),
+      /* sombra de contato nítida */
+      0 1px 2px rgba(0,0,0,0.9),
+      0 3px 6px rgba(0,0,0,0.80),
+      /* elevação média */
+      0 14px 32px rgba(0,0,0,0.70),
+      /* altitude principal */
+      0 40px 80px rgba(0,0,0,0.55),
+      /* penumbra difusa longa */
+      0 70px 130px rgba(0,0,0,0.38),
+      /* sombra ambiente ultra-longa */
+      0 100px 200px rgba(0,0,0,0.20);
   }
 
   /* Faixa de luz no topo — borda iluminada */
@@ -181,23 +195,27 @@
   }
 
   .card:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: rgba(201,162,39,0.5);
-    border-top-color: rgba(201,162,39,0.75);
-    border-left-color: rgba(201,162,39,0.35);
+    transform: translateY(-14px) scale(1.025);
+    border-color: rgba(201,162,39,0.55);
+    border-top-color: rgba(201,162,39,0.85);
+    border-left-color: rgba(201,162,39,0.40);
     box-shadow:
-      /* inner highlights mais fortes */
-      inset 0 1px 0 rgba(255,255,255,0.15),
-      inset 1px 0 0 rgba(255,255,255,0.08),
-      /* sombra de contato */
-      0 4px 8px rgba(0,0,0,0.75),
+      /* inner bevel brilhante */
+      inset 0 1px 0 rgba(255,255,255,0.20),
+      inset 1px 0 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.6),
+      /* contato */
+      0 2px 4px rgba(0,0,0,0.9),
+      0 6px 12px rgba(0,0,0,0.85),
       /* elevação dramática */
-      0 20px 50px rgba(0,0,0,0.75),
-      0 50px 100px rgba(0,0,0,0.60),
-      0 80px 160px rgba(0,0,0,0.40),
+      0 24px 56px rgba(0,0,0,0.80),
+      0 60px 120px rgba(0,0,0,0.65),
+      0 100px 180px rgba(0,0,0,0.45),
+      0 140px 240px rgba(0,0,0,0.25),
       /* halo dourado */
-      0 0 0 1px rgba(201,162,39,0.20),
-      0 0 80px rgba(201,162,39,0.08);
+      0 0 0 1px rgba(201,162,39,0.25),
+      0 0 60px rgba(201,162,39,0.10),
+      0 0 120px rgba(201,162,39,0.05);
   }
   .card:hover::before { opacity: 1; }
   .card:hover::after { opacity: 1.5; }
@@ -297,21 +315,35 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 4px;
+    padding-top: 6px;
+    gap: 8px;
   }
-  .card-call {
-    font-size: 12px; color: var(--muted);
-    display: flex; align-items: center; gap: 6px;
+  .card-date {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    gap: 7px;
   }
-  .card-call .dot {
-    width: 6px; height: 6px; border-radius: 50%;
+  .card-date .dot {
+    width: 7px; height: 7px; border-radius: 50%;
     background: #4ade80;
-    box-shadow: 0 0 6px #4ade80;
+    box-shadow: 0 0 8px #4ade80;
     animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  .card-status {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: right;
+    line-height: 1.4;
   }
   @keyframes pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 6px #4ade80; }
-    50%       { opacity: 0.4; box-shadow: none; }
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px #4ade80; }
+    50%       { opacity: 0.35; box-shadow: none; }
   }
   .card-arrow {
     width: 36px; height: 36px;
@@ -361,6 +393,8 @@
 </head>
 <body>
 
+<!-- STICKY WRAP -->
+<div class="sticky-wrap">
 <!-- HEADER -->
 <div class="header">
   <div class="header-inner">
@@ -393,6 +427,7 @@
   <button class="filter-btn" onclick="setFilter('Quente', this)">Quente</button>
   <button class="filter-btn" onclick="setFilter('Morno', this)">Morno</button>
 </div>
+</div><!-- /sticky-wrap -->
 
 <!-- GRID -->
 <div class="grid" id="grid">
@@ -428,8 +463,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <span style="color:#4ade80;font-size:12px;font-weight:600;">HOJE · 16h00</span>
-      <span style="color:#facc15;font-size:12px;font-weight:600;">Descoberta total necessária</span>
+      <div class="card-date"><div class="dot"></div><span></span></div>
+      <div class="card-status" style="color:#facc15;">Descoberta total</div>
     </div>
   </a>
 
@@ -464,8 +499,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <span style="color:#4ade80;font-size:12px;font-weight:600;">HOJE · 15h00</span>
-      <span style="color:#f87171;font-size:12px;font-weight:600;">⚠ Disse Não ao R$100k</span>
+      <div class="card-date"><div class="dot"></div><span></span></div>
+      <div class="card-status" style="color:#f87171;">⚠ Disse Não ao R$100k</div>
     </div>
   </a>
 
@@ -500,7 +535,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <span style="color:#f87171;font-size:12px;font-weight:600;">⚠ Confirmar presença do pai</span>
+      <div class="card-date"><span></span></div>
+      <div class="card-status" style="color:#f87171;">⚠ Confirmar pai</div>
     </div>
   </a>
 
@@ -535,11 +571,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <div class="card-call">
-        <div class="dot"></div>
-        Call hoje · 13/03 · 15h00 · Com diretor/head
-      </div>
-      <div class="card-arrow">→</div>
+      <div class="card-date"><div class="dot"></div><span></span></div>
+      <div class="card-status" style="color:#94a3b8;">Com diretor/head</div>
     </div>
   </a>
 
@@ -574,11 +607,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <div class="card-call">
-        <div class="dot"></div>
-        Call hoje · 13/03 · 20h00 · Solo
-      </div>
-      <div class="card-arrow">→</div>
+      <div class="card-date"><div class="dot"></div><span></span></div>
+      <div class="card-status" style="color:#94a3b8;">Solo</div>
     </div>
   </a>
 
@@ -613,10 +643,8 @@
       </div>
     </div>
     <div class="card-footer">
-      <div class="card-call">
-        <span style="color:var(--muted);font-size:12px;">Call realizada · 06/03 · 15h00 · Com sócio</span>
-      </div>
-      <div class="card-arrow">→</div>
+      <div class="card-date"><span></span></div>
+      <div class="card-status" style="color:#94a3b8;">Com sócio</div>
     </div>
   </a>
 
@@ -646,6 +674,28 @@
     cards.forEach(c => grid.insertBefore(c, empty));
   }
   sortCards();
+
+  // Injetar data/hora formatada em todos os cards (nunca "Hoje" — sempre a data)
+  function formatCardDates() {
+    const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    document.querySelectorAll('.card[data-datetime]').forEach(card => {
+      const dt = card.dataset.datetime; // "2026-03-14T15:00"
+      if (!dt) return;
+      const [datePart, timePart] = dt.split('T');
+      if (!datePart) return;
+      const [, mm, dd] = datePart.split('-');
+      const mes = meses[parseInt(mm, 10) - 1] || mm;
+      let timeStr = '';
+      if (timePart) {
+        const [hh, min] = timePart.split(':');
+        timeStr = ` · ${hh}h${min || '00'}`;
+      }
+      const dateStr = `${parseInt(dd,10)} ${mes}${timeStr}`;
+      const span = card.querySelector('.card-date span');
+      if (span) span.textContent = dateStr;
+    });
+  }
+  formatCardDates();
 
   let currentFilter = 'todos';
 

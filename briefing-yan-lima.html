@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Yan Lima | Call 09/03 18h</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c04a;
+    --gold-dim: rgba(201,162,39,0.15);
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #12122a;
+    --indigo: #6366f1;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .sticky-top { position: sticky; top: 0; z-index: 100; }
+
+  .header {
+    background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%);
+    border-bottom: 1px solid rgba(201,162,39,0.3);
+    padding: 40px 48px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p {
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-frio { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
+  .badge-cohort { background: rgba(201,162,39,0.15); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-hoje { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .badge-score { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+  .timer-box {
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    border-radius: 12px;
+    padding: 12px 20px;
+    text-align: center;
+  }
+  .timer-box .timer-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .timer-box .timer-value { font-size: 28px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 48px;
+    background: var(--bg2);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .tab {
+    padding: 14px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .content { padding: 40px 48px; max-width: 1000px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .card-gold { border-color: rgba(201,162,39,0.3); }
+  .card-red { border-color: rgba(239,68,68,0.3); }
+  .card-green { border-color: rgba(34,197,94,0.25); }
+  .card-blue { border-color: rgba(99,102,241,0.3); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon { font-size: 20px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    gap: 16px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--muted); font-size: 13px; min-width: 130px; }
+  .info-value { color: var(--text); font-size: 14px; text-align: right; flex: 1; }
+  .info-value.gold { color: var(--gold); font-weight: 600; }
+  .info-value.green { color: #4ade80; font-weight: 600; }
+  .info-value.red { color: #f87171; font-weight: 600; }
+  .info-value.blue { color: #818cf8; font-weight: 600; }
+
+  .stat-card {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .phase {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .phase-header:hover { background: rgba(255,255,255,0.03); }
+  .phase-header.active { background: rgba(201,162,39,0.07); }
+  .phase-left { display: flex; align-items: center; gap: 16px; }
+  .phase-number {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .phase-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .phase-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .phase-timer {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .phase-content {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .phase-content.open { display: block; }
+
+  .script-block {
+    background: var(--bg3);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-style: italic;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .script-block strong { color: var(--gold); font-style: normal; }
+
+  .tip-block {
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #a5b4fc;
+  }
+  .tip-block strong { color: #818cf8; }
+
+  .warning-block {
+    background: rgba(239,68,68,0.07);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #fca5a5;
+  }
+  .warning-block strong { color: #f87171; }
+
+  .success-block {
+    background: rgba(34,197,94,0.07);
+    border: 1px solid rgba(34,197,94,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #86efac;
+  }
+  .success-block strong { color: #4ade80; }
+
+  .question-list { list-style: none; }
+  .question-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    gap: 12px;
+  }
+  .question-list li:last-child { border-bottom: none; }
+  .question-list li::before { content: "→"; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+  .objection {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .objection-trigger {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .objection-trigger:hover { background: rgba(255,255,255,0.03); }
+  .objection-label { font-size: 14px; font-weight: 500; color: #fca5a5; }
+  .objection-arrow { color: var(--muted); transition: transform 0.2s; font-size: 12px; }
+  .objection-body { display: none; padding: 0 20px 18px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .objection-body.open { display: block; }
+  .objection-response {
+    font-style: italic;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 14px 0 10px;
+  }
+  .objection-why { font-size: 12px; color: var(--muted); }
+
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: var(--text);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(201,162,39,0.4);
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .check-box:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .check-box.checked { background: var(--gold); border-color: var(--gold); }
+  .check-box.checked::after { content: "✓"; color: #07070f; font-size: 12px; font-weight: 700; }
+
+  .quote-block {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    padding: 16px 24px;
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 6px;
+  }
+  .tag-gold { background: var(--gold-dim); color: var(--gold); }
+  .tag-red { background: rgba(239,68,68,0.12); color: #f87171; }
+  .tag-green { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .tag-blue { background: rgba(99,102,241,0.12); color: #818cf8; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    margin-top: 24px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  p { margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+  ul.notes { padding-left: 18px; }
+  ul.notes li { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  ul.notes li strong { color: var(--text); }
+
+  .btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    border-radius: 10px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 32px;
+  }
+  .btn-save:hover { background: rgba(201,162,39,0.25); }
+
+  /* Banner CoHort */
+  .cohort-banner {
+    background: linear-gradient(135deg, rgba(201,162,39,0.12) 0%, rgba(99,102,241,0.08) 100%);
+    border: 1px solid rgba(201,162,39,0.35);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .cohort-icon { font-size: 36px; flex-shrink: 0; }
+  .cohort-banner h3 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 20px; margin-bottom: 4px; }
+  .cohort-banner p { color: var(--muted); font-size: 13px; margin: 0; }
+
+  @media print {
+    .tabs, .btn-save, .timer-box { display: none; }
+    .tab-panel { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <p>Call de Diagnóstico · CoHort AIOS Advanced · Duarte</p>
+    <h1>Yan <span>Lima</span></h1>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <span class="badge badge-hoje">Hoje · 09/03 · 18h00</span>
+      <span class="badge badge-frio">Frio</span>
+      <span class="badge badge-score">Score 39</span>
+      <span class="badge badge-cohort">Produto: CoHort</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="timer-box">
+      <div class="timer-label">Tempo de call</div>
+      <div class="timer-value" id="timer">40:00</div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button onclick="startTimer()" style="background:var(--gold);color:#07070f;border:none;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">START</button>
+        <button onclick="resetTimer()" style="background:var(--bg3);color:var(--muted);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;">RESET</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('briefing')">Briefing</div>
+  <div class="tab" onclick="showTab('script')">Script da Call</div>
+  <div class="tab" onclick="showTab('objections')">Objeções</div>
+  <div class="tab" onclick="showTab('fechamento')">Fechamento</div>
+</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <button class="btn-save" onclick="window.print()">Salvar como PDF</button>
+
+  <!-- TAB: BRIEFING -->
+  <div class="tab-panel active" id="tab-briefing">
+
+    <!-- Banner CoHort -->
+    <div class="cohort-banner">
+      <div class="cohort-icon">🎯</div>
+      <div>
+        <h3>Produto desta call: CoHort AIOS Advanced</h3>
+        <p>Lead não tem perfil para a Imersão (R$100k · fat. &lt;500k). Foco total no CoHort — R$24.888 · online · 8 semanas · inicia 08/04. Não mencionar a Imersão presencial como oferta principal.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-gold">
+        <div class="card-title"><span class="icon">👤</span> Perfil do Lead</div>
+        <div class="info-row">
+          <span class="info-label">Nome</span>
+          <span class="info-value gold">Yan Lima</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Instagram</span>
+          <span class="info-value">@oyanlima</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">WhatsApp</span>
+          <span class="info-value">55 71 98680-1998</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Cargo</span>
+          <span class="info-value">Dono / Empresário</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">SDR</span>
+          <span class="info-value">Taise</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Closer</span>
+          <span class="info-value gold">Duarte</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Lead desde</span>
+          <span class="info-value">03/03/2026</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Qualificação</div>
+        <div class="info-row">
+          <span class="info-label">Faturamento</span>
+          <span class="info-value red">Menos de R$ 500k</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Colaboradores</span>
+          <span class="info-value">Até 5 pessoas</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Pode ir a Floripa</span>
+          <span class="info-value green">Sim, sem dúvida!</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Investir R$100k</span>
+          <span class="info-value red">Não preparado no momento</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Score bruto</span>
+          <span class="info-value">52 / 100</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Score c/ travas</span>
+          <span class="info-value red">39 / 100</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Temperatura</span>
+          <span class="info-value blue">Frio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💼</span> O Negócio — Marketing Digital & Automação</div>
+      <div class="quote-block">
+        "Ter uma equipe que me entende, me ajudará a desenvolver processos e me permitirá criar coisas ilimitadas em minhas entregas é um sonho, além de me ajudar em meus direcionais."
+      </div>
+
+      <div class="section-label">O que ele faz</div>
+      <ul class="notes">
+        <li><strong>Nicho:</strong> Marketing digital com foco em funis de vendas, automação e uso estratégico de IA</li>
+        <li><strong>Público-alvo:</strong> Empresas, especialistas e profissionais que vendem serviços/produtos de maior valor</li>
+        <li><strong>Modelo:</strong> Analisa o negócio, identifica gargalos e estrutura funis, automações e estratégias que geram vendas com previsibilidade</li>
+        <li><strong>Operação:</strong> 100% digital — estratégia, implementação e acompanhamento online</li>
+        <li><strong>Proposta:</strong> Transforma conhecimento e serviços em sistemas de vendas organizados, previsíveis e escaláveis</li>
+      </ul>
+
+      <div class="section-label">Interseção com AIOS</div>
+      <div class="success-block">
+        <strong>Alto alinhamento conceitual:</strong> Yan já trabalha com automação e IA — ele não vai precisar ser convencido de que IA funciona. O pitch é de <strong>salto de nível</strong>: sair de ferramentas isoladas para ter um AIOS próprio com 80+ agentes trabalhando como equipe integrada.
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-value">&lt;500k</div>
+        <div class="stat-label">Faturamento atual</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">39</div>
+        <div class="stat-label">Score qualificação</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">R$24,8k</div>
+        <div class="stat-label">Produto alvo</div>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-top:24px;">
+      <div class="card-title"><span class="icon">⚡</span> Inteligência Estratégica — Onde o AIOS muda o jogo dele</div>
+
+      <div class="section-label">Aplicações diretas no negócio do Yan</div>
+      <ul class="notes">
+        <li><strong>Agente SDR próprio:</strong> ele vende funis e automações para clientes — ter um SDR IA prospectando clientes para ele enquanto dorme é a prova social mais poderosa que pode ter</li>
+        <li><strong>Agente de análise de negócio:</strong> em vez de fazer manualmente o diagnóstico de cada cliente, um agente faz o mapeamento de gargalos automaticamente</li>
+        <li><strong>Agente de entrega:</strong> automatizar o próprio processo de implementação de funis para clientes — escala sem contratar</li>
+        <li><strong>Agente de follow-up:</strong> nurturing automático dos leads dos seus clientes — entrega mais resultado sem mais trabalho</li>
+        <li><strong>Agente de copy:</strong> gera scripts de vendas e emails personalizados para cada cliente em segundos</li>
+      </ul>
+
+      <div class="section-label">O argumento que vai ressoar</div>
+      <div class="tip-block">
+        <strong>Ele faz automação para outros — mas faz automação para si mesmo?</strong> A ironia é que consultores de automação frequentemente são os mais manuais nos próprios processos. Pergunte: "Quanto do que você entrega para seus clientes você já implementou no seu próprio negócio?"
+      </div>
+
+      <div class="section-label">Como o CoHort se encaixa</div>
+      <ul class="notes">
+        <li>Yan pode usar os 80+ agentes do CoHort como <strong>infraestrutura</strong> para as entregas dos seus clientes</li>
+        <li>Certificação AIOS vira diferencial de mercado — "consultor certificado AIOS"</li>
+        <li>Em 8 semanas ele já tem um portfólio de agentes para vender/implementar para seus clientes</li>
+        <li>ROI do CoHort: se ele usar os agentes para fechar apenas 1 cliente a mais no primeiro mês, já paga</li>
+      </ul>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span class="icon">⚠️</span> Pontos de Atenção</div>
+      <ul class="notes">
+        <li><strong>Faturamento baixo:</strong> &lt;500k pode indicar negócio ainda em formação — valide se está crescendo ou estagnado</li>
+        <li><strong>"Não preparado financeiramente":</strong> o R$24.888 do CoHort pode também parecer alto. Tenha parcelamento pronto: 12x R$2.488</li>
+        <li><strong>Já faz automação:</strong> ele pode achar que "já sabe isso". Diferencie: AIOS não é ferramenta, é sistema multiagente — nível diferente</li>
+        <li><strong>Score 39 (Frio):</strong> lead não estava "fervendo" no cadastro. Pode ter entrado por curiosidade. Valide motivação real antes de apresentar preço</li>
+        <li><strong>Não mencionar R$100k:</strong> isso vai criar objeção desnecessária. O produto desta call é CoHort</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TAB: SCRIPT -->
+  <div class="tab-panel" id="tab-script">
+
+    <div class="tip-block" style="margin-bottom:24px;">
+      <strong>Objetivo desta call:</strong> Converter para CoHort AIOS Advanced (R$24.888 ou 12x R$2.488). Call mais curta — 40 min. Lead já entende de automação, não precisa de educação básica. Ir direto para dor e ROI.
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">1</div>
+          <div class="phase-info">
+            <h3>Rapport & Abertura</h3>
+            <p>Quebrar gelo, alinhar que ele já entende o universo</p>
+          </div>
+        </div>
+        <div class="phase-timer">3–5 min</div>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Yan, que bom te ter aqui. Vi que você trabalha com automação e funis — esse é exatamente o perfil de quem aproveita mais o que a gente vai conversar hoje. <strong>Como tá o negócio agora?</strong> Crescendo, estável?"
+        </div>
+        <div class="tip-block">
+          <strong>Objetivo:</strong> Fazer ele falar. Quem está em marketing digital geralmente adora falar do próprio negócio. Use isso para mapear o momento atual antes de qualquer pitch.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">2</div>
+          <div class="phase-info">
+            <h3>S — Situação</h3>
+            <p>Entender a operação atual de automação e IA dele</p>
+          </div>
+        </div>
+        <div class="phase-timer">7–8 min</div>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>Você já usa IA no seu dia a dia? Quais ferramentas?</li>
+          <li>Como você entrega para os seus clientes hoje — é tudo manual ou já tem automações rodando?</li>
+          <li>Quantos clientes você atende em paralelo no máximo?</li>
+          <li>O que toma mais tempo no seu processo — prospectar, diagnosticar ou implementar?</li>
+          <li>Você tem sócio? Trabalha sozinho?</li>
+        </ul>
+        <div class="tip-block">
+          <strong>O que mapear:</strong> gargalo na entrega (escala) ou gargalo na aquisição (clientes). Isso define qual agente vai ressoar mais na apresentação.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">3</div>
+          <div class="phase-info">
+            <h3>P — Problema</h3>
+            <p>Identificar o gargalo real — escala vs. aquisição</p>
+          </div>
+        </div>
+        <div class="phase-timer">7–8 min</div>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>O que te impede de dobrar o faturamento nos próximos 6 meses?</li>
+          <li>Se você pudesse automatizar uma coisa hoje no seu negócio, o que seria?</li>
+          <li>Quando você pensa em "criar coisas ilimitadas nas entregas" — o que trava isso hoje?</li>
+          <li>Você consegue escalar sem contratar? Ou o teto é você mesmo?</li>
+        </ul>
+        <div class="script-block">
+          "Você mencionou que quer uma equipe que te entenda e ajude a criar coisas ilimitadas. <strong>O que está te impedindo de ter isso hoje?</strong> É falta de ferramenta, de tempo, de estrutura ou de gente?"
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">4</div>
+          <div class="phase-info">
+            <h3>I — Implicação</h3>
+            <p>Amplificar o custo de continuar como está</p>
+          </div>
+        </div>
+        <div class="phase-timer">5–7 min</div>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>Se nada mudar nos próximos 12 meses, onde você vai estar?</li>
+          <li>Quanto tempo você está gastando em tarefas que uma IA poderia fazer?</li>
+          <li>Seus concorrentes estão adotando IA mais rápido ou mais devagar que você?</li>
+        </ul>
+        <div class="script-block">
+          "Você faz automação para seus clientes crescerem — mas e o seu negócio? <strong>Quanto você deixou de faturar esse ano porque o gargalo era você mesmo?</strong>"
+        </div>
+        <div class="warning-block">
+          <strong>Não pressionar aqui:</strong> lead Frio pode se fechar com pressão. Seja consultivo, não agressivo.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">5</div>
+          <div class="phase-info">
+            <h3>N — Necessidade & Apresentação CoHort</h3>
+            <p>Conectar o CoHort diretamente à dor mapeada</p>
+          </div>
+        </div>
+        <div class="phase-timer">8–10 min</div>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Yan, o que você descreveu — querer uma equipe que te entende, processos que funcionam sem você, entregas ilimitadas — <strong>isso é exatamente o que o CoHort AIOS Advanced entrega.</strong>"
+        </div>
+        <div class="section-label">Apresentação do CoHort</div>
+        <ul class="notes">
+          <li><strong>O que é:</strong> 8 semanas intensivas online com Alan Nikolas e Thiago Finch — você sai com um AIOS completo implementado</li>
+          <li><strong>O que recebe:</strong> 80+ agentes de IA prontos, comunidade por 12 meses, certificação vitalícia</li>
+          <li><strong>Início:</strong> 08/04/2026 — em 30 dias</li>
+          <li><strong>Investimento:</strong> R$24.888 à vista ou 12x R$2.488</li>
+          <li><strong>Para quem é:</strong> Feito pra quem já entende de marketing e quer transformar IA em vantagem competitiva real</li>
+        </ul>
+        <div class="script-block">
+          "Para um profissional de marketing digital que já trabalha com funis e automação, o CoHort não é aprendizado básico — é <strong>infraestrutura de escala.</strong> Você vai sair com agentes que trabalham para você e para seus clientes 24h."
+        </div>
+        <div class="tip-block">
+          <strong>Argumento ROI:</strong> "Se os agentes te ajudarem a fechar 1 cliente a mais no primeiro mês — quanto isso vale para você? O investimento já se paga."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">6</div>
+          <div class="phase-info">
+            <h3>Fechamento</h3>
+            <p>Colher decisão — ou mapear próximo passo</p>
+          </div>
+        </div>
+        <div class="phase-timer">5–7 min</div>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Faz sentido isso para você agora? <strong>O que te falta para garantir sua vaga hoje?</strong>"
+        </div>
+        <div class="tip-block">
+          <strong>Silêncio após perguntar.</strong> Deixe ele responder. Não quebre o silêncio.
+        </div>
+        <div class="script-block">
+          "As vagas do CoHort são 50. Começa em abril. Se fechar hoje você já entra no grupo de preparação antes da turma começar."
+        </div>
+        <div class="warning-block">
+          <strong>Se ele disser "preciso pensar":</strong> "O que te falta para decidir hoje, Yan? É o valor, é entender melhor o produto, ou é algo mais?"
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: OBJEÇÕES -->
+  <div class="tab-panel" id="tab-objections">
+
+    <div class="tip-block" style="margin-bottom:24px;">
+      <strong>Perfil de objeção:</strong> Lead Frio com faturamento baixo. As objeções serão principalmente financeiras e de timing. Abordagem consultiva, não de fechamento agressivo.
+    </div>
+
+    <!-- Objeção 1 -->
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não estou preparado financeiramente"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Eu entendo, Yan. Quanto seria confortável para você investir agora — mensalmente? [Escuta] Bom, o CoHort tem 12 parcelas de R$2.488. Isso dá menos de R$83 por dia. Para um profissional que já trabalha com funis e automação, um cliente a mais no mês já cobre o parcelamento inteiro. O que te impede de pensar assim?"
+        </p>
+        <p class="objection-why">💡 Ancora no valor diário e conecta ao ROI do próprio trabalho dele. Valida que ele sabe como gerar renda.</p>
+      </div>
+    </div>
+
+    <!-- Objeção 2 -->
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Já trabalho com automação, já sei disso"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Ótimo — você vai partir na frente de 80% da turma. Mas tem uma diferença entre usar ferramentas de automação e construir um AIOS: sistema multiagente com memória, orquestração e tomada de decisão autônoma. É como comparar usar Excel com ter um analista de dados sênior. O CoHort não é sobre aprender IA básica — é sobre ter a infraestrutura que seus concorrentes ainda não têm."
+        </p>
+        <p class="objection-why">💡 Valida o conhecimento dele, mas cria distinção clara entre "automação" e "AIOS". Não subestime — eleve.</p>
+      </div>
+    </div>
+
+    <!-- Objeção 3 -->
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Preciso pensar / ver com calma"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Claro, e isso é normal. Mas me ajuda a entender melhor: o que exatamente você quer pensar? É sobre o valor, sobre encaixar na agenda das 8 semanas, ou é algo do conteúdo do programa que ficou sem resposta?"
+        </p>
+        <p class="objection-why">💡 Decompõe a objeção genérica em objeção real e tratável. Nunca aceite "preciso pensar" sem mapear o que está travando.</p>
+      </div>
+    </div>
+
+    <!-- Objeção 4 -->
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Meu faturamento ainda é baixo, não é o momento"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Yan, entendo. Mas me diz uma coisa: o que vai fazer seu faturamento subir nos próximos 6 meses? Se a resposta envolve escalar entrega ou atrair mais clientes, o AIOS é exatamente a alavanca para isso. O melhor momento para estruturar sua operação com IA é antes de crescer — não depois. Quem espera o faturamento subir para investir, geralmente descobre que foi o investimento que faria o faturamento subir."
+        </p>
+        <p class="objection-why">💡 Inverte a lógica: não "invisto quando crescer", mas "cresço porque investi". Use tom consultivo, não de vendedor.</p>
+      </div>
+    </div>
+
+    <!-- Objeção 5 -->
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não tenho tempo para 8 semanas de curso"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "O CoHort foi desenhado para quem não tem tempo — por isso os agentes trabalham por você. As sessões ao vivo são concentradas, e o conteúdo é aplicado direto no negócio, não é teoria. Quem menos pode perder tempo é quem mais precisa de um sistema que funciona sem depender de você em tudo."
+        </p>
+        <p class="objection-why">💡 Usa a objeção de falta de tempo como argumento a favor do produto.</p>
+      </div>
+    </div>
+
+    <!-- Objeção 6 -->
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Vou esperar a próxima turma"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Yan, essa é a Turma 2. Próxima turma não tem data definida — e quando tiver, o mercado vai estar diferente. Cada mês sem AIOS implementado é um mês que seus concorrentes estão na frente. 50 vagas, começa em abril. Essa janela fecha."
+        </p>
+        <p class="objection-why">💡 Urgência real: sem data de próxima turma. Use com cuidado — não force se ele não estiver aquecendo.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: FECHAMENTO -->
+  <div class="tab-panel" id="tab-fechamento">
+
+    <div class="card card-gold">
+      <div class="card-title"><span class="icon">✅</span> Checklist Pré-Fechamento</div>
+      <ul class="checklist" id="checklist-pre">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Dor principal nomeada — gargalo de escala ou aquisição identificado</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>ROI apresentado no contexto do negócio dele (1 cliente a mais = investimento pago)</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Decisores alinhados (trabalha sozinho ou tem sócio que precisa ser envolvido?)</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Objeção financeira tratada — parcelamento de 12x R$2.488 apresentado</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Distinção entre "automação comum" e "AIOS" feita com clareza</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Pergunta de fechamento feita — e silêncio mantido</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💬</span> Frases de Fechamento</div>
+      <div class="script-block">
+        <strong>Direto:</strong> "Faz sentido garantir sua vaga no CoHort agora, Yan?"
+      </div>
+      <div class="script-block">
+        <strong>ROI:</strong> "Se em 8 semanas você tiver um sistema que fecha clientes por você, quanto isso vale no seu negócio? O CoHort custa R$2.488 por mês. Quantos leads você precisa converter a mais para pagar isso?"
+      </div>
+      <div class="script-block">
+        <strong>Urgência:</strong> "São 50 vagas. Começa em 30 dias. A decisão precisa ser essa semana."
+      </div>
+      <div class="script-block">
+        <strong>Visão:</strong> "Você falou em criar coisas ilimitadas. Isso começa aqui, no dia 08 de abril."
+      </div>
+    </div>
+
+    <!-- Produto CoHort -->
+    <div class="card card-blue">
+      <div class="card-title"><span class="icon">🎓</span> CoHort AIOS Advanced — Detalhes para Apresentar</div>
+      <div class="grid-2" style="margin-bottom:16px;">
+        <div class="stat-card">
+          <div class="stat-value">R$24.888</div>
+          <div class="stat-label">À vista</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">12x R$2.488</div>
+          <div class="stat-label">Parcelado</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="stat-card">
+          <div class="stat-value">80+</div>
+          <div class="stat-label">Agentes de IA</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Semanas intensivas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">08/04</div>
+          <div class="stat-label">Início</div>
+        </div>
+      </div>
+      <div class="section-label" style="margin-top:20px;">O que está incluso</div>
+      <ul class="notes">
+        <li><strong>80+ agentes de IA</strong> prontos para usar e personalizar</li>
+        <li><strong>Comunidade 12 meses</strong> com acesso a Alan e Thiago</li>
+        <li><strong>Certificação vitalícia</strong> AIOS Advanced</li>
+        <li><strong>Online intensivo</strong> — sem precisar viajar</li>
+        <li><strong>Valor do stack:</strong> R$142.600 — 83% OFF</li>
+      </ul>
+    </div>
+
+    <div class="card card-green">
+      <div class="card-title"><span class="icon">📋</span> Checklist Pós-Fechamento</div>
+      <ul class="checklist" id="checklist-pos">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Contrato enviado no WhatsApp (Clicksign / DocuSign)</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Link de pagamento enviado</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Confirmação de recebimento obtida</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Boas-vindas ao CoHort feitas</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Registrar venda no CRM / planilha</span></li>
+      </ul>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span class="icon">🔄</span> Se não fechar hoje</div>
+      <p style="color:var(--text);margin-bottom:12px;">Lead Frio pode precisar de mais de um contato. Se não fechar na call:</p>
+      <ul class="notes">
+        <li><strong>Próximo passo claro:</strong> "Yan, você quer que eu te mande os detalhes completos do CoHort pelo WhatsApp agora?"</li>
+        <li><strong>Follow-up em 24h:</strong> Taise faz follow no dia seguinte com material de apoio</li>
+        <li><strong>Não deixar em aberto:</strong> agendar próxima conversa antes de encerrar a call</li>
+        <li><strong>Enviar apresentação:</strong> <code>https://duartebilhon.github.io/PAGINA-IMERS-O-AIOS/COHORT-AIOS-ADVANCED-APRESENTACAO.html</code></li>
+      </ul>
+    </div>
+
+  </div>
+
+</div><!-- /content -->
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function togglePhase(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    document.querySelectorAll('.phase-content').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.phase-header').forEach(h => h.classList.remove('active'));
+    if (!isOpen) {
+      content.classList.add('open');
+      header.classList.add('active');
+    }
+  }
+
+  function toggleObj(trigger) {
+    const body = trigger.nextElementSibling;
+    const arrow = trigger.querySelector('.objection-arrow');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.objection-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.objection-arrow').forEach(a => a.style.transform = '');
+    if (!isOpen) {
+      body.classList.add('open');
+      arrow.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  function toggleCheck(box) {
+    box.classList.toggle('checked');
+  }
+
+  // TIMER — 40 min para call CoHort (mais curta)
+  let timerInterval = null;
+  let totalSeconds = 40 * 60;
+  let remaining = totalSeconds;
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60).toString().padStart(2, '0');
+    const sec = (s % 60).toString().padStart(2, '0');
+    return m + ':' + sec;
+  }
+
+  function startTimer() {
+    if (timerInterval) return;
+    timerInterval = setInterval(() => {
+      remaining--;
+      const el = document.getElementById('timer');
+      el.textContent = formatTime(remaining);
+      if (remaining <= 600 && remaining > 300) {
+        el.style.color = '#f97316';
+      } else if (remaining <= 300) {
+        el.style.color = '#ef4444';
+      }
+      if (remaining <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        el.textContent = '00:00';
+      }
+    }, 1000);
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    remaining = totalSeconds;
+    const el = document.getElementById('timer');
+    el.textContent = formatTime(remaining);
+    el.style.color = 'var(--gold)';
+  }
+</script>
+
+</body>
+</html>

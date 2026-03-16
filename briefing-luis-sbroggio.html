@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Luis Sbroggio | Call 06/03 16h</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c04a;
+    --gold-dim: rgba(201,162,39,0.15);
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #12122a;
+    --indigo: #6366f1;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+
+  .sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%);
+    border-bottom: 1px solid rgba(201,162,39,0.3);
+    padding: 40px 48px 32px;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
+  }
+  .header-left h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #fff; line-height: 1.2; margin-bottom: 6px; }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p { color: var(--muted); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .badge-morno { background: rgba(148,163,184,0.12); color: #94a3b8; border: 1px solid rgba(148,163,184,0.3); }
+  .badge-score { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-hoje { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .badge-alert { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .badge-downsell { background: rgba(99,102,241,0.12); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+
+  .timer-box { background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); border-radius: 12px; padding: 12px 20px; text-align: center; }
+  .timer-box .timer-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .timer-box .timer-value { font-size: 28px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+  .tabs { display: flex; padding: 0 48px; background: var(--bg2); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .tab { padding: 14px 22px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .content { padding: 40px 48px; max-width: 1000px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .card { background: var(--bg2); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  .card-gold { border-color: rgba(201,162,39,0.3); }
+  .card-red { border-color: rgba(239,68,68,0.3); }
+  .card-green { border-color: rgba(34,197,94,0.25); }
+  .card-indigo { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.04); }
+
+  .card-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .info-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 16px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--muted); font-size: 13px; min-width: 130px; }
+  .info-value { color: var(--text); font-size: 14px; text-align: right; flex: 1; }
+  .info-value.gold { color: var(--gold); font-weight: 600; }
+  .info-value.green { color: #4ade80; font-weight: 600; }
+  .info-value.red { color: #f87171; font-weight: 600; }
+
+  .stat-card { background: var(--bg3); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 20px; text-align: center; }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .phase { background: var(--bg2); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
+  .phase-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; cursor: pointer; transition: background 0.2s; }
+  .phase-header:hover { background: rgba(255,255,255,0.03); }
+  .phase-header.active { background: rgba(201,162,39,0.07); }
+  .phase-left { display: flex; align-items: center; gap: 16px; }
+  .phase-number { width: 36px; height: 36px; border-radius: 50%; background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); color: var(--gold); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .phase-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .phase-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .phase-timer { background: var(--bg3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 4px 12px; font-size: 12px; color: var(--muted); }
+  .phase-content { display: none; padding: 0 24px 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .phase-content.open { display: block; }
+
+  .script-block { background: var(--bg3); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 14px 0; font-style: italic; color: #cbd5e1; font-size: 14px; line-height: 1.8; }
+  .script-block strong { color: var(--gold); font-style: normal; }
+
+  .tip-block { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #a5b4fc; }
+  .tip-block strong { color: #818cf8; }
+
+  .warning-block { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #fca5a5; }
+  .warning-block strong { color: #f87171; }
+
+  .downsell-block { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.3); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #a5b4fc; }
+  .downsell-block strong { color: #818cf8; }
+
+  .question-list { list-style: none; }
+  .question-list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text); display: flex; gap: 12px; }
+  .question-list li:last-child { border-bottom: none; }
+  .question-list li::before { content: "→"; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+  .objection { background: var(--bg3); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .objection-trigger { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+  .objection-trigger:hover { background: rgba(255,255,255,0.03); }
+  .objection-label { font-size: 14px; font-weight: 500; color: #fca5a5; }
+  .objection-arrow { color: var(--muted); transition: transform 0.2s; font-size: 12px; }
+  .objection-body { display: none; padding: 0 20px 18px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .objection-body.open { display: block; }
+  .objection-response { font-style: italic; color: #cbd5e1; font-size: 14px; line-height: 1.8; margin: 14px 0 10px; }
+  .objection-why { font-size: 12px; color: var(--muted); }
+
+  .checklist { list-style: none; }
+  .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text); }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box { width: 20px; height: 20px; border: 2px solid rgba(201,162,39,0.4); border-radius: 4px; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 1px; }
+  .check-box:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .check-box.checked { background: var(--gold); border-color: var(--gold); }
+  .check-box.checked::after { content: "✓"; color: #07070f; font-size: 12px; font-weight: 700; }
+
+  .quote-block { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold-light); border-left: 3px solid var(--gold); padding: 16px 24px; margin: 20px 0; line-height: 1.6; }
+
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; margin-top: 24px; }
+  .section-label:first-child { margin-top: 0; }
+
+  p { margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+  ul.notes { padding-left: 18px; }
+  ul.notes li { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  ul.notes li strong { color: var(--text); }
+
+  .btn-save { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); border-radius: 10px; color: var(--gold); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 32px; }
+  .btn-save:hover { background: rgba(201,162,39,0.25); }
+
+  .priority-banner { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.05)); border: 1px solid rgba(99,102,241,0.35); border-radius: 14px; padding: 20px 28px; margin-bottom: 24px; }
+  .priority-banner h3 { color: #a5b4fc; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .priority-banner p { color: #94a3b8; font-size: 14px; margin: 0; }
+
+  @media print {
+    .tabs, .btn-save, .timer-box { display: none; }
+    .tab-panel { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <p>Call de Diagnóstico · Imersão AIOS Squad · Duarte</p>
+    <h1>Luis <span>Sbroggio</span></h1>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <span class="badge badge-hoje">Hoje · 06/03 · 16h00</span>
+      <span class="badge badge-morno">Morno</span>
+      <span class="badge badge-score">Score 56 → cap 39</span>
+      <span class="badge badge-alert">Disse "Não" ao 100k</span>
+      <span class="badge badge-downsell">Candidato CoHort</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="timer-box">
+      <div class="timer-label">Tempo de call</div>
+      <div class="timer-value" id="timer">50:00</div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button onclick="startTimer()" style="background:var(--gold);color:#07070f;border:none;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">START</button>
+        <button onclick="resetTimer()" style="background:var(--bg3);color:var(--muted);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;">RESET</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('briefing')">Briefing</div>
+  <div class="tab" onclick="showTab('script')">Script da Call</div>
+  <div class="tab" onclick="showTab('objections')">Objeções</div>
+  <div class="tab" onclick="showTab('fechamento')">Fechamento</div>
+</div>
+</div><!-- /sticky-top -->
+
+<div class="content">
+
+  <button class="btn-save" onclick="window.print()">Salvar como PDF</button>
+
+  <!-- BRIEFING -->
+  <div class="tab-panel active" id="tab-briefing">
+
+    <div class="priority-banner">
+      <h3>Estratégia desta call: tentar upgrade para R$100k. Se resistir, fechar CoHort Advanced R$24.888.</h3>
+      <p>Ele disse "Não" ao 100k no formulário, mas o SDR reportou "muito interesse no projeto para implementar na empresa". Early adopter de IA, já usa bastante — está no caminho certo, precisa do sistema completo. Dor real = crescer sem contratar. Score 56 bruto, cap 39 pela trava do "Não".</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-gold">
+        <div class="card-title"><span>👤</span> Perfil do Lead</div>
+        <div class="info-row"><span class="info-label">Nome</span><span class="info-value gold">Luis Sbroggio</span></div>
+        <div class="info-row"><span class="info-label">Instagram</span><span class="info-value">@luissbroggio</span></div>
+        <div class="info-row"><span class="info-label">Telefone</span><span class="info-value">55 17996180093</span></div>
+        <div class="info-row"><span class="info-label">Categoria</span><span class="info-value">Dono / Empresário</span></div>
+        <div class="info-row"><span class="info-label">SDR</span><span class="info-value">Taise</span></div>
+        <div class="info-row"><span class="info-label">Closer</span><span class="info-value gold">Duarte</span></div>
+        <div class="info-row"><span class="info-label">Sócio/2ª cadeira</span><span class="info-value gold">Sim — provavelmente Maria Alice (esposa, @luisealicesbroggio)</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>📊</span> Qualificação</div>
+        <div class="info-row"><span class="info-label">Faturamento</span><span class="info-value" style="color:#fb923c;">R$1M–3M</span></div>
+        <div class="info-row"><span class="info-label">Colaboradores</span><span class="info-value">6 a 15 pessoas</span></div>
+        <div class="info-row"><span class="info-label">Pode ir a Floripa</span><span class="info-value green">Sim, sem dúvida!</span></div>
+        <div class="info-row"><span class="info-label">Investir R$100k</span><span class="info-value red">Não — não preparado</span></div>
+        <div class="info-row"><span class="info-label">Score bruto</span><span class="info-value gold">56 / 100</span></div>
+        <div class="info-row"><span class="info-label">Score com trava</span><span class="info-value" style="color:#f87171;">39 (cap pelo "Não")</span></div>
+        <div class="info-row"><span class="info-label">Temperatura</span><span class="info-value" style="color:#94a3b8;">Morno</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>⚖️</span> O Negócio — Sbroggio Adv Empresarial</div>
+      <div class="quote-block">
+        "Jurídico Boutique — consultivo e contencioso, planejamento estratégico, holdings e offshores, formatamos franquias e levamos marcas para o mundo todo. Volume alto de uso de IA para quase todas as tarefas do atendimento, organização, follow-up, criação de peças judiciais e estratégias."
+      </div>
+      <div class="section-label">O que é o negócio</div>
+      <ul class="notes">
+        <li><strong>Escritório boutique:</strong> atendimento personalizado (não volume), foco em empresas — consultivo + contencioso</li>
+        <li><strong>Holdings e offshores:</strong> planejamento patrimonial e tributário — clientes de alto poder aquisitivo</li>
+        <li><strong>Franquias e marcas internacionais:</strong> formatação de franquias e expansão internacional — diferencial raro no mercado jurídico</li>
+        <li><strong>Já usa IA:</strong> "volume alto de uso de IA para quase todas as tarefas" — early adopter, entende o espaço</li>
+        <li><strong>Escritório físico + digital:</strong> operação híbrida, 6-15 pessoas</li>
+        <li><strong>Sócio = Maria Alice (esposa):</strong> psicóloga e advogada, ativa no negócio (@luisealicesbroggio)</li>
+      </ul>
+
+      <div class="section-label">Instagram — o que o feed revela</div>
+      <ul class="notes">
+        <li><strong>10k seguidores, conteúdo profissional sólido:</strong> reforma tributária, IA na advocacia, holdings, compliance, demissão por justa causa — autoridade clara</li>
+        <li><strong>Post "IA na Advocacia":</strong> "Advogados perdem 60% do tempo com tarefas que a IA faz em minutos" — ele próprio já prega isso. Use como espelho.</li>
+        <li><strong>Presença Portugal + República Dominicana:</strong> clientes internacionais ou presença física fora do Brasil — alinha com holdings/offshores</li>
+        <li><strong>Lifestyle familiar:</strong> filho Lorenzo, viagens, Rock in Rio — homem de resultado, não de processo</li>
+      </ul>
+
+      <div class="section-label">Por que quer o AIOS</div>
+      <div class="quote-block" style="font-size:17px;">"Porque quero o próximo nível. Subir meus dígitos."</div>
+      <div class="tip-block">
+        <strong>Boa âncora:</strong> resposta curta mas honesta e direta — é ambição, não curiosidade. Ele sabe o que quer: crescimento em faturamento. Use "dígitos" como linguagem dele durante a call.
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-value">R$1-3M</div>
+        <div class="stat-label">Faturamento anual</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">6-15</div>
+        <div class="stat-label">Colaboradores</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">Alto</div>
+        <div class="stat-label">Uso atual de IA</div>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-top:24px;">
+      <div class="card-title"><span>⚡</span> Onde a IA pode dobrar os dígitos dele</div>
+      <ul class="notes">
+        <li><strong>Agente de peças jurídicas:</strong> ele já usa IA para isso — mas agentes orquestrados (AIOS) são 10x mais poderosos que ferramentas isoladas. Mostre a diferença.</li>
+        <li><strong>Agente de franquias:</strong> automação do processo de formatação + onboarding de novos franqueados — escala sem contratar advogados</li>
+        <li><strong>Agente de prospecção de clientes B2B:</strong> identificar empresas que precisam de holding/planejamento tributário — expansão de carteira</li>
+        <li><strong>Agente de follow-up de contencioso:</strong> monitoramento de processos, alertas automáticos, relatórios para clientes</li>
+        <li><strong>Agente de internacionalização:</strong> triagem e comunicação com leads internacionais (offshores, marcas no exterior)</li>
+      </ul>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span>⚠️</span> Pontos de Atenção</div>
+      <ul class="notes">
+        <li><strong>"Não estou preparado para R$100k":</strong> principal bloqueio. Pode ser financeiro real (R$1-3M de fat.) ou percepção. Explore antes de aceitar como definitivo.</li>
+        <li><strong>R$1M–3M de faturamento:</strong> menor que o perfil ideal da Imersão. Para um escritório jurídico boutique, R$100k pode ser >10% do lucro anual — é real.</li>
+        <li><strong>Já usa IA:</strong> pode argumentar "já faço isso". Posicione AIOS como sistema orquestrado vs ferramentas isoladas.</li>
+        <li><strong>Sócio = esposa:</strong> dinâmica diferente. Ela é psicóloga — pode trazer perspectiva emocional/comportamental para a decisão. Inclua-a naturalmente.</li>
+        <li><strong>Setor regulado (OAB):</strong> advocacia tem restrições éticas sobre automação de peças — cuidado para não prometer algo que a OAB possa questionar.</li>
+      </ul>
+    </div>
+
+    <div class="card card-indigo">
+      <div class="card-title"><span>🎯</span> Plano de Call — Prioridades em Ordem</div>
+      <ol style="padding-left:20px;font-size:14px;color:var(--text);line-height:2;">
+        <li><strong style="color:#a5b4fc;">Diagnosticar o "Não" ao 100k</strong> — é capital ou é percepção de valor? Se for percepção, trabalhe o ROI.</li>
+        <li><strong style="color:#a5b4fc;">Mapear a dor de crescimento</strong> — "subir os dígitos" é vago. O que especificamente trava? Capacidade? Prospecção? Entrega?</li>
+        <li><strong style="color:#a5b4fc;">Tentar upgrade para R$100k</strong> — frame: "R$100k é o custo de 1 advogado por ano. Os agentes trabalham sem férias, 24h, em 10 frentes simultaneamente."</li>
+        <li><strong style="color:#a5b4fc;">Se resistir ao 100k → fechar CoHort R$24.888</strong> — mesmo sistema, ritmo dele, sem viajar.</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <div class="tab-panel" id="tab-script">
+
+    <div class="warning-block">
+      <strong>Contexto crítico:</strong> ele disse "Não" ao 100k mas tem muito interesse. O objetivo da call é (1) entender o "Não", (2) tentar reverter. Se não reverter, fechar CoHort. Não vá direto ao downsell — tente o upgrade primeiro.
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">1</div>
+          <div class="phase-info"><h3>Rapport & Abertura</h3><p>Quebrar gelo, valorizar que ele já usa IA, alinhar que é diagnóstico</p></div>
+        </div>
+        <span class="phase-timer">3–5 min</span>
+      </div>
+      <div class="phase-content open">
+        <div class="script-block">
+          "Luis, boa tarde! Duarte aqui da Bilhon. Vi pelo Instagram que você já faz um trabalho muito consistente com conteúdo sobre IA na advocacia — 'Advogados perdem 60% do tempo com o que a IA faz em minutos', eu vi esse post. Você já está no caminho certo."
+        </div>
+        <div class="script-block">
+          "Essa conversa não é apresentação. São 50 minutos de diagnóstico — quero entender o negócio de vocês em profundidade. No final, se fizer sentido, você vai saber exatamente como avançar. Tudo bem pra você?"
+        </div>
+        <div class="tip-block">
+          <strong>Maria Alice:</strong> Se ela estiver na call, apresente-se para ela também: "Maria Alice, bem-vinda. Fico feliz que você esteja aqui — quando a decisão é de casal e de negócio ao mesmo tempo, é melhor os dois ouvirem."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">2</div>
+          <div class="phase-info"><h3>S — Situação</h3><p>Entender o escritório, volume, operação atual</p></div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>Me conta como o Sbroggio Adv está estruturado hoje. Quanto da operação é você diretamente e quanto já está delegado?</li>
+          <li>Você mencionou holdings, offshores, franquias — qual dessas vertentes representa mais faturamento hoje?</li>
+          <li>A IA que vocês já usam — quais ferramentas? Como está no dia a dia do escritório?</li>
+          <li>No contencioso, vocês têm volume alto de processos rodando simultaneamente?</li>
+          <li>A Maria Alice atua junto no negócio ou é mais separado?</li>
+        </ul>
+        <div class="tip-block">
+          <strong>Ouça o que ele já tem:</strong> ele usa IA bastante. Não minimize — valorize e posicione o AIOS como o próximo nível acima do que ele já faz.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">3</div>
+          <div class="phase-info"><h3>P — Problema</h3><p>Identificar o que impede de "subir os dígitos"</p></div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          <strong>[Use a linguagem dele:]</strong> "Você disse que quer subir os dígitos. Quando você olha pro escritório hoje, o que especificamente está travando esse salto?"
+        </div>
+        <ul class="question-list">
+          <li>Se você quisesse dobrar o faturamento nos próximos 12 meses sem contratar mais advogados, o que travaria primeiro?</li>
+          <li>Tem alguma vertente — franquias, internacionalização, contencioso — que você sabe que tem muito potencial mas não consegue escalar por falta de capacidade?</li>
+          <li>Quanto do seu tempo você ainda gasta em tarefas que deveriam estar automatizadas?</li>
+          <li>Na prospecção de novos clientes — holdings, planejamento tributário — como isso acontece hoje? Indicação só?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">4</div>
+          <div class="phase-info"><h3>I — Implicação</h3><p>Amplificar o custo de não dar o próximo nível</p></div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>Se esse gargalo de [dor que ele mencionou] continuar por mais 12 meses, onde você vai estar em termos de faturamento?</li>
+          <li>Você falou que usa IA para quase tudo. O que seria possível fazer se você tivesse agentes orquestrados trabalhando em conjunto, não ferramentas separadas?</li>
+          <li>No mercado jurídico, os escritórios que implementarem IA de forma sistemática primeiro — como você acha que isso muda a competição em 2-3 anos?</li>
+        </ul>
+        <div class="script-block">
+          <strong>[Âncora de custo]</strong> "Um advogado sênior custa entre R$8k e R$15k/mês. Os agentes do AIOS fazem o trabalho de múltiplos profissionais, 24h, sem férias, sem rescisão. A conta muda completamente."
+        </div>
+        <div class="script-block">
+          <strong>[Âncora de oportunidade — franquias]</strong> "No segmento de franquias, você formata e leva marcas pro mundo. Se você conseguisse processar 3x mais franqueados por ano com o mesmo time, o que isso representa em faturamento?"
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">5</div>
+          <div class="phase-info"><h3>N — Necessidade & Apresentação + Diagnóstico do "Não"</h3><p>Conectar solução à dor + entender e tratar a objeção do 100k</p></div>
+        </div>
+        <span class="phase-timer">8–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Luis, baseado no que você me contou — [resumir 2-3 dores] — o que vai sair dos dois dias em Floripa são agentes construídos especificamente pro Sbroggio Adv. Não sistemas genéricos. Agentes pra peças judiciais, pra onboarding de franqueados, pra prospecção de holdings — tudo calibrado pro seu modelo."
+        </div>
+        <div class="section-label">Diagnóstico do "Não" ao 100k — fazer esta pergunta diretamente</div>
+        <div class="script-block">
+          "No formulário você colocou que ainda não está preparado pra investir R$100k. Me ajuda a entender isso melhor — é uma questão de liquidez no momento, ou de você não ver o valor ainda?"
+        </div>
+        <div class="tip-block">
+          <strong>Se for valor:</strong> trabalhe o ROI com os números dele. Um case de holding bem estruturado = R$30-50k em honorários. 3 novos clientes de holding = 100k recuperado.<br><br>
+          <strong>Se for liquidez real:</strong> sem drama. Vá para o CoHort (fase 6).
+        </div>
+        <div class="script-block">
+          <strong>[Se for questão de valor:]</strong> "Você disse que quer subir os dígitos. Hoje você fatura entre R$1M e R$3M. Se os agentes trouxerem 5 novos clientes de planejamento tributário/holding ao longo do ano — quanto isso representa? R$100k provavelmente está dentro do primeiro trimestre de retorno."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">6</div>
+          <div class="phase-info"><h3>Fechamento — Imersão ou CoHort</h3><p>Colher decisão com base no diagnóstico do "Não"</p></div>
+        </div>
+        <span class="phase-timer">5–8 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="section-label">Caminho A — conseguiu reverter o "Não"</div>
+        <div class="script-block">
+          "Então faz sentido garantir sua vaga agora? Temos [N] empresários confirmados, os dias 19 e 20 estão em 13 dias. Vou enviar o contrato no WhatsApp agora mesmo."
+        </div>
+
+        <div class="section-label">Caminho B — "Não" é definitivo (CoHort)</div>
+        <div class="downsell-block">
+          <strong>Pivot natural:</strong> não force. Posicione o CoHort como a entrada inteligente, não como consolação.
+        </div>
+        <div class="script-block">
+          "Entendo completamente. Tenho uma proposta que faz muito sentido pro momento de vocês: o CoHort AIOS Advanced. São 8 semanas online, começa em abril, você implementa os mesmos sistemas — agentes de peças, prospecção, onboarding de franqueados — no ritmo do escritório, sem precisar parar dois dias. E o investimento é R$24.888."
+        </div>
+        <div class="script-block">
+          "Pensa assim: você já usa IA no dia a dia. O CoHort é o sistema que orquestra tudo isso — ao invés de 5 ferramentas separadas, um squad de agentes trabalhando junto. Em 8 semanas você sai com o Sbroggio Adv rodando num nível diferente."
+        </div>
+        <div class="warning-block">
+          <strong>Não desligar antes de:</strong> contrato enviado no WhatsApp + link de pagamento + confirmação de recebimento dos dois.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÕES -->
+  <div class="tab-panel" id="tab-objections">
+
+    <div class="tip-block" style="margin-bottom:24px;">
+      A objeção principal JÁ está mapeada — ele disse "Não" ao 100k antes da call. As demais são secundárias.
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não estou preparado para investir R$100k" (objeção principal)</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Me ajuda a entender isso melhor — é uma questão de liquidez agora, ou você ainda não vê o retorno justificando esse valor? [Aguarda resposta] Se for valor: 'Você formata franquias e leva marcas pro mundo. Um novo franqueador que você onboarda representa quanto em honorários? Se os agentes trouxerem 3 novos nesse formato, o R$100k voltou em quanto tempo?'"
+        </div>
+        <div class="objection-why">Por que funciona: diagnóstica antes de tratar. Se for liquidez, aceite e vá pro CoHort. Se for valor, trabalhe com os números reais do negócio dele.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Já uso IA — já faço isso"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Você está no caminho certo — e isso é um diferencial enorme. Mas tem uma diferença entre usar ferramentas de IA e ter um sistema de agentes orquestrado. Hoje você provavelmente tem um agente pra peça, outro pra follow-up, outro pra análise — cada um isolado. O AIOS coloca esses agentes pra trabalhar juntos, com memória compartilhada, passando contexto um pro outro. É a diferença entre um time de freelancers e um squad integrado."
+        </div>
+        <div class="objection-why">Por que funciona: valoriza o que ele já tem sem minimizar, e eleva o patamar do que o AIOS oferece.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"A OAB não permite automatizar peças / questões éticas"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Você está certo em colocar isso — e por isso o AIOS não substitui o advogado, ele potencializa. O agente faz o rascunho, a pesquisa jurisprudencial, o estrutura. O advogado revisa e assina. É exatamente o que você já faz, só que 10x mais rápido. A responsabilidade continua sua — o trabalho manual deixa de ser seu."
+        </div>
+        <div class="objection-why">Por que funciona: respeita o limite ético, reposiciona o agente como assistente, não substituto.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Preciso pensar / conversar com a Maria Alice"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Faz todo sentido envolver ela. Se ela está na call agora, o que está travando a decisão de vocês? Prefiro resolver qualquer dúvida aqui do que criar ruído depois. O que falta pra vocês avançarem hoje?"
+        </div>
+        <div class="objection-why">Se a Maria Alice estiver na call, trate como dois decisores. Se não estiver, pergunte se dá pra incluí-la numa call rápida.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"R$24.888 (CoHort) também é muito"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Entendo. Pensa em 12x de R$2.488. É menos do que o salário de um estagiário de advocacia. E os agentes que você vai construir nas 8 semanas trabalham por você 24h. Quantos processos você consegue produzir a mais com o dobro de capacidade no escritório?"
+        </div>
+        <div class="objection-why">Âncora no custo de pessoal jurídico, que ele conhece bem.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não tenho tempo para 8 semanas de curso"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "O CoHort foi desenhado pra quem tem escritório pra rodar. São encontros semanais de algumas horas — o resto é implementação no seu ritmo. E a lógica é justamente essa: você investe tempo agora pra recuperar tempo depois. Os agentes que sairão dessas 8 semanas vão liberar horas suas toda semana."
+        </div>
+        <div class="objection-why">Reframing de investimento de tempo vs retorno de tempo.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FECHAMENTO -->
+  <div class="tab-panel" id="tab-fechamento">
+
+    <div class="card card-indigo">
+      <div class="card-title"><span>🎯</span> Árvore de Decisão — Como Fechar</div>
+      <div style="font-size:14px;color:var(--text);line-height:2.2;">
+        <strong style="color:#a5b4fc;">1. Diagnóstico do "Não" ao 100k</strong><br>
+        &nbsp;&nbsp;&nbsp;↳ É questão de valor? → Trabalhe ROI → Tente fechar Imersão R$100k<br>
+        &nbsp;&nbsp;&nbsp;↳ É questão de liquidez? → Sem drama → Pivot para CoHort R$24.888<br><br>
+        <strong style="color:#a5b4fc;">2. Se Imersão</strong><br>
+        &nbsp;&nbsp;&nbsp;"Faz sentido garantir agora?" → Silêncio → Contrato no WhatsApp<br><br>
+        <strong style="color:#a5b4fc;">3. Se CoHort</strong><br>
+        &nbsp;&nbsp;&nbsp;"O CoHort é a entrada inteligente — mesmos sistemas, seu ritmo." → Fechar hoje
+      </div>
+    </div>
+
+    <div class="card card-green">
+      <div class="card-title"><span>✅</span> Checklist Pré-Fechamento</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Motivo real do "Não" ao 100k identificado (valor vs liquidez)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Dor de crescimento ("subir os dígitos") mapeada e nomeada</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>ROI apresentado com números do escritório dele</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Maria Alice incluída na conversa (se presente)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Diferença IA isolada vs AIOS orquestrado explicada</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Caminho escolhido (Imersão ou CoHort) + pergunta de fechamento feita</li>
+      </ul>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-title"><span>🔒</span> Frases de Fechamento</div>
+
+      <div class="section-label">Imersão R$100k</div>
+      <div class="script-block">"Faz sentido garantir sua vaga nos dias 19 e 20 agora?"</div>
+      <div class="script-block">"Você já disse que quer subir os dígitos. A Imersão é o atalho mais rápido. Faz sentido esperar mais?"</div>
+
+      <div class="section-label">CoHort R$24.888</div>
+      <div class="script-block">"O CoHort começa em 08 de abril — em 8 semanas o Sbroggio Adv vai operar num nível diferente. Faz sentido garantir agora?"</div>
+      <div class="script-block">"São 12x de R$2.488. Custa menos que um estagiário por mês e entrega o equivalente a um squad de especialistas. Quando você quer começar?"</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>💳</span> Pós-Fechamento — Não Desligar Antes</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Contrato enviado no WhatsApp (Clicksign/DocuSign)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Link de pagamento enviado</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Confirmação de recebimento dos dois documentos</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Próximo passo claro combinado</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Boas-vindas — "você agora faz parte do grupo"</li>
+      </ul>
+    </div>
+
+    <div class="card card-indigo">
+      <div class="card-title"><span>📋</span> CoHort AIOS Advanced — Dados para Apresentar</div>
+      <div class="info-row"><span class="info-label">Produto</span><span class="info-value">CoHort AIOS Advanced — Turma 2</span></div>
+      <div class="info-row"><span class="info-label">Formato</span><span class="info-value">Online · 8 semanas · 1 encontro ao vivo/semana</span></div>
+      <div class="info-row"><span class="info-label">Início</span><span class="info-value gold">08/04/2026</span></div>
+      <div class="info-row"><span class="info-label">Vagas</span><span class="info-value">50 (limitadas)</span></div>
+      <div class="info-row"><span class="info-label">Preço</span><span class="info-value gold">R$24.888 (ou 12x R$2.488)</span></div>
+      <div class="info-row"><span class="info-label">Inclui</span><span class="info-value">80+ agentes IA · comunidade 12 meses · certificação vitalícia</span></div>
+      <div class="info-row"><span class="info-label">ROI</span><span class="info-value green">Payback &lt; 7 dias · 338% no 1º mês</span></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+  function togglePhase(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    header.classList.toggle('active', !isOpen);
+  }
+  function toggleObj(trigger) {
+    const body = trigger.nextElementSibling;
+    const arrow = trigger.querySelector('.objection-arrow');
+    body.classList.toggle('open');
+    arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+  }
+  function toggleCheck(box) { box.classList.toggle('checked'); }
+
+  let timerInterval, seconds = 50 * 60;
+  function updateDisplay() {
+    const m = Math.floor(seconds / 60), s = seconds % 60;
+    document.getElementById('timer').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    document.getElementById('timer').style.color = seconds <= 300 ? '#ef4444' : seconds <= 600 ? '#f97316' : 'var(--gold)';
+  }
+  function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => { if (seconds > 0) { seconds--; updateDisplay(); } else { clearInterval(timerInterval); document.getElementById('timer').textContent = 'FIM'; } }, 1000);
+  }
+  function resetTimer() { clearInterval(timerInterval); seconds = 50 * 60; updateDisplay(); }
+</script>
+</body>
+</html>

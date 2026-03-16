@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Briefing — Meres | Imersão AIOS Floripa</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0a0f;
+      color: #e8e8f0;
+      min-height: 100vh;
+      padding: 32px 24px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff4444, #ff6b00);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .header .subtitle {
+      color: #888;
+      font-size: 15px;
+    }
+
+    .header .call-time {
+      display: inline-block;
+      margin-top: 16px;
+      background: rgba(255, 68, 68, 0.15);
+      border: 1px solid rgba(255, 68, 68, 0.4);
+      color: #ff6b6b;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 8px;
+      letter-spacing: 1px;
+    }
+
+    /* CARDS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: #13131f;
+      border: 1px solid #2a2a3d;
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .card-full {
+      background: #13131f;
+      border: 1px solid #2a2a3d;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .card h2 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #6b6b8a;
+      margin-bottom: 16px;
+    }
+
+    /* PERFIL */
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .profile-info h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .profile-info span {
+      font-size: 13px;
+      color: #7c3aed;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .tag-fervendo {
+      background: rgba(255, 107, 0, 0.15);
+      color: #ff8c42;
+      border: 1px solid rgba(255, 107, 0, 0.3);
+    }
+
+    .tag-quente {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .data-item label {
+      display: block;
+      font-size: 11px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+    }
+
+    .data-item value {
+      display: block;
+      font-size: 14px;
+      color: #ccc;
+      font-weight: 600;
+    }
+
+    /* GATILHO REAL */
+    .gatilho-box {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(79, 70, 229, 0.1));
+      border: 1px solid rgba(124, 58, 237, 0.4);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+
+    .gatilho-box .label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #a78bfa;
+      margin-bottom: 10px;
+    }
+
+    .gatilho-box p {
+      font-size: 15px;
+      color: #e8e8f0;
+      line-height: 1.6;
+    }
+
+    .gatilho-box strong {
+      color: #a78bfa;
+    }
+
+    /* REGRA */
+    .regra-box {
+      background: rgba(255, 68, 68, 0.08);
+      border: 1px solid rgba(255, 68, 68, 0.25);
+      border-left: 3px solid #ff4444;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #ff8a8a;
+      font-weight: 600;
+    }
+
+    /* SCRIPT */
+    .script-block {
+      margin-bottom: 20px;
+    }
+
+    .script-block h3 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #a78bfa;
+      margin-bottom: 10px;
+    }
+
+    .script-text {
+      background: #0d0d18;
+      border: 1px solid #2a2a3d;
+      border-left: 3px solid #7c3aed;
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-size: 14px;
+      color: #d1d5ff;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .script-sub {
+      margin-top: 8px;
+      padding-left: 12px;
+    }
+
+    .script-sub p {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .script-sub .q {
+      background: #0d0d18;
+      border: 1px solid #2a2a3d;
+      border-left: 3px solid #4f46e5;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #c4c4e0;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+
+    /* OBJEÇÕES */
+    .objecao {
+      background: #0d0d18;
+      border: 1px solid #2a2a3d;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+
+    .objecao .trigger {
+      font-size: 13px;
+      color: #f87171;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .objecao .trigger::before {
+      content: "⚡";
+      font-style: normal;
+    }
+
+    .objecao .resposta {
+      font-size: 13px;
+      color: #c4c4e0;
+      line-height: 1.6;
+      font-style: italic;
+      padding-left: 12px;
+      border-left: 2px solid #7c3aed;
+    }
+
+    /* OBJETIVO */
+    .objetivo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .objetivo-item {
+      background: #0d0d18;
+      border: 1px solid #2a2a3d;
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .objetivo-item .num {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .objetivo-item p {
+      font-size: 13px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    .objetivo-item strong {
+      color: #e8e8f0;
+    }
+
+    .regra-final {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(79, 70, 229, 0.15));
+      border: 1px solid rgba(124, 58, 237, 0.5);
+      border-radius: 10px;
+      padding: 16px 20px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #a78bfa;
+      letter-spacing: 0.5px;
+    }
+
+    /* PRINT */
+    @media print {
+      body { background: white; color: black; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge">Briefing Closer</div>
+    <h1>Meres — Imersão AIOS Floripa</h1>
+    <p class="subtitle">Imersão AIOS Squad · Florianópolis · 19–20 de Março de 2026 · R$ 100.000</p>
+    <div class="call-time">CALL HOJE — 06/03 às 11h · Closer: Duarte</div>
+  </div>
+
+  <!-- PERFIL + NEGOCIO -->
+  <div class="grid-2">
+
+    <div class="card">
+      <h2>Perfil do Lead</h2>
+      <div class="profile-row">
+        <div class="avatar">M</div>
+        <div class="profile-info">
+          <h3>Meres</h3>
+          <span>@meresiam · 51,4k seguidores</span>
+        </div>
+      </div>
+      <div style="margin-bottom:14px; display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="tag tag-fervendo">Score 71 — Fervendo Real</span>
+        <span class="tag tag-quente">Marcado: Quente</span>
+      </div>
+      <div class="data-grid">
+        <div class="data-item">
+          <label>Faturamento</label>
+          <value>R$ 1M – R$ 3M</value>
+        </div>
+        <div class="data-item">
+          <label>Equipe</label>
+          <value>6 a 15 pessoas</value>
+        </div>
+        <div class="data-item">
+          <label>Categoria</label>
+          <value>Dono / Empresário</value>
+        </div>
+        <div class="data-item">
+          <label>Sócio</label>
+          <value>Sim — presente</value>
+        </div>
+        <div class="data-item">
+          <label>WhatsApp</label>
+          <value>55 21993616089</value>
+        </div>
+        <div class="data-item">
+          <label>SDR</label>
+          <value>Mariana</value>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Negócio</h2>
+      <div class="data-item" style="margin-bottom:16px;">
+        <label>Empresa</label>
+        <value style="font-size:16px; color:#fff;">Laboratório de Agentes IA + SaaS IA</value>
+      </div>
+      <div class="data-item" style="margin-bottom:16px;">
+        <label>Diferencial Crítico</label>
+        <value style="color:#a78bfa; line-height:1.5;">
+          Já usa AIOS, Claude Code e Agentic Development Workflow.<br>
+          Cria squads, agentes e sistemas diariamente.
+        </value>
+      </div>
+      <div class="data-item">
+        <label>Histórico</label>
+        <value style="color:#aaa; line-height:1.5; font-weight:400;">
+          Ex-músico com pivot total para IA. Alta determinação. Bio Instagram: <em>"Dei uma pausa na música... Foco total em IA agora."</em>
+        </value>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GATILHO REAL -->
+  <div class="card-full">
+    <h2>Gatilho Real</h2>
+    <div class="regra-box">
+      NÃO venda o AIOS — ele já conhece e usa. Venda A SALA.
+    </div>
+    <div class="gatilho-box">
+      <div class="label">O que ele realmente quer</div>
+      <p>
+        "Estar junto com as <strong>0.0003% de pessoas</strong> que sabem utilizar essa ferramenta."<br><br>
+        Ele quer <strong>pertencimento</strong>, <strong>status</strong> e <strong>proximidade com Alan, Finch e Pedro</strong>. Citou os três pelo nome. Já os admira. Esse é o gatilho que fecha.
+      </p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:4px;">
+      <div style="background:#0d0d18; border:1px solid #2a2a3d; border-radius:8px; padding:14px; text-align:center;">
+        <div style="font-size:20px; margin-bottom:6px;">🏛️</div>
+        <div style="font-size:12px; color:#a78bfa; font-weight:700;">A SALA</div>
+        <div style="font-size:12px; color:#777; margin-top:4px;">Estar entre as pessoas certas</div>
+      </div>
+      <div style="background:#0d0d18; border:1px solid #2a2a3d; border-radius:8px; padding:14px; text-align:center;">
+        <div style="font-size:20px; margin-bottom:6px;">🎯</div>
+        <div style="font-size:12px; color:#a78bfa; font-weight:700;">O ACESSO</div>
+        <div style="font-size:12px; color:#777; margin-top:4px;">2 dias ao vivo com Alan, Finch, Pedro</div>
+      </div>
+      <div style="background:#0d0d18; border:1px solid #2a2a3d; border-radius:8px; padding:14px; text-align:center;">
+        <div style="font-size:20px; margin-bottom:6px;">⏳</div>
+        <div style="font-size:12px; color:#a78bfa; font-weight:700;">A URGÊNCIA</div>
+        <div style="font-size:12px; color:#777; margin-top:4px;">13 dias pro evento · Vagas limitadas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <div class="card-full">
+    <h2>Script da Call</h2>
+
+    <div class="script-block">
+      <h3>Abertura</h3>
+      <div class="script-text">
+        "Meres, vi sua aplicação e me chamou atenção. Você já usa Claude Code, já cria squads, já está no nível. Você não é um iniciante — então essa call não vai ser sobre o que é o AIOS. Quero entender onde você quer chegar."
+      </div>
+    </div>
+
+    <div class="script-block">
+      <h3>Diagnóstico — deixa ele falar</h3>
+      <div class="script-sub">
+        <div class="q">"Me conta o Laboratório — onde você está hoje e onde quer chegar?"</div>
+        <div class="q">"Você falou em estar com os 0.0003%. O que você espera concreto desses 2 dias em Floripa?"</div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <h3>Fechamento — venda a sala</h3>
+      <div class="script-text">
+        "Meres, você já tem o conhecimento técnico. O que você ainda não tem é a sala. Floripa vai ser onde as pessoas que estão construindo o futuro da IA no Brasil vão se encontrar. Você mencionou Alan, Finch, Pedro — esses caras vão estar 2 dias com você, ao vivo, no seu nível. Isso não vai se repetir cedo."
+      </div>
+    </div>
+
+    <div class="script-block">
+      <h3>Urgência</h3>
+      <div class="script-text">
+        "São 13 dias pro evento. As vagas estão saindo. Você entra hoje ou fica de fora dessa turma."
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÕES -->
+  <div class="card-full">
+    <h2>Objeções e Respostas</h2>
+
+    <div class="objecao">
+      <div class="trigger">"É muito caro" / R$ 100.000</div>
+      <div class="resposta">
+        "Meres, você já entende de ROI melhor que 99% das pessoas. Quanto vale um contrato de SaaS que você fecha porque conheceu o parceiro certo em Floripa? Quanto vale 2 dias ao lado de quem está 1 ano na sua frente?"
+      </div>
+    </div>
+
+    <div class="objecao">
+      <div class="trigger">"Preciso falar com meu sócio"</div>
+      <div class="resposta">
+        "Faz sentido. Posso incluir seu sócio numa call rápida de 15min ainda hoje? O que ele precisa entender pra dizer sim?"
+      </div>
+    </div>
+
+    <div class="objecao">
+      <div class="trigger">"Vou pensar / não é o momento"</div>
+      <div class="resposta">
+        "O momento é exatamente esse. Você deu um pivot total pra IA. Já usa as ferramentas. O que falta é a rede. Em 13 dias você pode estar nessa sala ou assistindo do lado de fora."
+      </div>
+    </div>
+
+    <div class="objecao">
+      <div class="trigger">"Não consigo ir a Florianópolis"</div>
+      <div class="resposta">
+        "Meres, você disse 'Sim, sem dúvida!' no formulário. O que mudou? Esse é o tipo de evento que você reorganiza a agenda pra estar — não o tipo que você assiste do Instagram."
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OBJETIVO -->
+  <div class="card-full">
+    <h2>Objetivo da Call</h2>
+    <div class="objetivo-grid">
+      <div class="objetivo-item">
+        <div class="num">01</div>
+        <p><strong>Confirmação de pagamento</strong><br>fechar na call agora</p>
+      </div>
+      <div class="objetivo-item">
+        <div class="num">02</div>
+        <p><strong>Call com sócio</strong><br>agendada para hoje</p>
+      </div>
+    </div>
+    <div class="regra-final">
+      NAO SAIA DA CALL SEM UM DOS DOIS.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

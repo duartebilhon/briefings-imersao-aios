@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Gustavo Leal | Call 09/03 20h</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c04a;
+    --gold-dim: rgba(201,162,39,0.15);
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #12122a;
+    --indigo: #6366f1;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .sticky-top { position: sticky; top: 0; z-index: 100; }
+
+  .header {
+    background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%);
+    border-bottom: 1px solid rgba(201,162,39,0.3);
+    padding: 40px 48px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p { color: var(--muted); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-fervendo { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.35); }
+  .badge-score { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-hoje { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .badge-urgente { background: rgba(239,68,68,0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.4); animation: pulse 1.5s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  .timer-box {
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    border-radius: 12px;
+    padding: 12px 20px;
+    text-align: center;
+  }
+  .timer-box .timer-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .timer-box .timer-value { font-size: 28px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 48px;
+    background: var(--bg2);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .tab {
+    padding: 14px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .content { padding: 40px 48px; max-width: 1000px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .card-gold { border-color: rgba(201,162,39,0.3); }
+  .card-red { border-color: rgba(239,68,68,0.3); }
+  .card-green { border-color: rgba(34,197,94,0.25); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon { font-size: 20px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    gap: 16px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--muted); font-size: 13px; min-width: 130px; }
+  .info-value { color: var(--text); font-size: 14px; text-align: right; flex: 1; }
+  .info-value.gold { color: var(--gold); font-weight: 600; }
+  .info-value.green { color: #4ade80; font-weight: 600; }
+  .info-value.red { color: #f87171; font-weight: 600; }
+
+  .stat-card {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .phase {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .phase-header:hover { background: rgba(255,255,255,0.03); }
+  .phase-header.active { background: rgba(201,162,39,0.07); }
+  .phase-left { display: flex; align-items: center; gap: 16px; }
+  .phase-number {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .phase-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .phase-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .phase-timer {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .phase-content { display: none; padding: 0 24px 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .phase-content.open { display: block; }
+
+  .script-block {
+    background: var(--bg3);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-style: italic;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .script-block strong { color: var(--gold); font-style: normal; }
+
+  .tip-block {
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #a5b4fc;
+  }
+  .tip-block strong { color: #818cf8; }
+
+  .warning-block {
+    background: rgba(239,68,68,0.07);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #fca5a5;
+  }
+  .warning-block strong { color: #f87171; }
+
+  .success-block {
+    background: rgba(34,197,94,0.07);
+    border: 1px solid rgba(34,197,94,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #86efac;
+  }
+  .success-block strong { color: #4ade80; }
+
+  .question-list { list-style: none; }
+  .question-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    gap: 12px;
+  }
+  .question-list li:last-child { border-bottom: none; }
+  .question-list li::before { content: "→"; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+  .objection {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .objection-trigger {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .objection-trigger:hover { background: rgba(255,255,255,0.03); }
+  .objection-label { font-size: 14px; font-weight: 500; color: #fca5a5; }
+  .objection-arrow { color: var(--muted); transition: transform 0.2s; font-size: 12px; }
+  .objection-body { display: none; padding: 0 20px 18px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .objection-body.open { display: block; }
+  .objection-response { font-style: italic; color: #cbd5e1; font-size: 14px; line-height: 1.8; margin: 14px 0 10px; }
+  .objection-why { font-size: 12px; color: var(--muted); }
+
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: var(--text);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(201,162,39,0.4);
+    border-radius: 4px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .check-box:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .check-box.checked { background: var(--gold); border-color: var(--gold); }
+  .check-box.checked::after { content: "✓"; color: #07070f; font-size: 12px; font-weight: 700; }
+
+  .quote-block {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    padding: 16px 24px;
+    margin: 20px 0;
+    line-height: 1.6;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    margin-top: 24px;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  p { margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+  ul.notes { padding-left: 18px; }
+  ul.notes li { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  ul.notes li strong { color: var(--text); }
+
+  .btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,162,39,0.4);
+    border-radius: 10px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 32px;
+  }
+  .btn-save:hover { background: rgba(201,162,39,0.25); }
+
+  @media print {
+    .tabs, .btn-save, .timer-box { display: none; }
+    .tab-panel { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <p>Call de Diagnóstico · Imersão AIOS Squad · Duarte</p>
+    <h1>Gustavo <span>Leal</span></h1>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <span class="badge badge-urgente">HOJE · 09/03 · 20h00</span>
+      <span class="badge badge-fervendo">Fervendo 🔥</span>
+      <span class="badge badge-score">Score 85</span>
+      <span class="badge" style="background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.25);">Quer fechar já</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="timer-box">
+      <div class="timer-label">Tempo de call</div>
+      <div class="timer-value" id="timer">50:00</div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button onclick="startTimer()" style="background:var(--gold);color:#07070f;border:none;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">START</button>
+        <button onclick="resetTimer()" style="background:var(--bg3);color:var(--muted);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;">RESET</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('briefing')">Briefing</div>
+  <div class="tab" onclick="showTab('script')">Script da Call</div>
+  <div class="tab" onclick="showTab('objections')">Objeções</div>
+  <div class="tab" onclick="showTab('fechamento')">Fechamento</div>
+</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <button class="btn-save" onclick="window.print()">Salvar como PDF</button>
+
+  <!-- TAB: BRIEFING -->
+  <div class="tab-panel active" id="tab-briefing">
+
+    <div class="success-block" style="margin-bottom:24px;font-size:14px;">
+      <strong>Lead Fervendo com intenção de compra imediata.</strong> Disse "Claro! Quero aplicar o AIOS imediatamente!" Produto: Imersão AIOS Squad — R$100.000 — Florianópolis 19 e 20/03. Objetivo: diagnosticar, apresentar e fechar na call. Não subestime — lead de R$5M+ que já quer entrar.
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-gold">
+        <div class="card-title"><span class="icon">👤</span> Perfil do Lead</div>
+        <div class="info-row">
+          <span class="info-label">Nome</span>
+          <span class="info-value gold">Gustavo Leal</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">WhatsApp</span>
+          <span class="info-value">55 47 99994-2401</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Cargo</span>
+          <span class="info-value">Dono / Empresário</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">SDR</span>
+          <span class="info-value">Mariana</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Closer</span>
+          <span class="info-value gold">Duarte</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Lead desde</span>
+          <span class="info-value">09/03/2026 (hoje)</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Qualificação</div>
+        <div class="info-row">
+          <span class="info-label">Faturamento</span>
+          <span class="info-value green">Acima de R$ 5M</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Pode ir a Floripa</span>
+          <span class="info-value green">Sim, sem dúvida!</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Investir R$100k</span>
+          <span class="info-value green">Claro! Quer imediatamente</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Score</span>
+          <span class="info-value gold">85 / 100</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Temperatura</span>
+          <span class="info-value red">Fervendo 🔥</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Decisores</span>
+          <span class="info-value">Mapear na call</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🏪</span> O Negócio — Iluminação, Metais & Louças</div>
+      <div class="quote-block">
+        "Diferencial competitivo em agilidade em Marketing, orçamentos, vendas e vários processos internos."
+      </div>
+
+      <div class="section-label">Como o negócio funciona</div>
+      <ul class="notes">
+        <li><strong>Produto:</strong> Venda de iluminação, metais e louças sanitárias para projetos de interiores</li>
+        <li><strong>Canal de entrada:</strong> Arquiteto ou construtora envia o projeto de interiores → empresa responde com especificação e orçamento dos produtos</li>
+        <li><strong>B2B:</strong> cliente principal é o arquiteto/construtora, não o consumidor final</li>
+        <li><strong>Operação física:</strong> negócio 100% físico — showroom, estoque, equipe de vendas presencial</li>
+        <li><strong>Faturamento:</strong> acima de R$5M — operação robusta com volume alto de projetos</li>
+      </ul>
+
+      <div class="section-label">O que ele quer resolver com AIOS</div>
+      <ul class="notes">
+        <li><strong>Marketing:</strong> agilidade na geração de conteúdo, campanhas e presença digital</li>
+        <li><strong>Orçamentos:</strong> processo atual provavelmente manual e lento — arquiteto manda projeto, alguém da equipe lê, monta orçamento</li>
+        <li><strong>Vendas:</strong> follow-up, qualificação e conversão de arquitetos em clientes recorrentes</li>
+        <li><strong>Processos internos:</strong> provavelmente gestão de pedidos, fornecedores, estoque, NF</li>
+      </ul>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-value">R$5M+</div>
+        <div class="stat-label">Faturamento anual</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">85</div>
+        <div class="stat-label">Score qualificação</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">R$100k</div>
+        <div class="stat-label">Ticket Imersão</div>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-top:24px;">
+      <div class="card-title"><span class="icon">⚡</span> Inteligência Estratégica — Onde o AIOS transforma o negócio dele</div>
+
+      <div class="section-label">Gargalo principal identificado: ORÇAMENTOS</div>
+      <div class="tip-block">
+        <strong>Oportunidade de ouro:</strong> O fluxo "arquiteto envia projeto → gerar orçamento" é o core do negócio dele. Um agente que lê o projeto, consulta catálogo e gera o orçamento completo em minutos — em vez de horas ou dias — é o ROI mais tangível que existe para esse negócio.
+      </div>
+
+      <div class="section-label">Agentes que fazem sentido imediato</div>
+      <ul class="notes">
+        <li><strong>Agente de orçamentos:</strong> recebe o projeto do arquiteto por WhatsApp/email → interpreta as especificações → consulta catálogo → gera orçamento formatado em minutos. Elimina gargalo crítico de vendas</li>
+        <li><strong>Agente SDR para arquitetos:</strong> prospecta e ativa arquitetos e construtoras que ainda não compraram — follow-up automático e personalizado por projeto</li>
+        <li><strong>Agente de marketing:</strong> gera conteúdo semanal para Instagram/LinkedIn mostrando produtos, projetos concluídos, tendências em iluminação e metais</li>
+        <li><strong>Agente de relacionamento:</strong> mantém arquitetos aquecidos entre projetos — envia novidades de produtos, promoções, novos catálogos</li>
+        <li><strong>Agente de pós-venda:</strong> acompanha status de pedidos e avisa proativamente o arquiteto — reduz ligações de "cadê meu pedido?"</li>
+        <li><strong>Agente de catálogo inteligente:</strong> responde perguntas técnicas sobre produtos (dimensões, voltagem, acabamentos) sem precisar de vendedor</li>
+      </ul>
+
+      <div class="section-label">O argumento que vai ressoar</div>
+      <div class="tip-block">
+        <strong>Negócio físico + IA = vantagem brutal.</strong> A maioria dos concorrentes dele ainda faz tudo no olho. Um arquiteto que recebe orçamento em 15 minutos vs. 2 dias vai sempre voltar para ele. Agilidade é o diferencial que ele mesmo citou — o AIOS entrega exatamente isso.
+      </div>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span class="icon">⚠️</span> Pontos de Atenção</div>
+      <ul class="notes">
+        <li><strong>Lead cadastrou hoje (19:13) e a call é às 20h:</strong> ele entrou quente, mas é lead muito recente. Valide se entende o que é a Imersão — pode ter confundido com um curso online</li>
+        <li><strong>Negócio físico:</strong> pode surgir a objeção "meu negócio é físico, IA não se aplica". Rebater antes que apareça — a IA não muda o físico, aumenta a velocidade do que chega nele</li>
+        <li><strong>Sem número de colaboradores:</strong> campo não preenchido. Mapear na call — tamanho da equipe define quais processos automatizar primeiro</li>
+        <li><strong>"Quer imediatamente":</strong> energia alta pode ser impulso. Valide se há sócio ou outros decisores para não perder o fechamento por falta de alinhamento interno</li>
+        <li><strong>DDD 47 (SC):</strong> provavelmente de Santa Catarina — Florianópolis é mais fácil de aceitar. Reforce que o evento é no estado dele</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TAB: SCRIPT -->
+  <div class="tab-panel" id="tab-script">
+
+    <div class="success-block" style="margin-bottom:24px;">
+      <strong>Call de fechamento, não de convencimento.</strong> Ele já disse que quer. Seu trabalho é: (1) fazer ele sentir que entendeu o negócio dele, (2) mostrar os 2–3 agentes mais relevantes para ele, (3) colher o sim e enviar o contrato antes de desligar.
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">1</div>
+          <div class="phase-info">
+            <h3>Rapport & Abertura</h3>
+            <p>Conectar no negócio dele antes de qualquer coisa</p>
+          </div>
+        </div>
+        <div class="phase-timer">3–5 min</div>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Gustavo, boa noite! Que bom te ter aqui. Fiquei curioso com o seu segmento — iluminação, metais e louças para arquitetos. É um mercado que eu conheço pouco mas que tem uma operação muito específica. <strong>Me conta um pouco: como chegam os projetos pra você hoje? É o arquiteto que manda direto ou passa por algum processo?</strong>"
+        </div>
+        <div class="tip-block">
+          <strong>Objetivo:</strong> Fazer ele falar do negócio antes de qualquer pitch. Isso cria rapport genuíno e te dá munição para personalizar a apresentação nos próximos 5 minutos.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">2</div>
+          <div class="phase-info">
+            <h3>S — Situação</h3>
+            <p>Mapear operação, equipe e fluxo atual</p>
+          </div>
+        </div>
+        <div class="phase-timer">7–8 min</div>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>Quantas pessoas você tem na equipe hoje? Tem time de vendas, marketing separado?</li>
+          <li>Quando um arquiteto manda o projeto, quanto tempo leva para você entregar o orçamento?</li>
+          <li>Você tem alguma automação hoje? CRM, sistema de gestão?</li>
+          <li>Qual é o canal principal que os arquitetos te procuram — WhatsApp, e-mail, presencial?</li>
+          <li>Você tem sócio? Ele vai estar envolvido nessa decisão?</li>
+        </ul>
+        <div class="tip-block">
+          <strong>O que mapear:</strong> (a) tamanho da equipe, (b) tempo de resposta de orçamento, (c) maturidade digital atual. Esses 3 dados definem o pitch perfeito.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">3</div>
+          <div class="phase-info">
+            <h3>P — Problema</h3>
+            <p>Identificar o gargalo que mais dói</p>
+          </div>
+        </div>
+        <div class="phase-timer">6–8 min</div>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>Qual processo hoje toma mais tempo da sua equipe sem precisar de tanto?</li>
+          <li>Você já perdeu algum projeto porque a resposta de orçamento demorou?</li>
+          <li>Seus arquitetos recorrentes — o que os faz voltar para você e não para o concorrente?</li>
+          <li>Se você pudesse automatizar uma coisa amanhã no negócio, o que seria?</li>
+        </ul>
+        <div class="script-block">
+          "Você mencionou agilidade em orçamentos. <strong>Me diz — hoje, quando um arquiteto manda um projeto grande, quanto tempo a sua equipe fica nisso antes de responder?</strong> E quando demora, o que acontece?"
+        </div>
+        <div class="warning-block">
+          <strong>Escute o número.</strong> Se ele disser "2 dias" ou "1 semana", você tem o argumento do AIOS pronto. Se disser "poucas horas", foque no marketing e relacionamento.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">4</div>
+          <div class="phase-info">
+            <h3>I — Implicação</h3>
+            <p>Ampliar o custo do gargalo identificado</p>
+          </div>
+        </div>
+        <div class="phase-timer">5–7 min</div>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>Quanto você estima que perde por mês em projetos que foram para o concorrente por lentidão?</li>
+          <li>Você tem arquitetos que você quer trabalhar mais mas ainda não conseguiu ativar?</li>
+          <li>Se você dobrar a velocidade de resposta, o que muda no seu faturamento?</li>
+        </ul>
+        <div class="script-block">
+          "Pensa comigo, Gustavo: se seus arquitetos receberem o orçamento 5x mais rápido do que recebem hoje — <strong>quantos projetos a mais você fecharia por mês só com isso?</strong> Multiplica pelo ticket médio... isso é o ROI do AIOS para o seu negócio."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">5</div>
+          <div class="phase-info">
+            <h3>N — Necessidade & Apresentação da Imersão</h3>
+            <p>Conectar o AIOS às dores específicas mapeadas</p>
+          </div>
+        </div>
+        <div class="phase-timer">8–10 min</div>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Gustavo, tudo que você descreveu — agilidade em orçamentos, marketing, vendas, processos internos — <strong>é exatamente o que você vai construir na Imersão AIOS Squad.</strong> Dois dias em Florianópolis, 19 e 20 de março, com Alan Nikolas e Thiago Finch. Você sai com o AIOS da sua empresa implementado e os agentes rodando."
+        </div>
+        <div class="section-label">Os 3 agentes que fazem mais sentido para ele</div>
+        <ul class="notes">
+          <li><strong>1. Agente de Orçamentos:</strong> arquiteto manda o projeto → agente lê, consulta seu catálogo, gera orçamento completo em minutos. Transforma dias em minutos</li>
+          <li><strong>2. Agente SDR de arquitetos:</strong> prospecta novos arquitetos, faz follow-up nos que pararam de comprar, mantém relacionamento ativo com a base</li>
+          <li><strong>3. Agente de Marketing:</strong> gera conteúdo para redes sociais mostrando produtos, projetos, trends — sem precisar de agência</li>
+        </ul>
+        <div class="section-label">A Imersão — o que ele recebe</div>
+        <ul class="notes">
+          <li><strong>Quando:</strong> 19 e 20 de março de 2026 — em 10 dias</li>
+          <li><strong>Onde:</strong> Florianópolis, SC</li>
+          <li><strong>Com quem:</strong> Alan Nikolas (automação IA) + Thiago Finch (escala com IA)</li>
+          <li><strong>Inclui:</strong> 1 convidado — segunda cadeira. Pode trazer sócio ou gestor</li>
+          <li><strong>Resultado:</strong> sai com o AIOS implementado no negócio dele</li>
+          <li><strong>Investimento:</strong> R$100.000</li>
+        </ul>
+        <div class="tip-block">
+          <strong>Ancoragem de ROI:</strong> "Se o agente de orçamentos fechar 3 projetos a mais por mês que você perderia para o concorrente — quanto isso vale no seu negócio em 12 meses? O R$100k volta em semanas."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">6</div>
+          <div class="phase-info">
+            <h3>Fechamento</h3>
+            <p>Colher o sim e enviar contrato antes de desligar</p>
+          </div>
+        </div>
+        <div class="phase-timer">5–8 min</div>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Gustavo, você mesmo disse que quer aplicar o AIOS imediatamente. A Imersão começa em 10 dias. <strong>Vamos garantir sua vaga agora?</strong>"
+        </div>
+        <div class="tip-block">
+          <strong>Silêncio após perguntar.</strong> Ele já disse que quer. Não quebre o momento com mais argumentos. Espere.
+        </div>
+        <div class="script-block">
+          "Perfeito. Vou te mandar o contrato e o link de pagamento pelo WhatsApp agora. <strong>Você vai usar a segunda cadeira?</strong> Me diz quem vem com você."
+        </div>
+        <div class="warning-block">
+          <strong>Não desligar sem:</strong> contrato enviado, link de pagamento enviado e confirmação de que ele recebeu. Lead Fervendo que não fecha na call esfria rápido.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: OBJEÇÕES -->
+  <div class="tab-panel" id="tab-objections">
+
+    <div class="tip-block" style="margin-bottom:24px;">
+      <strong>Perfil de objeção baixo:</strong> Lead já quer fechar. As objeções que podem surgir são operacionais (sócio, timing, físico vs. digital), não financeiras. Trate rápido e volte para o fechamento.
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Meu negócio é físico, não sei se IA funciona aqui"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Gustavo, negócio físico com IA é onde está a maior vantagem competitiva hoje — exatamente porque seus concorrentes ainda acham que IA é só para digital. O AIOS não muda o que você vende. Ele muda a velocidade com que você vende, a qualidade do relacionamento com os arquitetos e a eficiência dos processos internos. O produto continua sendo o mesmo — a operação ao redor dele é que vira máquina."
+        </p>
+        <p class="objection-why">💡 Valide o negócio físico como vantagem, não como limitação.</p>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Preciso conversar com meu sócio / sócio não está"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Entendo, e faz sentido alinhar. Me diz — você tem autonomia para decisões de investimento como essa ou precisa de aprovação formal? [Escuta] Posso incluir seu sócio numa call rápida de 15 minutos ainda esta semana. A Imersão é em 10 dias e as vagas são limitadas. O que eu faço agora para não perdermos a janela?"
+        </p>
+        <p class="objection-why">💡 Mapeia se sócio é decisor real ou objeção de proteção. Oferece solução (call em 15 min) e urgência real (10 dias).</p>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"10 dias é muito pouco tempo para me organizar"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Dois dias fora do escritório — seus colaboradores conseguem operar sem você nesse período? [Escuta] Perfeito. A maioria dos empresários que estão lá disseram a mesma coisa antes de ir. E depois me dizem que esses foram os dois dias mais rentáveis do ano. Florianópolis, dois dias, sai com o AIOS da sua empresa. O que você precisa resolver para garantir a vaga?"
+        </p>
+        <p class="objection-why">💡 Minimiza a ausência e ancora no resultado. Social proof dos outros compradores.</p>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"R$100k é muito / quero pensar no valor"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Gustavo, você mesmo me disse que quer aplicar o AIOS imediatamente. O que mudou desde que você entrou hoje? [Escuta] Me ajuda a entender — é sobre o valor em si ou é algo específico do retorno que ficou sem resposta? Porque se o agente de orçamentos fechar 3 projetos a mais por mês, quanto o R$100k representa do faturamento adicional anual?"
+        </p>
+        <p class="objection-why">💡 Relembra a intenção dele e conecta ao ROI concreto. Não baixa o preço — eleva o valor percebido.</p>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não vou conseguir ir a Florianópolis nessa data"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Qual seria a data que funcionaria? [Escuta] Entendo. Essa é a única edição de 2026 com as vagas disponíveis. Tem alguém da sua equipe ou seu sócio que poderia ir em seu lugar e te trazer o AIOS implementado? A segunda cadeira existe exatamente para isso — trazer quem vai operacionalizar o sistema."
+        </p>
+        <p class="objection-why">💡 Explora a segunda cadeira como alternativa. Mantém o fechamento aberto mesmo com impossibilidade de agenda.</p>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Preciso ver se minha equipe consegue implementar"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <p class="objection-response">
+          "Na Imersão, você e quem você trazer vão sair com o AIOS configurado — não é um manual para implementar depois. É feito lá, com você. A questão não é se sua equipe consegue — é se você vai estar lá para construir junto com os melhores do mercado. Quantas pessoas da sua equipe você colocaria para usar os agentes no dia a dia?"
+        </p>
+        <p class="objection-why">💡 Reposiciona a Imersão como implementação, não como treinamento. Remove o medo de "não conseguir depois".</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: FECHAMENTO -->
+  <div class="tab-panel" id="tab-fechamento">
+
+    <div class="card card-gold">
+      <div class="card-title"><span class="icon">✅</span> Checklist Pré-Fechamento</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Gargalo principal nomeado — orçamentos, marketing ou vendas</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>ROI apresentado no contexto do negócio dele (projetos fechados × ticket médio)</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Decisores mapeados — tem sócio? Precisa de alinhamento?</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Segunda cadeira mencionada — quem vem com ele?</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Data e local reforçados — 19 e 20/03, Florianópolis (10 dias)</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Pergunta de fechamento feita + silêncio mantido</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💬</span> Frases de Fechamento</div>
+      <div class="script-block">
+        <strong>Direto:</strong> "Gustavo, você entrou hoje querendo aplicar o AIOS imediatamente. Vamos garantir sua vaga agora?"
+      </div>
+      <div class="script-block">
+        <strong>Urgência:</strong> "A Imersão é em 10 dias. Essa é a única edição de 2026. A decisão precisa ser hoje."
+      </div>
+      <div class="script-block">
+        <strong>ROI:</strong> "Se o agente de orçamentos fechar 3 projetos a mais por mês — em 12 meses isso é quanto? O R$100k volta em semanas."
+      </div>
+      <div class="script-block">
+        <strong>Exclusividade:</strong> "Você vai estar na mesma sala com empresários de R$5M a R$35M resolvendo exatamente esse problema. Não tem outro evento assim no Brasil em 2026."
+      </div>
+      <div class="script-block">
+        <strong>Segunda cadeira:</strong> "Quem você traz como segunda cadeira? Pode ser seu sócio, seu gerente, quem vai operacionalizar o AIOS com você."
+      </div>
+    </div>
+
+    <div class="card card-green">
+      <div class="card-title"><span class="icon">🎫</span> A Imersão — Detalhes para Confirmar</div>
+      <div class="grid-2" style="margin-bottom:16px;">
+        <div class="stat-card">
+          <div class="stat-value">19–20/03</div>
+          <div class="stat-label">Florianópolis, SC</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">R$100k</div>
+          <div class="stat-label">Inclui 2ª cadeira</div>
+        </div>
+      </div>
+      <ul class="notes">
+        <li><strong>Speakers:</strong> Alan Nikolas (automação IA) + Thiago Finch (escala com IA)</li>
+        <li><strong>Promessa:</strong> sai com o AIOS implementado no próprio negócio</li>
+        <li><strong>Público:</strong> empresários faturando R$500k+ — ele está no perfil ideal</li>
+        <li><strong>Segunda cadeira:</strong> pode trazer sócio, gestor ou alguém da equipe sem custo adicional</li>
+      </ul>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-title"><span class="icon">📋</span> Checklist Pós-Fechamento — Não desligar antes</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Contrato enviado no WhatsApp (Clicksign / DocuSign)</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Link de pagamento enviado</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Confirmação de recebimento obtida</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Nome da segunda cadeira coletado</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Boas-vindas feitas — bem-vindo ao grupo dos 14 compradores</span></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><span>Registrar venda no CRM / planilha (comprador #14)</span></li>
+      </ul>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span class="icon">🔄</span> Se não fechar na call</div>
+      <ul class="notes">
+        <li><strong>Próximo passo imediato:</strong> "Gustavo, o que falta para você confirmar? Me diz e eu resolvo agora."</li>
+        <li><strong>Se for sócio:</strong> marcar call de 15 min em menos de 24h com sócio incluído</li>
+        <li><strong>Follow-up máximo 24h:</strong> urgência real — faltam 10 dias para o evento</li>
+        <li><strong>Perfil:</strong> <a href="https://duartebilhon.github.io/PAGINA-IMERS-O-AIOS/perfil-compradores-imersao.html" style="color:var(--gold);">Ver perfil compradores</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function togglePhase(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    document.querySelectorAll('.phase-content').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.phase-header').forEach(h => h.classList.remove('active'));
+    if (!isOpen) {
+      content.classList.add('open');
+      header.classList.add('active');
+    }
+  }
+
+  function toggleObj(trigger) {
+    const body = trigger.nextElementSibling;
+    const arrow = trigger.querySelector('.objection-arrow');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.objection-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.objection-arrow').forEach(a => a.style.transform = '');
+    if (!isOpen) {
+      body.classList.add('open');
+      arrow.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  function toggleCheck(box) { box.classList.toggle('checked'); }
+
+  let timerInterval = null;
+  let totalSeconds = 50 * 60;
+  let remaining = totalSeconds;
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60).toString().padStart(2, '0');
+    const sec = (s % 60).toString().padStart(2, '0');
+    return m + ':' + sec;
+  }
+
+  function startTimer() {
+    if (timerInterval) return;
+    timerInterval = setInterval(() => {
+      remaining--;
+      const el = document.getElementById('timer');
+      el.textContent = formatTime(remaining);
+      if (remaining <= 600 && remaining > 300) el.style.color = '#f97316';
+      else if (remaining <= 300) el.style.color = '#ef4444';
+      if (remaining <= 0) { clearInterval(timerInterval); timerInterval = null; }
+    }, 1000);
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    remaining = totalSeconds;
+    const el = document.getElementById('timer');
+    el.textContent = formatTime(remaining);
+    el.style.color = 'var(--gold)';
+  }
+</script>
+
+</body>
+</html>

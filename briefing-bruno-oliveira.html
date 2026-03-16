@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Bruno de Oliveira | Call 09/03 às 15h</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c84a;
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #13132a;
+    --border: #1e1e3a;
+    --text: #e8e8f0;
+    --text-muted: #7070a0;
+    --green: #22c55e;
+    --orange: #f97316;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --morno: #eab308;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--bg2) 0%, #0a0a1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+  }
+
+  .header-left p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .header-badges { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  .badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-morno { background: rgba(234,179,8,0.2); color: var(--morno); border: 1px solid rgba(234,179,8,0.4); }
+  .badge-score { background: rgba(201,162,39,0.15); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-call { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .badge-alert { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+  .sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .timer-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .timer-display {
+    font-size: 28px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--green);
+    min-width: 80px;
+    transition: color 0.5s;
+  }
+
+  .timer-display.warning { color: var(--orange); }
+  .timer-display.danger { color: var(--red); }
+
+  .timer-controls { display: flex; gap: 8px; }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .btn-primary { background: var(--gold); color: #000; }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-danger { background: rgba(239,68,68,0.2); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+  .timer-phase { margin-left: auto; font-size: 13px; color: var(--text-muted); text-align: right; }
+  .timer-phase strong { color: var(--gold); display: block; font-size: 15px; }
+
+  .tabs {
+    display: flex;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    overflow-x: auto;
+  }
+
+  .tab {
+    padding: 14px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .content { max-width: 1100px; margin: 0 auto; padding: 32px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title::before {
+    content: '';
+    display: block;
+    width: 3px;
+    height: 18px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .header, .content { padding: 16px; }
+    .tabs, .timer-bar { padding: 12px 16px; }
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--text-muted); font-size: 13px; min-width: 160px; flex-shrink: 0; }
+  .info-value { color: var(--text); font-size: 13px; font-weight: 500; text-align: right; }
+  .info-value.highlight { color: var(--gold); font-weight: 600; }
+  .info-value.alert { color: var(--red); font-weight: 600; }
+  .info-value.warn { color: var(--orange); font-weight: 600; }
+  .info-value.success { color: var(--green); font-weight: 600; }
+
+  .score-container { margin: 8px 0; }
+  .score-bar-bg { background: var(--border); border-radius: 4px; height: 8px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--red) 0%, var(--orange) 40%, var(--gold) 70%, var(--green) 100%); }
+  .score-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+  .alert-box {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+  }
+
+  .alert-warning { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+  .alert-caution { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3); color: #fba96e; }
+  .alert-info { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #93c5fd; }
+  .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+  .alert-gold { background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.3); color: var(--gold-light); }
+
+  .alert-icon { font-size: 16px; flex-shrink: 0; }
+
+  .progress-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+  .progress-label { font-size: 13px; color: var(--text-muted); min-width: 140px; }
+  .progress-bar-bg { flex: 1; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 4px; background: var(--gold); }
+  .progress-value { font-size: 13px; color: var(--text); min-width: 40px; text-align: right; }
+
+  .phase {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .phase-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .phase-header:hover { background: var(--bg3); }
+
+  .phase-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .phase-info { flex: 1; }
+  .phase-name { font-weight: 600; font-size: 15px; }
+  .phase-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .phase-timer-badge { padding: 4px 10px; background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; font-size: 12px; color: var(--gold); font-weight: 600; }
+
+  .phase-body { padding: 0 20px 20px 72px; display: none; }
+  .phase-body.open { display: block; }
+
+  .phase-body ul { list-style: none; }
+  .phase-body ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    display: flex;
+    gap: 8px;
+  }
+
+  .phase-body ul li:last-child { border-bottom: none; }
+  .phase-body ul li::before { content: '›'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+  .phrase-box {
+    background: var(--bg3);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .objection { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .objection-header { padding: 14px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.2s; }
+  .objection-header:hover { background: var(--bg3); }
+  .objection-icon { font-size: 18px; }
+  .objection-q { font-weight: 500; font-size: 14px; color: var(--orange); }
+  .objection-toggle { margin-left: auto; color: var(--text-muted); font-size: 18px; transition: transform 0.2s; }
+  .objection-toggle.open { transform: rotate(180deg); }
+  .objection-body { padding: 0 20px 16px 50px; display: none; font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .objection-body.open { display: block; }
+  .objection-response { background: var(--bg3); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 12px 16px; margin-top: 10px; color: var(--text); font-style: italic; }
+
+  .checklist-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-box { width: 20px; height: 20px; border: 2px solid var(--border); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; transition: all 0.2s; }
+  .checklist-item.checked .check-box { background: var(--green); border-color: var(--green); }
+  .checklist-item.checked .check-box::after { content: '✓'; color: #000; font-size: 13px; font-weight: 700; }
+  .checklist-item.checked .check-label { text-decoration: line-through; color: var(--text-muted); }
+  .check-label { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .check-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { padding: 4px 10px; background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; font-size: 12px; color: var(--text-muted); }
+  .tag.gold { border-color: rgba(201,162,39,0.4); color: var(--gold); background: rgba(201,162,39,0.08); }
+  .tag.red { border-color: rgba(239,68,68,0.4); color: var(--red); background: rgba(239,68,68,0.08); }
+  .tag.orange { border-color: rgba(249,115,22,0.4); color: var(--orange); background: rgba(249,115,22,0.08); }
+  .tag.green { border-color: rgba(34,197,94,0.4); color: var(--green); background: rgba(34,197,94,0.08); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  .copy-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-size: 13px; color: var(--text); line-height: 1.7; position: relative; }
+  .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; font-size: 11px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+  .copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Sinais de alerta especiais */
+  .flag-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .flag-red { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); }
+  .flag-orange { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.25); }
+  .flag-green { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Bruno de Oliveira</h1>
+    <p>@brunooliveiraoficial · brunoenp &nbsp;·&nbsp; 21 97109-9637 &nbsp;·&nbsp; SDR: Mariana &nbsp;·&nbsp; Closer: Duarte</p>
+  </div>
+  <div class="header-badges">
+    <span class="badge badge-morno">🌡️ Morno</span>
+    <span class="badge badge-score">Score 59–65</span>
+    <span class="badge badge-call">📅 09/03 às 15h</span>
+    <span class="badge badge-alert">⚠️ 2 Pontos de Atenção</span>
+  </div>
+</div>
+<!-- TIMER BAR -->
+<div class="timer-bar">
+  <div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">TIMER DA CALL</div>
+    <div class="timer-display" id="timer">50:00</div>
+  </div>
+  <div class="timer-controls">
+    <button class="btn btn-primary" onclick="startTimer()">▶ Iniciar</button>
+    <button class="btn btn-secondary" onclick="pauseTimer()">⏸ Pausar</button>
+    <button class="btn btn-danger" onclick="resetTimer()">↺ Reset</button>
+  </div>
+  <div class="timer-phase">
+    <span style="font-size:11px;color:var(--text-muted);">FASE ATUAL</span>
+    <strong id="current-phase">Rapport & Abertura</strong>
+    <span id="phase-detail" style="font-size:12px;color:var(--text-muted);">Criar conexão · validar agenda</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('briefing', this)">📋 Briefing</div>
+  <div class="tab" onclick="switchTab('script', this)">🎯 Script da Call</div>
+  <div class="tab" onclick="switchTab('objecoes', this)">💬 Objeções</div>
+  <div class="tab" onclick="switchTab('fechamento', this)">✅ Fechamento</div>
+</div>
+</div><!-- /sticky-top -->
+
+<!-- =================== TAB: BRIEFING =================== -->
+<div class="content">
+<div id="tab-briefing" class="tab-content active">
+
+  <div class="grid-2">
+
+    <!-- PERFIL -->
+    <div class="card">
+      <div class="card-title">Perfil do Lead</div>
+      <div class="info-row">
+        <span class="info-label">Nome</span>
+        <span class="info-value highlight">Bruno de Oliveira</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Instagram</span>
+        <span class="info-value">@brunooliveiraoficial / @brunoenp</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">WhatsApp</span>
+        <span class="info-value">21 97109-9637</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Papel</span>
+        <span class="info-value highlight">Dono / Empresário</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Faturamento</span>
+        <span class="info-value success">Acima de R$ 5M / ano ⭐</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Colaboradores</span>
+        <span class="info-value success">+ de 30 pessoas ⭐</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Segmento</span>
+        <span class="info-value">Consultoria de E-commerce</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Produto principal</span>
+        <span class="info-value">Efeito Pro — efeitoempreendedor.com.br</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Pode investir R$100k</span>
+        <span class="info-value success">✅ "Claro! Quero aplicar o AIOS imediatamente!"</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Segunda cadeira</span>
+        <span class="info-value warn">🪑 "Ainda vou definir" quem levar</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Pode ir a Floripa</span>
+        <span class="info-value warn">⚠️ "Preciso ajustar a agenda"</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Por que AIOS</span>
+        <span class="info-value alert">❌ "Pq sim" — sem contexto</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Data call</span>
+        <span class="info-value success">09/03 às 15h00</span>
+      </div>
+    </div>
+
+    <!-- SCORE & ALERTAS -->
+    <div>
+      <div class="card">
+        <div class="card-title">Score & Qualificação</div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+          <div style="font-size:48px;font-weight:700;color:var(--morno);font-family:'Playfair Display',serif;">59</div>
+          <div>
+            <div style="color:var(--morno);font-weight:600;font-size:16px;">🌡️ Morno</div>
+            <div style="color:var(--text-muted);font-size:12px;">Score bruto: 65 → Pós-travas: 59</div>
+            <div style="color:var(--orange);font-size:11px;margin-top:2px;">R4 ativada: "Pq sim" &lt; 20 chars</div>
+          </div>
+        </div>
+        <div class="score-container">
+          <div class="score-bar-bg">
+            <div class="score-bar-fill" style="width:59%"></div>
+          </div>
+          <div class="score-labels">
+            <span>Frio</span><span>Morno</span><span>Quente</span><span>Fervendo</span>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="progress-row">
+          <span class="progress-label">Faturamento (25pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
+          <span class="progress-value" style="color:var(--green)">25 ⭐</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Investimento (15pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
+          <span class="progress-value" style="color:var(--green)">15 ✅</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Floripa (5pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
+          <span class="progress-value">5</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Colaboradores (15pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
+          <span class="progress-value" style="color:var(--green)">15 ⭐</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Modelo negócio (20pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:25%"></div></div>
+          <span class="progress-value" style="color:var(--orange)">~8</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Por que AIOS (20pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:0%"></div></div>
+          <span class="progress-value" style="color:var(--red)">0 ❌</span>
+        </div>
+      </div>
+
+      <!-- SEGUNDA CADEIRA -->
+      <div class="card" style="border-color:rgba(201,162,39,0.4);">
+        <div class="card-title" style="color:var(--gold);">🪑 Segunda Cadeira — Oportunidade</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:12px;">
+          Bruno ainda não definiu quem vai levar. O ingresso inclui 1 convidado — segunda cadeira sem custo adicional. Isso é uma <strong style="color:var(--text)">alavanca de venda</strong>: quem ele traria potencializa o retorno do investimento.
+        </div>
+        <div class="alert-box alert-gold">
+          <span class="alert-icon">💡</span>
+          <div><strong>Usar na call:</strong> "Você tem alguém estratégico na operação — sócio, head de marketing, diretor — que faria sentido implantar o AIOS junto com você? A segunda cadeira é inclusa." Pode ser o fator decisivo.</div>
+        </div>
+        <div class="alert-box alert-info">
+          <span class="alert-icon">🎯</span>
+          <div>Sugestão para Bruno: head de e-commerce, diretor de operações, ou sócio da consultoria. Com 30+ colaboradores, ter um segundo executor treinado multiplica o impacto da implantação.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLAGS DE ATENÇÃO -->
+  <div class="card" style="border-color:rgba(249,115,22,0.3);">
+    <div class="card-title" style="color:var(--orange);">⚡ Pontos de Atenção — Leia antes da call</div>
+    <div class="grid-2">
+      <div>
+        <div class="flag-row flag-red">
+          <span style="font-size:16px;">❌</span>
+          <div>
+            <strong style="color:var(--red);">Por que AIOS: "Pq sim"</strong><br>
+            <span style="color:var(--text-muted);">Menor resposta possível. Não articulou nenhuma dor. Call precisa CRIAR a consciência do problema, não só apresentar solução.</span>
+          </div>
+        </div>
+        <div class="flag-row flag-orange">
+          <span style="font-size:16px;">⚠️</span>
+          <div>
+            <strong style="color:var(--orange);">Floripa: "Preciso ajustar a agenda"</strong><br>
+            <span style="color:var(--text-muted);">Não confirmou presença. Confirmar logo na abertura. Se agenda não bater, acionar downsell CoHort.</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="flag-row flag-green">
+          <span style="font-size:16px;">✅</span>
+          <div>
+            <strong style="color:var(--green);">Investimento confirmado</strong><br>
+            <span style="color:var(--text-muted);">"Claro! Quero aplicar o AIOS imediatamente!" — sem objeção financeira. Foco da call é revelar dor e confirmar agenda.</span>
+          </div>
+        </div>
+        <div class="flag-row flag-green">
+          <span style="font-size:16px;">🪑</span>
+          <div>
+            <strong style="color:var(--green);">Segunda cadeira em aberto = oportunidade</strong><br>
+            <span style="color:var(--text-muted);">Ainda não definiu quem levar. Usar como alavanca: sugerir head de operações, head de marketing ou sócio da consultoria.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTELIGÊNCIA DE PERFIL -->
+  <div class="card">
+    <div class="card-title">Inteligência de Perfil — Bruno de Oliveira (@brunoenp)</div>
+    <div class="grid-2">
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">🧠 Quem é Bruno</div>
+        <ul style="list-style:none;">
+          <li style="font-size:13px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Expert em e-commerce e varejo digital — analisa grandes marcas (Amazon, Zara, Shein, Walmart, H&M) para ensinar empreendedores</li>
+          <li style="font-size:13px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Produto principal: <strong style="color:var(--text)">Efeito Pro</strong> — consultoria/comunidade de e-commerce</li>
+          <li style="font-size:13px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Produtor de conteúdo em carrosséis no Instagram — analítico, educativo, provocativo</li>
+          <li style="font-size:13px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Realiza eventos próprios (Mastermind Efeito Empreendedor)</li>
+          <li style="font-size:13px;color:var(--text-muted);padding:6px 0;">Posicionamento: "o segredo por trás disso destrói tudo que ensinam" — marketing de autoridade</li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">🎯 Cases analisados no IG</div>
+        <div class="tags">
+          <span class="tag gold">Amazon vs Mercado Livre</span>
+          <span class="tag gold">Shein no Brasil</span>
+          <span class="tag gold">TikTok Shop US$13M/mês</span>
+          <span class="tag gold">New Balance turnaround</span>
+          <span class="tag gold">Zara vs H&M</span>
+          <span class="tag gold">Target + IA</span>
+          <span class="tag gold">Havan R$3,4bi</span>
+          <span class="tag gold">Victor Hugo falência</span>
+          <span class="tag gold">Influencer R$40M em 14 meses</span>
+        </div>
+        <div style="margin-top:14px;font-size:12px;color:var(--text-muted);line-height:1.6;">
+          Tom editorial: usa cases reais para desconstruir o "óbvio" e revelar a estratégia que ninguém vê. Ele vai entender o AIOS por casos reais de ROI — fale a língua dele.
+        </div>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="grid-2">
+      <div class="alert-box alert-gold">
+        <span class="alert-icon">💰</span>
+        <div>
+          <strong>Dor provável de uma consultoria R$5M+ com 30+ colaboradores:</strong><br>
+          Onboarding de clientes, entrega de resultados, suporte, relatórios, conteúdo e prospecção — tudo dependente de pessoas. IA elimina o gargalo sem aumentar headcount.
+        </div>
+      </div>
+      <div class="alert-box alert-info">
+        <span class="alert-icon">🎙️</span>
+        <div>
+          <strong>Como falar com Bruno:</strong><br>
+          Ele pensa em cases e dados. Não fale em "ferramentas" — fale em "estratégia de escala". Use exemplos concretos como ele faz no conteúdo. Ele vai responder bem a "o que os melhores do mundo estão fazendo com IA".
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAPA DE DORES PROVÁVEIS -->
+  <div class="card">
+    <div class="card-title">Mapa de Dores Prováveis — Consultoria de E-commerce com 30+ colaboradores</div>
+    <div class="grid-3">
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">📦 Entrega de Consultoria</div>
+        <ul style="list-style:none;">
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;border-bottom:1px solid var(--border);">Onboarding manual de novos clientes = horas perdidas</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;border-bottom:1px solid var(--border);">Relatórios de performance gerados por humanos</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;">Suporte a alunos/clientes escala com headcount</li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">📱 Conteúdo & Prospecção</div>
+        <ul style="list-style:none;">
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;border-bottom:1px solid var(--border);">Produção de conteúdo para IG consome equipe</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;border-bottom:1px solid var(--border);">SDR manual para converter seguidores em clientes</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;">Follow-up de leads não automatizado</li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">⚙️ Operação Interna</div>
+        <ul style="list-style:none;">
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;border-bottom:1px solid var(--border);">30+ colaboradores sem processos padronizados = retrabalho</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;border-bottom:1px solid var(--border);">Análise de dados de clientes feita manualmente</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:5px 0;">Gestão de equipe dispersa sem visibilidade em tempo real</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== TAB: SCRIPT =================== -->
+<div id="tab-script" class="tab-content">
+
+  <div class="alert-box alert-warning" style="margin-bottom:20px;">
+    <span class="alert-icon">🚨</span>
+    <div>
+      <strong>ATENÇÃO — Call de DESCOBERTA, não de apresentação.</strong> Bruno não articulou por que quer o AIOS. Sua missão: fazer ele mesmo descobrir e verbalizar a dor durante a call. Fale menos, pergunte mais.
+    </div>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">1</div>
+      <div class="phase-info">
+        <div class="phase-name">Rapport & Validação de Agenda</div>
+        <div class="phase-meta">Criar conexão · Confirmar Floripa · Calibrar nível de energia</div>
+      </div>
+      <div class="phase-timer-badge">3–5 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body open">
+      <ul>
+        <li>Quebrar gelo citando o conteúdo dele: "Vi que você analisou o case do TikTok Shop no Instagram — impressionante como poucos perceberam o movimento antes do mercado."</li>
+        <li>Confirmar agenda Floripa: "Você mencionou que precisava ajustar. Conseguiu confirmar os dias 19 e 20?"</li>
+        <li>Se agenda confirmada → abrir segunda cadeira: "Ótimo. Você ainda está definindo quem levar como segunda cadeira — o ingresso inclui um convidado. Tem alguém estratégico na operação que faria sentido implantar junto com você?"</li>
+        <li>Se agenda não confirmada → não perder a call: "Sem problema. Temos o CoHort online em abril como alternativa — me conta do negócio."</li>
+        <li>Alinhar estrutura: "Tenho 50 minutos. Quero entender sua operação a fundo — aí você avalia se faz sentido. Funciona?"</li>
+      </ul>
+      <div class="phrase-box">
+        "Bruno, acompanho seu conteúdo. Você analisa o que grandes marcas fazem e traduz pra quem opera no digital. Curioso: você faz isso pra sua base mas aplica pra dentro da sua própria operação também?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">2</div>
+      <div class="phase-info">
+        <div class="phase-name">S — Situação</div>
+        <div class="phase-meta">Entender a operação · Volume · Estrutura do Efeito Pro</div>
+      </div>
+      <div class="phase-timer-badge">7–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Qual o modelo exato do Efeito Pro? Consultoria individual, comunidade, infoproduto, ou os três?</li>
+        <li>Quantos clientes ativos hoje? Qual o ticket médio?</li>
+        <li>Como está distribuída a equipe de 30+? Quais funções têm mais gente?</li>
+        <li>Qual a principal fonte de novos clientes hoje? Instagram orgânico, ads, indicação?</li>
+        <li>Como é o processo de onboarding de um novo cliente hoje? Quem faz o quê?</li>
+        <li>Tem algum produto além do Efeito Pro? Outros lançamentos planejados?</li>
+      </ul>
+      <div class="phrase-box">
+        "Você tem R$5M+ e mais de 30 pessoas. Me explica como está estruturado o Efeito Pro hoje — qual o modelo que mais gera receita pra você?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">3</div>
+      <div class="phase-info">
+        <div class="phase-name">P — Problema</div>
+        <div class="phase-meta">Revelar o gargalo que ele NÃO articulou · Dor real</div>
+      </div>
+      <div class="phase-timer-badge">7–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Com 30+ pessoas, onde o processo mais falha hoje — onboarding, suporte, conteúdo, ou comercial?</li>
+        <li>O que acontece quando você precisa escalar atendimento sem contratar mais gente?</li>
+        <li>Quanto do seu tempo pessoal ainda está em tarefas que deveriam ser automáticas?</li>
+        <li>O que você sabe que deveria já estar automatizado mas ainda não está?</li>
+        <li>Como você analisa dados de performance dos seus clientes hoje? É manual?</li>
+      </ul>
+      <div class="phrase-box">
+        "Bruno, você produz conteúdo sobre como grandes marcas usam estratégia pra escalar. Quando você olha pra dentro da sua própria operação — o que você vê que ainda está rodando no modo analógico?"
+      </div>
+      <div class="phrase-box">
+        "No formulário você colocou 'pq sim' como motivo. Me fala de verdade — o que te fez entrar na call hoje?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 4 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">4</div>
+      <div class="phase-info">
+        <div class="phase-name">I — Implicação</div>
+        <div class="phase-meta">Ampliar o custo real de não usar IA · Urgência competitiva</div>
+      </div>
+      <div class="phase-timer-badge">7–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Você analisa o que Amazon, Target e Shein fazem com IA. O que acontece com quem ensina e-commerce e ainda não opera com IA internamente?</li>
+        <li>Quanto tempo sua equipe de 30+ gasta em tarefas repetitivas por mês? E quanto isso custa?</li>
+        <li>Se um concorrente seu já implantou AIOS — o que isso significa pro seu posicionamento?</li>
+        <li>O que acontece com sua base de clientes se você não conseguir escalar atendimento sem crescer o time?</li>
+      </ul>
+      <div class="phrase-box">
+        "Você analisa o que Target fez com IA pra dobrar faturamento. Você ensina sobre isso. Agora vira: seus concorrentes que já estão operando com IA — onde você fica nessa corrida daqui a 12 meses?"
+      </div>
+      <div class="phrase-box">
+        "Quanto custa manter 30 pessoas fazendo o que agentes de IA poderiam fazer? Só em folha, encargos e tempo de gestão — qual o número?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 5 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">5</div>
+      <div class="phase-info">
+        <div class="phase-name">N — Necessidade & Apresentação</div>
+        <div class="phase-meta">Conectar AIOS às dores reveladas · ROI específico para consultoria</div>
+      </div>
+      <div class="phase-timer-badge">8–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>AIOS como "sistema operacional inteligente" para escalar sem escalar headcount</li>
+        <li>Agente de onboarding: novos clientes onboardados em 24h sem humano</li>
+        <li>Agente de suporte ao aluno: tira dúvidas 24/7, reduz carga do time</li>
+        <li>Agente SDR: converte seguidores do IG em leads qualificados via WhatsApp</li>
+        <li>Agente de relatórios: análise de performance de clientes gerada automaticamente</li>
+        <li>Agente de conteúdo: pauta, roteiro e distribuição com IA</li>
+        <li>Em Floripa: 2 dias → sai com os agentes configurados e rodando na operação dele</li>
+      </ul>
+      <div class="phrase-box">
+        "Bruno, você analisa o que Target e Amazon fazem. O que fazemos em Floripa é implantar isso na sua empresa. Não é teoria — você sai de lá com seus agentes rodando. Um para onboarding, um para suporte, um para comercial. Sua equipe de 30 pessoas foca no que realmente exige humano."
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 6 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">6</div>
+      <div class="phase-info">
+        <div class="phase-name">Fechamento</div>
+        <div class="phase-meta">Resolver "Ainda vou definir" · Confirmar Floripa · Enviar contrato</div>
+      </div>
+      <div class="phase-timer-badge">5–8 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Recapitular: dor identificada na call + solução específica + ROI numérico</li>
+        <li>Abordar diretamente o "Ainda vou definir": "Com R$5M+ de faturamento, é questão de ROI, não de capacidade. O que falta pra você dizer sim?"</li>
+        <li>Pergunta de fechamento → silêncio absoluto</li>
+        <li>Se hesitar → downsell CoHort já preparado</li>
+      </ul>
+      <div class="phrase-box">
+        "Bruno, você disse que ia definir o investimento. Agora que a gente falou — o que ainda te segura?"
+        <br><br>
+        <em style="color:var(--text-muted);font-size:12px;">[SILÊNCIO — esperar a resposta dele]</em>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== TAB: OBJEÇÕES =================== -->
+<div id="tab-objecoes" class="tab-content">
+
+  <div class="alert-box alert-caution" style="margin-bottom:20px;">
+    <span class="alert-icon">⚡</span>
+    <div>Bruno é analítico e especialista em negócios. Ele não vai aceitar resposta vaga. Use dados, cases e números. Clique para expandir cada objeção.</div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">🪑</span>
+      <span class="objection-q">"Ainda não sei quem levar como segunda cadeira"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      Não é bloqueio — é oportunidade. Ajudar Bruno a identificar quem seria o par ideal acelera a decisão e aumenta o valor percebido do ingresso.
+      <div class="objection-response">
+        "Faz sentido ainda estar definindo. Deixa eu te ajudar a pensar: quem na sua operação hoje executa mais processos repetitivos que poderiam ser automatizados? Esse seria o par perfeito pra ir com você — saem os dois treinados e a implantação acontece em dobro de velocidade."
+      </div>
+      <div class="objection-response">
+        "Com 30+ pessoas, você tem alguém que cuida de onboarding de clientes, suporte ou operações? Essa pessoa saindo de Floripa junto com você multiplica o retorno do investimento."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">📅</span>
+      <span class="objection-q">"Não consigo ajustar a agenda pra Floripa nos dias 19–20"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      Risco real — ele não confirmou presença.
+      <div class="objection-response">
+        "Entendo. Temos o CoHort AIOS Advanced — formato online, 8 semanas, começa em abril. Mesmos agentes, você implanta da sua empresa, junto com sua equipe. R$24.888. Faz mais sentido pra sua agenda?"
+      </div>
+      <div class="objection-response">
+        "Se a agenda for o único obstáculo, posso verificar se ainda há como reservar a vaga e você define os dias 19–20 como estratégicos. São 2 dias em Floripa que mudam a operação dos próximos 12 meses."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">🤔</span>
+      <span class="objection-q">"Não sei bem se preciso disso agora" / "Não tenho dor clara"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      Objeção provável dado que não articulou dor no formulário.
+      <div class="objection-response">
+        "Perfeito. Você analisa o que Shein fez — chegou no Brasil sem dor, sem urgência, e destruiu quem estava 'confortável'. A IA é igual. Não é questão de sentir dor. É questão de quem implanta primeiro leva vantagem. Você ensina isso pra sua base. Quando vai aplicar pra você?"
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">🛠️</span>
+      <span class="objection-q">"Já uso ferramentas de IA / Minha equipe já tem automações"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      Lead expert pode achar que já está coberto.
+      <div class="objection-response">
+        "Que bom. Me conta — você tem agentes que operam de forma autônoma por WhatsApp, onboardam clientes, geram relatórios e fecham vendas sem intervenção humana? Ou você tem ferramentas que automatizam tarefas pontuais? São coisas diferentes. AIOS é o segundo nível."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">⌛</span>
+      <span class="objection-q">"Vou pensar e te falo depois"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      <div class="objection-response">
+        "O que específicamente você precisa pensar? Me fala que a gente resolve agora."
+      </div>
+      <div class="objection-response">
+        "50 vagas. As últimas estão sendo preenchidas essa semana. Se você sair dessa call sem decidir, a chance real é a próxima turma — sem data prevista."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">📊</span>
+      <span class="objection-q">"Preciso ver mais resultados de quem usou o AIOS"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      <div class="objection-response">
+        "Temos 13 empresários com R$3M a R$35M de faturamento que já compraram. Posso te conectar com um deles? Ou: você prefere ver os resultados depois que outros implantaram — ou prefere ser um dos primeiros a ter vantagem competitiva antes dos outros?"
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== TAB: FECHAMENTO =================== -->
+<div id="tab-fechamento" class="tab-content">
+
+  <div class="grid-2">
+
+    <!-- CHECKLIST PRÉ -->
+    <div class="card">
+      <div class="card-title">Checklist Pré-Fechamento</div>
+      <div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Agenda Floripa confirmada (ou downsell CoHort ativado)</div>
+            <div class="check-sub">Perguntar logo na abertura — não deixar pra depois</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Dor real articulada PELO LEAD</div>
+            <div class="check-sub">Não pode ser você dizendo a dor — ele precisa verbalizar</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">ROI apresentado com números reais da operação dele</div>
+            <div class="check-sub">Usar folha de pagamento de 30+ pessoas como âncora</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Segunda cadeira identificada</div>
+            <div class="check-sub">Bruno definiu quem vai levar — head, sócio ou diretor estratégico</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Pergunta de fechamento feita + silêncio mantido</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST PÓS -->
+    <div class="card">
+      <div class="card-title">Checklist Pós-Fechamento</div>
+      <div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Contrato enviado no WhatsApp</div>
+            <div class="check-sub">Clicksign/DocuSign — 21 97109-9637</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Link de pagamento enviado</div>
+            <div class="check-sub">R$100.000 ou CoHort R$24.888</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Confirmação de recebimento</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Boas-vindas + confirmação 19–20/03</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">CRM/Planilha atualizado como COMPROU</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRASES DE FECHAMENTO -->
+  <div class="card">
+    <div class="card-title">Frases de Fechamento — Calibradas para Bruno</div>
+    <div class="grid-2">
+      <div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin-bottom:10px;text-transform:uppercase;">Direto ao ROI</div>
+        <div class="phrase-box">
+          "Bruno, você analisa o que os maiores fazem. Agora é hora de aplicar. Faz sentido garantir sua vaga?"
+        </div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin:14px 0 10px;text-transform:uppercase;">Urgência Competitiva</div>
+        <div class="phrase-box">
+          "Seus concorrentes que ensinam e-commerce estão avaliando isso agora. Você quer ser o primeiro da sua categoria com AIOS implantado?"
+        </div>
+      </div>
+      <div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin-bottom:10px;text-transform:uppercase;">Alavanca Segunda Cadeira</div>
+        <div class="phrase-box">
+          "Você ainda não definiu quem levar. Pensa comigo: quem da sua equipe, saindo de Floripa junto com você, multiplicaria o impacto da implantação?"
+        </div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin:14px 0 10px;text-transform:uppercase;">Exclusividade</div>
+        <div class="phrase-box">
+          "Única edição de 2026. 50 vagas. Não há próxima data."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNSELL -->
+  <div class="card" style="border-color:rgba(59,130,246,0.3);">
+    <div class="card-title" style="color:var(--blue);">Plano B — Downsell CoHort (se não fechar R$100k ou agenda inviável)</div>
+    <div class="alert-box alert-caution">
+      <span class="alert-icon">⚠️</span>
+      <div>Para Bruno, o CoHort pode ser a entrada mais natural: ele ensina e-commerce, então aprender no formato online de 8 semanas faz sentido. Pode virar upsell depois.</div>
+    </div>
+    <div class="phrase-box" style="border-left-color:var(--blue);">
+      "Bruno, se a agenda de março não fechar, tenho outra entrada. CoHort AIOS Advanced — 8 semanas online, começa em abril. R$24.888. Você implanta os agentes na sua operação no ritmo que quiser, junto com sua equipe. Faz sentido como próximo passo?"
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="info-row"><span class="info-label">Preço</span><span class="info-value">R$ 24.888 (12x R$ 2.488)</span></div>
+      <div class="info-row"><span class="info-label">Início</span><span class="info-value">08/04/2026</span></div>
+      <div class="info-row"><span class="info-label">Formato</span><span class="info-value">Online · 8 semanas</span></div>
+      <div class="info-row"><span class="info-label">ROI</span><span class="info-value success">338% no 1º mês</span></div>
+    </div>
+  </div>
+
+  <!-- MENSAGEM PÓS-CALL -->
+  <div class="card">
+    <div class="card-title">Mensagem Pós-Call — WhatsApp</div>
+    <div class="copy-box" id="msg-whatsapp">
+      <button class="copy-btn" onclick="copyMsg()">Copiar</button>
+      Bruno, foi ótima a conversa! 🤝<br><br>
+      Como combinamos, segue o contrato + link de pagamento pra garantir sua vaga na Imersão AIOS Squad (19–20/03 em Floripa).<br><br>
+      📋 Contrato: [LINK CLICKSIGN]<br>
+      💳 Pagamento: [LINK PAGAMENTO]<br><br>
+      Você analisa o que os maiores fazem. Em Floripa você sai implantando. Mal posso esperar pra ver o AIOS operando no Efeito Pro. 🚀
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  let totalSeconds = 50 * 60;
+  let remaining = totalSeconds;
+  let timerInterval = null;
+  let running = false;
+
+  const phases = [
+    { name: "Rapport & Validação de Agenda", detail: "Criar conexão · Confirmar Floripa", end: 47 * 60 },
+    { name: "S — Situação", detail: "Entender estrutura do Efeito Pro", end: 38 * 60 },
+    { name: "P — Problema", detail: "Revelar a dor que ele não articulou", end: 29 * 60 },
+    { name: "I — Implicação", detail: "Custo de não usar IA · Urgência competitiva", end: 20 * 60 },
+    { name: "N — Necessidade & Apresentação", detail: "Conectar AIOS à operação dele", end: 11 * 60 },
+    { name: "Fechamento", detail: "Resolver 'Ainda vou definir' · Contrato", end: 0 }
+  ];
+
+  function updateDisplay() {
+    const min = Math.floor(remaining / 60).toString().padStart(2, '0');
+    const sec = (remaining % 60).toString().padStart(2, '0');
+    const el = document.getElementById('timer');
+    el.textContent = `${min}:${sec}`;
+    el.className = remaining <= 300 ? 'timer-display danger' : remaining <= 600 ? 'timer-display warning' : 'timer-display';
+    for (const p of phases) {
+      if (remaining > p.end) {
+        document.getElementById('current-phase').textContent = p.name;
+        document.getElementById('phase-detail').textContent = p.detail;
+        break;
+      }
+    }
+  }
+
+  function startTimer() {
+    if (running) return;
+    running = true;
+    timerInterval = setInterval(() => {
+      if (remaining <= 0) { clearInterval(timerInterval); running = false; return; }
+      remaining--;
+      updateDisplay();
+    }, 1000);
+  }
+
+  function pauseTimer() { clearInterval(timerInterval); running = false; }
+  function resetTimer() { clearInterval(timerInterval); running = false; remaining = totalSeconds; updateDisplay(); }
+
+  updateDisplay();
+
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    el.classList.add('active');
+  }
+
+  function togglePhase(header) { header.nextElementSibling.classList.toggle('open'); }
+
+  function toggleObj(header) {
+    header.nextElementSibling.classList.toggle('open');
+    header.querySelector('.objection-toggle').classList.toggle('open');
+  }
+
+  function toggleCheck(item) { item.classList.toggle('checked'); }
+
+  function copyMsg() {
+    const text = document.getElementById('msg-whatsapp').innerText.replace('Copiar', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar', 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

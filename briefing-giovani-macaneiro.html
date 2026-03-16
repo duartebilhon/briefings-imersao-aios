@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Giovani Maçaneiro | Call 09/03 às 14h</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c84a;
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #13132a;
+    --border: #1e1e3a;
+    --text: #e8e8f0;
+    --text-muted: #7070a0;
+    --green: #22c55e;
+    --orange: #f97316;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --quente: #f97316;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--bg2) 0%, #0a0a1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+
+  .header-left p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .header-badges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-quente { background: rgba(249,115,22,0.2); color: var(--quente); border: 1px solid rgba(249,115,22,0.4); }
+  .badge-score { background: rgba(201,162,39,0.15); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-call { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .badge-socio { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+
+  /* TIMER */
+  .sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .timer-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .timer-display {
+    font-size: 28px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--green);
+    min-width: 80px;
+    transition: color 0.5s;
+  }
+
+  .timer-display.warning { color: var(--orange); }
+  .timer-display.danger { color: var(--red); }
+
+  .timer-controls { display: flex; gap: 8px; }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .btn-primary { background: var(--gold); color: #000; }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-danger { background: rgba(239,68,68,0.2); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+  .timer-phase {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .timer-phase strong { color: var(--gold); display: block; font-size: 15px; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    overflow-x: auto;
+  }
+
+  .tab {
+    padding: 14px 24px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* CONTENT */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title::before {
+    content: '';
+    display: block;
+    width: 3px;
+    height: 18px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .header { padding: 16px; }
+    .content { padding: 16px; }
+    .tabs { padding: 0 16px; }
+    .timer-bar { padding: 12px 16px; }
+  }
+
+  /* INFO ROW */
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--text-muted); font-size: 13px; min-width: 160px; flex-shrink: 0; }
+  .info-value { color: var(--text); font-size: 13px; font-weight: 500; text-align: right; }
+  .info-value.highlight { color: var(--gold); font-weight: 600; }
+  .info-value.alert { color: var(--orange); font-weight: 600; }
+  .info-value.success { color: var(--green); font-weight: 600; }
+
+  /* SCORE BAR */
+  .score-container { margin: 8px 0; }
+  .score-bar-bg { background: var(--border); border-radius: 4px; height: 8px; overflow: hidden; }
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--red) 0%, var(--orange) 40%, var(--gold) 70%, var(--green) 100%);
+    transition: width 1s ease;
+  }
+  .score-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ALERT BOX */
+  .alert-box {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+  }
+
+  .alert-warning { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3); color: #fba96e; }
+  .alert-info { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #93c5fd; }
+  .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+  .alert-gold { background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.3); color: var(--gold-light); }
+
+  .alert-icon { font-size: 16px; flex-shrink: 0; }
+
+  /* SCRIPT PHASES */
+  .phase {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .phase-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .phase-header:hover { background: var(--bg3); }
+
+  .phase-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .phase-info { flex: 1; }
+  .phase-name { font-weight: 600; font-size: 15px; color: var(--text); }
+  .phase-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  .phase-timer-badge {
+    padding: 4px 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .phase-body {
+    padding: 0 20px 20px 72px;
+    display: none;
+  }
+
+  .phase-body.open { display: block; }
+
+  .phase-body ul { list-style: none; }
+  .phase-body ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    display: flex;
+    gap: 8px;
+  }
+
+  .phase-body ul li:last-child { border-bottom: none; }
+  .phase-body ul li::before { content: '›'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+  .phrase-box {
+    background: var(--bg3);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* OBJEÇÕES ACCORDION */
+  .objection {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .objection-header {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .objection-header:hover { background: var(--bg3); }
+
+  .objection-icon { font-size: 18px; }
+  .objection-q { font-weight: 500; font-size: 14px; color: var(--orange); }
+  .objection-toggle { margin-left: auto; color: var(--text-muted); font-size: 18px; transition: transform 0.2s; }
+  .objection-toggle.open { transform: rotate(180deg); }
+
+  .objection-body {
+    padding: 0 20px 16px 50px;
+    display: none;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .objection-body.open { display: block; }
+
+  .objection-response {
+    background: var(--bg3);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-top: 10px;
+    color: var(--text);
+    font-style: italic;
+  }
+
+  /* CHECKLIST */
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .checklist-item:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    transition: all 0.2s;
+  }
+
+  .checklist-item.checked .check-box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .checklist-item.checked .check-box::after { content: '✓'; color: #000; font-size: 13px; font-weight: 700; }
+  .checklist-item.checked .check-label { text-decoration: line-through; color: var(--text-muted); }
+
+  .check-label { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .check-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    padding: 4px 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .tag.gold { border-color: rgba(201,162,39,0.4); color: var(--gold); background: rgba(201,162,39,0.08); }
+  .tag.green { border-color: rgba(34,197,94,0.4); color: var(--green); background: rgba(34,197,94,0.08); }
+  .tag.orange { border-color: rgba(249,115,22,0.4); color: var(--orange); background: rgba(249,115,22,0.08); }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  /* PROGRESS BAR */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+  }
+
+  .progress-label { font-size: 13px; color: var(--text-muted); min-width: 140px; }
+  .progress-bar-bg { flex: 1; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 4px; background: var(--gold); }
+  .progress-value { font-size: 13px; color: var(--text); min-width: 40px; text-align: right; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  /* WHATSAPP COPY */
+  .copy-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Giovani Maçaneiro</h1>
+    <p>@giovannimacan &nbsp;·&nbsp; 47 98858-3418 &nbsp;·&nbsp; SDR: Taise &nbsp;·&nbsp; Closer: Duarte</p>
+  </div>
+  <div class="header-badges">
+    <span class="badge badge-quente">🔥 Quente</span>
+    <span class="badge badge-score">Score 63</span>
+    <span class="badge badge-call">📅 09/03 às 14h</span>
+    <span class="badge badge-socio">👥 Sócio</span>
+  </div>
+</div>
+<!-- TIMER BAR -->
+<div class="timer-bar">
+  <div>
+    <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">TIMER DA CALL</div>
+    <div class="timer-display" id="timer">50:00</div>
+  </div>
+  <div class="timer-controls">
+    <button class="btn btn-primary" onclick="startTimer()">▶ Iniciar</button>
+    <button class="btn btn-secondary" onclick="pauseTimer()">⏸ Pausar</button>
+    <button class="btn btn-danger" onclick="resetTimer()">↺ Reset</button>
+  </div>
+  <div class="timer-phase">
+    <span style="font-size:11px;color:var(--text-muted);">FASE ATUAL</span>
+    <strong id="current-phase">Rapport & Abertura</strong>
+    <span id="phase-detail" style="font-size:12px;color:var(--text-muted);">Quebrar gelo · alinhar expectativas</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('briefing', this)">📋 Briefing</div>
+  <div class="tab" onclick="switchTab('script', this)">🎯 Script da Call</div>
+  <div class="tab" onclick="switchTab('objecoes', this)">💬 Objeções</div>
+  <div class="tab" onclick="switchTab('fechamento', this)">✅ Fechamento</div>
+</div>
+</div><!-- /sticky-top -->
+
+<!-- =================== TAB: BRIEFING =================== -->
+<div class="content">
+<div id="tab-briefing" class="tab-content active">
+
+  <div class="grid-2">
+
+    <!-- PERFIL -->
+    <div class="card">
+      <div class="card-title">Perfil do Lead</div>
+      <div class="info-row">
+        <span class="info-label">Nome</span>
+        <span class="info-value highlight">Giovani Maçaneiro</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Instagram</span>
+        <span class="info-value">@giovannimacan</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">WhatsApp</span>
+        <span class="info-value">47 98858-3418</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Papel</span>
+        <span class="info-value alert">Sócio</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Faturamento</span>
+        <span class="info-value">R$ 1M – 3M / ano</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Colaboradores</span>
+        <span class="info-value">6 a 15 pessoas</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Segmento</span>
+        <span class="info-value">Barbearia Premium + Cosméticos + Infoprodutos</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Pode viajar Floripa</span>
+        <span class="info-value success">Sim, sem dúvida!</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">SDR</span>
+        <span class="info-value">Taise</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Closer</span>
+        <span class="info-value highlight">Duarte</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Data da call</span>
+        <span class="info-value success">09/03 às 14h00</span>
+      </div>
+    </div>
+
+    <!-- SCORE & QUALIFICAÇÃO -->
+    <div>
+      <div class="card">
+        <div class="card-title">Score & Qualificação</div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+          <div style="font-size:48px;font-weight:700;color:var(--quente);font-family:'Playfair Display',serif;">63</div>
+          <div>
+            <div style="color:var(--quente);font-weight:600;font-size:16px;">🔥 Quente</div>
+            <div style="color:var(--text-muted);font-size:12px;">Faixa: 55–69 · Prioridade alta</div>
+          </div>
+        </div>
+        <div class="score-container">
+          <div class="score-bar-bg">
+            <div class="score-bar-fill" style="width:63%"></div>
+          </div>
+          <div class="score-labels">
+            <span>Frio</span><span>Morno</span><span>Quente</span><span>Fervendo</span>
+          </div>
+        </div>
+        <hr class="divider">
+        <div class="progress-row">
+          <span class="progress-label">Faturamento (25pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:60%"></div></div>
+          <span class="progress-value">15</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Investimento (15pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
+          <span class="progress-value">15</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Floripa (5pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
+          <span class="progress-value">5</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Colaboradores (15pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:53%"></div></div>
+          <span class="progress-value">8</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Modelo negócio (20pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:60%"></div></div>
+          <span class="progress-value">12</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Por que AIOS (20pts)</span>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:40%"></div></div>
+          <span class="progress-value">8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOR & MOTIVAÇÃO -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Dor Real</div>
+      <div class="alert-box alert-warning">
+        <span class="alert-icon">⚠️</span>
+        <div>
+          <strong>Declarado pelo lead:</strong><br>
+          "Melhora e controle dos processos, produtividade e eficiência"
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-top:12px;">
+        Opera em <strong style="color:var(--text)">3 verticais simultâneas</strong> (barbearia, cosméticos, infoprodutos) — alta fragmentação de processos, time médio, risco de gargalo operacional sem automação.
+      </div>
+      <div class="tags" style="margin-top:12px;">
+        <span class="tag orange">Gestão de processos</span>
+        <span class="tag orange">Produtividade</span>
+        <span class="tag orange">Eficiência operacional</span>
+        <span class="tag orange">Multi-negócio</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Motivação & Urgência</div>
+      <div class="alert-box alert-gold">
+        <span class="alert-icon">🔥</span>
+        <div>
+          <strong>Nível de motivação: MUITO ALTO</strong><br>
+          "Claro! Quero aplicar o AIOS imediatamente!"
+        </div>
+      </div>
+      <div class="alert-box alert-success">
+        <span class="alert-icon">✈️</span>
+        <div>
+          Confirma presença em Floripa: <strong>"Sim, sem dúvida!"</strong>
+        </div>
+      </div>
+      <div class="alert-box alert-info">
+        <span class="alert-icon">💡</span>
+        <div>
+          Cadastrado em 06/03. Call marcada para <strong>09/03 às 14h</strong> — 3 dias de janela, lead ainda quente.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PONTOS DE ATENÇÃO -->
+  <div class="card">
+    <div class="card-title">⚡ Pontos de Atenção — Leia antes da call</div>
+    <div class="grid-2">
+      <div>
+        <div class="alert-box alert-warning">
+          <span class="alert-icon">👥</span>
+          <div>
+            <strong>SÓCIO ENVOLVIDO</strong><br>
+            Campo "investimento 100k" respondido como <em>"Sim - sócio"</em>. Confirmar no início da call: o sócio precisa estar presente ou já deu aval? Se não estiver na call, propor incluí-lo numa call de 15 min.
+          </div>
+        </div>
+        <div class="alert-box alert-info">
+          <span class="alert-icon">📊</span>
+          <div>
+            <strong>FATURAMENTO R$1M–3M</strong><br>
+            Abaixo do perfil médio dos compradores (85% acima de R$3M). Pode hesitar no valor. Reforçar ROI específico para o segmento barbearia+cosmético.
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="alert-box alert-gold">
+          <span class="alert-icon">💎</span>
+          <div>
+            <strong>3 VERTICAIS = 3 ROIs</strong><br>
+            Barbearia: agendamento + fidelização.<br>
+            Cosméticos: vendas automáticas + follow-up.<br>
+            Infoprodutos: funil + suporte ao aluno.<br>
+            Cada vertical justifica parte do investimento sozinha.
+          </div>
+        </div>
+        <div class="alert-box alert-success">
+          <span class="alert-icon">✅</span>
+          <div>
+            <strong>ALTÍSSIMA INTENÇÃO</strong><br>
+            "Quero aplicar imediatamente" + confirmação Floripa = sinal de compra claro. Não deixe sair sem decisão. Foco em remover obstáculos (sócio, financeiro), não em convencer.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTELIGÊNCIA DE SEGMENTO -->
+  <div class="card">
+    <div class="card-title">Inteligência de Segmento — Barbearia Premium + Cosméticos + Infoprodutos</div>
+    <div class="grid-3">
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">✂️ Barbearia Premium</div>
+        <ul style="list-style:none;">
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Agente de agendamento 24/7 (sem recepcionista)</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Confirmação automática de consultas → reduz no-shows</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Programa de fidelidade automatizado</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;">Upsell de produtos no ponto de atendimento</li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">🧴 Cosméticos</div>
+        <ul style="list-style:none;">
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Agente de vendas consultivas via WhatsApp</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Follow-up automático pós-compra (recompra)</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Segmentação de clientes por perfil de compra</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;">Gestão de estoque via IA</li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--gold);font-size:13px;font-weight:600;margin-bottom:10px;">📚 Infoprodutos</div>
+        <ul style="list-style:none;">
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Funil de vendas 100% automatizado</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Agente de suporte ao aluno (tira dúvidas 24/7)</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;border-bottom:1px solid var(--border);">Onboarding automatizado de novos alunos</li>
+          <li style="font-size:12px;color:var(--text-muted);padding:6px 0;">Relatórios de engajamento e churn prevention</li>
+        </ul>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="alert-box alert-gold">
+      <span class="alert-icon">💰</span>
+      <div>
+        <strong>ROI Estimado para o perfil:</strong> 3 verticais × economia de 1 funcionário por vertical = R$12k–18k/mês em custos eliminados. Payback em 6–8 meses. ROI ano 1: 200–250%.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== TAB: SCRIPT =================== -->
+<div id="tab-script" class="tab-content">
+
+  <div class="alert-box alert-gold" style="margin-bottom:20px;">
+    <span class="alert-icon">⏱️</span>
+    <div><strong>50 minutos totais.</strong> Use o timer no topo. Foco cirúrgico: SÓCIO e ROI por vertical. Não convencer — remover obstáculos.</div>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">1</div>
+      <div class="phase-info">
+        <div class="phase-name">Rapport & Abertura</div>
+        <div class="phase-meta">Quebrar gelo · Criar conexão · Alinhar expectativas</div>
+      </div>
+      <div class="phase-timer-badge">3–5 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body open">
+      <ul>
+        <li>Cumprimentar pelo nome. Perguntar de onde é (SC provavelmente — Joinville/Balneário?)</li>
+        <li>Comentar brevemente sobre o negócio: "Vi que você toca barbearia premium + cosméticos + infoprodutos — um ecossistema e tanto."</li>
+        <li>Alinhar estrutura: "Tenho 50 minutos pra você. Vou entender seu negócio, mostrar como o AIOS se encaixa e aí você decide. Funciona assim?"</li>
+        <li>Confirmar presença do sócio agora (CRÍTICO): "Você mencionou que tem sócio. Ele está com a gente hoje?"</li>
+      </ul>
+      <div class="phrase-box">
+        "Giovani, obrigado por reservar esse tempo. Antes de mais nada — você mencionou que tem sócio. Ele consegue estar aqui com a gente hoje, ou já tem o aval dele para avançarmos?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">2</div>
+      <div class="phase-info">
+        <div class="phase-name">S — Situação</div>
+        <div class="phase-meta">Entender o negócio atual · Volume · Estrutura operacional</div>
+      </div>
+      <div class="phase-timer-badge">7–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Quantas unidades de barbearia? Cidade? Ticket médio por cliente?</li>
+        <li>Como funciona o negócio de cosméticos? Venda física, e-commerce, ou ambos?</li>
+        <li>O infoproduto já está rodando? Quantos alunos ativos?</li>
+        <li>Como está dividida a equipe de 6–15 entre as vertentes?</li>
+        <li>Qual vertical gera mais receita hoje? Qual tem mais potencial?</li>
+        <li>Hoje, quais processos são manuais e consomem mais tempo do time?</li>
+      </ul>
+      <div class="phrase-box">
+        "Me conta: das três frentes — barbearia, cosméticos e infoproduto — qual tá rodando melhor e qual tá sendo mais difícil de escalar?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">3</div>
+      <div class="phase-info">
+        <div class="phase-name">P — Problema</div>
+        <div class="phase-meta">Identificar gargalo real · Dor específica · Atrito que trava crescimento</div>
+      </div>
+      <div class="phase-timer-badge">7–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Onde o controle de processos mais falha hoje? Atendimento, vendas, ou entrega?</li>
+        <li>Quantas horas por semana você e o sócio gastam em tarefas operacionais que poderiam ser automatizadas?</li>
+        <li>Já tentou alguma ferramenta de automação antes? O que funcionou/falhou?</li>
+        <li>Quanto custa (em tempo ou dinheiro) a falta de controle hoje?</li>
+        <li>O que acontece quando um funcionário-chave falta? O processo trava?</li>
+      </ul>
+      <div class="phrase-box">
+        "Giovani, você falou em 'controle de processos e eficiência'. Me dá um exemplo concreto: o que aconteceu na semana passada que você pensou 'isso tinha que ser automático'?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 4 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">4</div>
+      <div class="phase-info">
+        <div class="phase-name">I — Implicação</div>
+        <div class="phase-meta">Amplificar o custo de não resolver · Urgência real</div>
+      </div>
+      <div class="phase-timer-badge">7–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Se manter o ritmo atual, o que não acontece nos próximos 12 meses?</li>
+        <li>Quanto a falta de automação já custou em receita perdida / clientes que não voltaram?</li>
+        <li>Com 3 verticais e time de 6–15, o que acontece quando você não consegue escalar mais?</li>
+        <li>Quem depende de você pessoalmente para tomar decisões operacionais hoje?</li>
+      </ul>
+      <div class="phrase-box">
+        "Deixa eu te fazer uma pergunta direta: quanto você estima que está perdendo por mês em receita que poderia ser capturada automaticamente — seja na barbearia, nos cosméticos ou no infoproduto?"
+      </div>
+      <div class="phrase-box">
+        "Você disse que quer aplicar o AIOS imediatamente. O que acontece se essa implantação demorar mais 6 meses?"
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 5 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">5</div>
+      <div class="phase-info">
+        <div class="phase-name">N — Necessidade & Apresentação</div>
+        <div class="phase-meta">Conectar solução à dor específica · Mostrar ROI por vertical</div>
+      </div>
+      <div class="phase-timer-badge">8–10 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Apresentar AIOS como "sistema operacional inteligente" para as 3 verticais</li>
+        <li>Barbearia: agente de agendamento + fidelização → reduz no-shows, aumenta frequência</li>
+        <li>Cosméticos: agente de vendas + recompra automática → aumenta LTV do cliente</li>
+        <li>Infoprodutos: suporte + funil + onboarding automático → escala sem equipe</li>
+        <li>Floripa 19–20/03: 2 dias intensivos → sai com os agentes configurados e rodando</li>
+        <li>ROI: se os agentes gerarem apenas 2–3 novos clientes por vertical = investimento pago em 1–2 meses</li>
+      </ul>
+      <div class="phrase-box">
+        "Giovani, o que fazemos em Floripa é diferente de qualquer curso. Você sai de lá com os agentes de IA da sua barbearia, dos seus cosméticos e do seu infoproduto funcionando. Não é teoria — é implantação ao vivo no seu negócio."
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 6 -->
+  <div class="phase">
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-num">6</div>
+      <div class="phase-info">
+        <div class="phase-name">Fechamento</div>
+        <div class="phase-meta">Colher decisão · Enviar contrato · Dar boas-vindas</div>
+      </div>
+      <div class="phase-timer-badge">5–8 min</div>
+      <span style="color:var(--text-muted);font-size:20px;margin-left:8px;">›</span>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Recapitular dor + solução + ROI em 3 frases</li>
+        <li>Perguntar de fechamento direto → manter silêncio</li>
+        <li>Se sócio não estava presente: "Você precisa de quanto tempo para alinhar com ele?"</li>
+        <li>Enviar contrato no WhatsApp (Clicksign/DocuSign)</li>
+        <li>Enviar link de pagamento</li>
+        <li>Confirmar recebimento e dar boas-vindas</li>
+      </ul>
+      <div class="phrase-box">
+        "Giovani, faz sentido garantir sua vaga em Floripa agora?"
+        <br><br>
+        <em style="color:var(--text-muted);font-size:12px;">[MANTER SILÊNCIO — quem falar primeiro perde]</em>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== TAB: OBJEÇÕES =================== -->
+<div id="tab-objecoes" class="tab-content">
+
+  <div class="alert-box alert-info" style="margin-bottom:20px;">
+    <span class="alert-icon">💬</span>
+    <div>Objeções específicas para o perfil Giovani: foco em sócio, faturamento R$1M–3M, e multi-vertical. Clique para expandir cada objeção.</div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">👥</span>
+      <span class="objection-q">"Preciso falar com meu sócio antes"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      Objeção mais provável para o Giovani — ele mesmo indicou que tem sócio no investimento.
+      <div class="objection-response">
+        "Perfeito. Posso incluir seu sócio numa call de 15 minutos hoje ainda? Quero garantir que ele tenha as mesmas informações que você. Que horário funciona para ele?"
+      </div>
+      <div class="objection-response">
+        "Qual é a maior dúvida do seu sócio? Me conta que eu respondo aqui e você já leva a resposta pra ele."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">💸</span>
+      <span class="objection-q">"R$ 100k é muito dinheiro pra gente"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      Faturamento R$1M–3M pode gerar resistência ao ticket. Importante ancorar no ROI por vertical.
+      <div class="objection-response">
+        "Entendo. Você tem 3 frentes de negócio. Se os agentes capturarem apenas 2 clientes a mais por mês em cada vertical — barbearia, cosméticos e infoproduto — quanto isso representa em receita? Provavelmente o investimento se paga nos primeiros 3 meses."
+      </div>
+      <div class="objection-response">
+        "Quanto custa hoje pra você contratar uma pessoa para cuidar de cada um desses processos que a IA vai automatizar? Uma equipe de 3 pessoas sai R$15k–20k/mês. O investimento paga 5 anos dessa equipe."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">⏰</span>
+      <span class="objection-q">"Não tenho tempo de ir pra Florianópolis"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      Improvável dado que ele confirmou "Sim, sem dúvida!" — mas se surgir:
+      <div class="objection-response">
+        "Giovani, você já confirmou que vai — e faz sentido. São 2 dias em março. Você vai sair de lá com os sistemas rodando nas 3 vertentes do seu negócio. O custo de não ir são mais 12 meses operando sem automação."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">🤔</span>
+      <span class="objection-q">"Preciso pensar mais um pouco"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      <div class="objection-response">
+        "O que específicamente você ainda precisa entender pra tomar a decisão? Me fala que a gente resolve aqui."
+      </div>
+      <div class="objection-response">
+        "Giovani, você disse que quer aplicar o AIOS imediatamente. O que mudou nessa conversa?"
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">📊</span>
+      <span class="objection-q">"Meu negócio é diferente, não sei se funciona pra barbearia"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      <div class="objection-response">
+        "Barbearia premium é um dos segmentos com mais ROI imediato com IA. Agendamento automático reduz no-shows em 40–60%. Fidelização automatizada aumenta frequência de retorno. No seu caso ainda tem o braço de cosméticos — vendas consultivas via WhatsApp com IA são devastadoramente eficientes."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">🔧</span>
+      <span class="objection-q">"Não entendo de tecnologia / minha equipe não sabe usar"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      <div class="objection-response">
+        "O AIOS foi desenhado para empresários, não técnicos. Em Floripa você e seu sócio configuram os agentes ao vivo, com suporte direto. Não é necessário saber programar. Se você sabe usar WhatsApp, você consegue operar os agentes."
+      </div>
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="objection-header" onclick="toggleObj(this)">
+      <span class="objection-icon">⌛</span>
+      <span class="objection-q">"Vou esperar a próxima edição"</span>
+      <span class="objection-toggle">›</span>
+    </div>
+    <div class="objection-body">
+      <div class="objection-response">
+        "Giovani, essa é a única edição de 2026. Não temos próxima turma com data. As vagas que restam estão sendo disputadas esta semana. Toda semana sem automação é receita que não entra."
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== TAB: FECHAMENTO =================== -->
+<div id="tab-fechamento" class="tab-content">
+
+  <div class="grid-2">
+
+    <!-- CHECKLIST PRÉ-FECHAMENTO -->
+    <div class="card">
+      <div class="card-title">Checklist Pré-Fechamento</div>
+      <div id="checklist-pre">
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Sócio alinhado</div>
+            <div class="check-sub">Presente na call ou aval confirmado por WhatsApp</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Dor principal nomeada</div>
+            <div class="check-sub">"Você quer escalar as 3 vertentes mas está travado em processos manuais"</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">ROI apresentado por vertical</div>
+            <div class="check-sub">Barbearia + Cosméticos + Infoprodutos — payback em 3 meses</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Objeção principal tratada</div>
+            <div class="check-sub">Sócio, investimento ou timeline</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Pergunta de fechamento feita</div>
+            <div class="check-sub">Fez a pergunta → manteve silêncio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST PÓS-FECHAMENTO -->
+    <div class="card">
+      <div class="card-title">Checklist Pós-Fechamento</div>
+      <div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Contrato enviado no WhatsApp</div>
+            <div class="check-sub">Clicksign ou DocuSign — 47 98858-3418</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Link de pagamento enviado</div>
+            <div class="check-sub">R$100.000 — forma de pagamento alinhada</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Confirmação de recebimento</div>
+            <div class="check-sub">Lead confirmou que recebeu contrato + link</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">Boas-vindas feitas</div>
+            <div class="check-sub">Confirmar 19–20/03 em Floripa + próximos passos</div>
+          </div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <div>
+            <div class="check-label">CRM/Planilha atualizado</div>
+            <div class="check-sub">Marcar como COMPROU na planilha principal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRASES DE FECHAMENTO -->
+  <div class="card">
+    <div class="card-title">Frases de Fechamento</div>
+    <div class="grid-2">
+      <div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin-bottom:10px;text-transform:uppercase;">Fechamento Direto</div>
+        <div class="phrase-box">
+          "Giovani, faz sentido garantir sua vaga agora?"<br>
+          <span style="color:var(--text-muted);font-size:11px;">[silêncio]</span>
+        </div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin:14px 0 10px;text-transform:uppercase;">Urgência</div>
+        <div class="phrase-box">
+          "Os dias 19 e 20 estão em 10 dias. As últimas vagas estão sendo fechadas essa semana."
+        </div>
+      </div>
+      <div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin-bottom:10px;text-transform:uppercase;">ROI Personalizado</div>
+        <div class="phrase-box">
+          "Se os agentes captarem mais 2 clientes por mês em cada uma das suas 3 vertentes, o investimento já voltou no primeiro trimestre."
+        </div>
+        <div style="color:var(--text-muted);font-size:12px;font-weight:600;margin:14px 0 10px;text-transform:uppercase;">Exclusividade</div>
+        <div class="phrase-box">
+          "Essa é a única edição em 2026. Não há próxima turma."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNSELL -->
+  <div class="card">
+    <div class="card-title" style="color:#ef4444;">Plano B — Downsell CoHort (se não fechar R$100k)</div>
+    <div class="alert-box alert-warning">
+      <span class="alert-icon">⚠️</span>
+      <div>Só usar se o lead confirmar que realmente não pode fazer R$100k. Não oferecer antes de tentar fechar o principal.</div>
+    </div>
+    <div class="phrase-box" style="border-left-color:var(--blue);">
+      "Giovani, tenho uma alternativa. O CoHort AIOS Advanced — 8 semanas online, começa em abril, R$24.888. Mesmos agentes da imersão, ritmo de vocês, sem precisar viajar. Você e seu sócio implementam juntos de onde estiverem. Faz sentido como próximo passo?"
+    </div>
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="info-row">
+        <span class="info-label">Preço</span>
+        <span class="info-value">R$ 24.888 (ou 12x R$ 2.488)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Início</span>
+        <span class="info-value">08/04/2026</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Formato</span>
+        <span class="info-value">Online · 8 semanas</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">ROI estimado</span>
+        <span class="info-value success">338% no 1º mês</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENSAGEM PÓS-CALL WHATSAPP -->
+  <div class="card">
+    <div class="card-title">Mensagem Pós-Call — WhatsApp</div>
+    <div class="copy-box" id="msg-whatsapp">
+      <button class="copy-btn" onclick="copyMsg()">Copiar</button>
+      Giovani, foi muito bom falar com você! 🤝<br><br>
+      Como combinamos, segue o contrato + link de pagamento pra garantir sua vaga na Imersão AIOS Squad (19–20/03 em Floripa).<br><br>
+      📋 Contrato: [LINK CLICKSIGN]<br>
+      💳 Pagamento: [LINK PAGAMENTO]<br><br>
+      Qualquer dúvida é só falar. Mal posso esperar pra ver o AIOS rodando na sua barbearia, nos cosméticos e no infoproduto. 🚀
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  // TIMER
+  let totalSeconds = 50 * 60;
+  let remaining = totalSeconds;
+  let timerInterval = null;
+  let running = false;
+
+  const phases = [
+    { name: "Rapport & Abertura", detail: "Quebrar gelo · Confirmar sócio", end: 47 * 60 },
+    { name: "S — Situação", detail: "Entender as 3 vertentes do negócio", end: 38 * 60 },
+    { name: "P — Problema", detail: "Identificar gargalo real de processos", end: 29 * 60 },
+    { name: "I — Implicação", detail: "Amplificar custo de não resolver", end: 20 * 60 },
+    { name: "N — Necessidade & Apresentação", detail: "Conectar AIOS às 3 vertentes", end: 11 * 60 },
+    { name: "Fechamento", detail: "Perguntar · Silêncio · Contrato", end: 0 }
+  ];
+
+  function updateDisplay() {
+    const min = Math.floor(remaining / 60).toString().padStart(2, '0');
+    const sec = (remaining % 60).toString().padStart(2, '0');
+    const el = document.getElementById('timer');
+    el.textContent = `${min}:${sec}`;
+
+    if (remaining <= 300) {
+      el.className = 'timer-display danger';
+    } else if (remaining <= 600) {
+      el.className = 'timer-display warning';
+    } else {
+      el.className = 'timer-display';
+    }
+
+    // update phase
+    for (const p of phases) {
+      if (remaining > p.end) {
+        document.getElementById('current-phase').textContent = p.name;
+        document.getElementById('phase-detail').textContent = p.detail;
+        break;
+      }
+    }
+  }
+
+  function startTimer() {
+    if (running) return;
+    running = true;
+    timerInterval = setInterval(() => {
+      if (remaining <= 0) { clearInterval(timerInterval); running = false; return; }
+      remaining--;
+      updateDisplay();
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    clearInterval(timerInterval);
+    running = false;
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    running = false;
+    remaining = totalSeconds;
+    updateDisplay();
+  }
+
+  updateDisplay();
+
+  // TABS
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    el.classList.add('active');
+  }
+
+  // PHASE TOGGLE
+  function togglePhase(header) {
+    const body = header.nextElementSibling;
+    body.classList.toggle('open');
+  }
+
+  // OBJECTION TOGGLE
+  function toggleObj(header) {
+    const body = header.nextElementSibling;
+    const toggle = header.querySelector('.objection-toggle');
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+  }
+
+  // CHECKLIST
+  function toggleCheck(item) {
+    item.classList.toggle('checked');
+  }
+
+  // COPY MSG
+  function copyMsg() {
+    const text = document.getElementById('msg-whatsapp').innerText.replace('Copiar', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copiado!';
+      setTimeout(() => btn.textContent = 'Copiar', 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

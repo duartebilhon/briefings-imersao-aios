@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Lukas Malaquias | Call Agendada · Fervendo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a227;
+    --gold-light: #e8c04a;
+    --gold-dim: rgba(201,162,39,0.15);
+    --bg: #07070f;
+    --bg2: #0d0d1c;
+    --bg3: #12122a;
+    --indigo: #6366f1;
+    --green: #22c55e;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+
+  .sticky-top { position: sticky; top: 0; z-index: 100; }
+  .header { background: linear-gradient(135deg, #0d0d1c 0%, #12122a 100%); border-bottom: 1px solid rgba(201,162,39,0.3); padding: 40px 48px 32px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+  .header-left h1 { font-family: 'Playfair Display', serif; font-size: 36px; color: #fff; line-height: 1.2; margin-bottom: 6px; }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p { color: var(--muted); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .badge-fervendo { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .badge-score { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,162,39,0.3); }
+  .badge-floripa { background: rgba(249,115,22,0.12); color: #fb923c; border: 1px solid rgba(249,115,22,0.25); }
+  .badge-100k { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+
+  .timer-box { background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); border-radius: 12px; padding: 12px 20px; text-align: center; }
+  .timer-box .timer-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .timer-box .timer-value { font-size: 28px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+
+  .tabs { display: flex; gap: 0; padding: 0 48px; background: var(--bg2); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .tab { padding: 14px 22px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .content { padding: 40px 48px; max-width: 1000px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .card { background: var(--bg2); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  .card-gold { border-color: rgba(201,162,39,0.3); }
+  .card-red { border-color: rgba(239,68,68,0.3); }
+  .card-green { border-color: rgba(34,197,94,0.25); }
+  .card-orange { border-color: rgba(249,115,22,0.3); }
+
+  .card-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .card-title .icon { font-size: 20px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  .info-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 16px; }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--muted); font-size: 13px; min-width: 130px; }
+  .info-value { color: var(--text); font-size: 14px; text-align: right; flex: 1; }
+  .info-value.gold { color: var(--gold); font-weight: 600; }
+  .info-value.green { color: #4ade80; font-weight: 600; }
+  .info-value.orange { color: #fb923c; font-weight: 600; }
+
+  .stat-card { background: var(--bg3); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 20px; text-align: center; }
+  .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .phase { background: var(--bg2); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; margin-bottom: 16px; overflow: hidden; }
+  .phase-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; cursor: pointer; transition: background 0.2s; }
+  .phase-header:hover { background: rgba(255,255,255,0.03); }
+  .phase-header.active { background: rgba(201,162,39,0.07); }
+  .phase-left { display: flex; align-items: center; gap: 16px; }
+  .phase-number { width: 36px; height: 36px; border-radius: 50%; background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); color: var(--gold); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .phase-info h3 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .phase-info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .phase-timer { background: var(--bg3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 4px 12px; font-size: 12px; color: var(--muted); }
+  .phase-content { display: none; padding: 0 24px 24px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .phase-content.open { display: block; }
+
+  .script-block { background: var(--bg3); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 14px 0; font-style: italic; color: #cbd5e1; font-size: 14px; line-height: 1.8; }
+  .script-block strong { color: var(--gold); font-style: normal; }
+
+  .tip-block { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #a5b4fc; }
+  .tip-block strong { color: #818cf8; }
+  .warning-block { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #fca5a5; }
+  .warning-block strong { color: #f87171; }
+  .success-block { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #86efac; }
+  .success-block strong { color: #4ade80; }
+  .orange-block { background: rgba(249,115,22,0.07); border: 1px solid rgba(249,115,22,0.25); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #fdba74; }
+  .orange-block strong { color: #fb923c; }
+
+  .question-list { list-style: none; }
+  .question-list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text); display: flex; gap: 12px; }
+  .question-list li:last-child { border-bottom: none; }
+  .question-list li::before { content: "→"; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+
+  .objection { background: var(--bg3); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .objection-trigger { padding: 16px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+  .objection-trigger:hover { background: rgba(255,255,255,0.03); }
+  .objection-label { font-size: 14px; font-weight: 500; color: #fca5a5; }
+  .objection-arrow { color: var(--muted); transition: transform 0.2s; font-size: 12px; }
+  .objection-body { display: none; padding: 0 20px 18px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .objection-body.open { display: block; }
+  .objection-response { font-style: italic; color: #cbd5e1; font-size: 14px; line-height: 1.8; margin: 14px 0 10px; }
+  .objection-why { font-size: 12px; color: var(--muted); }
+
+  .checklist { list-style: none; }
+  .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text); }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box { width: 20px; height: 20px; border: 2px solid rgba(201,162,39,0.4); border-radius: 4px; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 1px; }
+  .check-box:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .check-box.checked { background: var(--gold); border-color: var(--gold); }
+  .check-box.checked::after { content: "✓"; color: #07070f; font-size: 12px; font-weight: 700; }
+
+  .quote-block { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold-light); border-left: 3px solid var(--gold); padding: 16px 24px; margin: 20px 0; line-height: 1.6; }
+
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; margin-top: 24px; }
+  .section-label:first-child { margin-top: 0; }
+
+  p { margin-bottom: 10px; font-size: 14px; color: var(--muted); }
+  ul.notes { padding-left: 18px; }
+  ul.notes li { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  ul.notes li strong { color: var(--text); }
+
+  .btn-save { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--gold-dim); border: 1px solid rgba(201,162,39,0.4); border-radius: 10px; color: var(--gold); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 32px; }
+  .btn-save:hover { background: rgba(201,162,39,0.25); }
+  .downsell-card { background: linear-gradient(135deg, rgba(201,162,39,0.08) 0%, rgba(99,102,241,0.08) 100%); border: 1px solid rgba(201,162,39,0.3); border-radius: 16px; padding: 28px 32px; margin-top: 24px; }
+
+  @media print {
+    .tabs, .btn-save, .timer-box { display: none; }
+    .tab-panel { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-top">
+<div style="background:#07070f;border-bottom:1px solid rgba(255,255,255,0.05);padding:10px 48px;">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;color:#94a3b8;font-size:13px;text-decoration:none;" onmouseover="this.style.color='#c9a227'" onmouseout="this.style.color='#94a3b8'">← Voltar para Central de Briefings</a>
+</div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <p>Call de Diagnóstico · Imersão AIOS Squad · Duarte</p>
+    <h1>Lukas <span>Malaquias</span></h1>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+      <span class="badge badge-fervendo">🔥 Fervendo</span>
+      <span class="badge badge-score">Score 83</span>
+      <span class="badge badge-100k">✅ Quer aplicar imediatamente</span>
+      <span class="badge badge-floripa">⚠️ Ajustar agenda Floripa</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="timer-box">
+      <div class="timer-label">Tempo de call</div>
+      <div class="timer-value" id="timer">50:00</div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button onclick="startTimer()" style="background:var(--gold);color:#07070f;border:none;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">START</button>
+        <button onclick="resetTimer()" style="background:var(--bg3);color:var(--muted);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:6px;font-size:12px;cursor:pointer;">RESET</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('briefing')">Briefing</div>
+  <div class="tab" onclick="showTab('script')">Script da Call</div>
+  <div class="tab" onclick="showTab('objections')">Objeções</div>
+  <div class="tab" onclick="showTab('fechamento')">Fechamento</div>
+</div>
+</div><!-- /sticky-top -->
+
+<div class="content">
+  <button class="btn-save" onclick="window.print()">Salvar como PDF</button>
+
+  <!-- TAB: BRIEFING -->
+  <div class="tab-panel active" id="tab-briefing">
+
+    <div class="success-block">
+      <strong>Lead Quente de Verdade:</strong> Lukas aplicou às 2h da manhã do dia 15/03 e respondeu "Claro! Quero aplicar o AIOS imediatamente!" — isso é sinal de urgência e decisão. O único ponto de fricção é a agenda para Floripa. O objetivo da call é confirmar o fit, travar a agenda e fechar.
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-gold">
+        <div class="card-title"><span class="icon">👤</span> Perfil do Lead</div>
+        <div class="info-row">
+          <span class="info-label">Nome</span>
+          <span class="info-value gold">Lukas Malaquias</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Instagram</span>
+          <span class="info-value">@luksmalaquias (privado)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value">lukas@skilldigital.com.br</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Telefone</span>
+          <span class="info-value">55 62982006374</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Categoria</span>
+          <span class="info-value">Dono / Empresário</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">SDR</span>
+          <span class="info-value">Mariana</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Closer</span>
+          <span class="info-value gold">Duarte</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Qualificação</div>
+        <div class="info-row">
+          <span class="info-label">Faturamento</span>
+          <span class="info-value green">R$1M – R$3M</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Colaboradores</span>
+          <span class="info-value">6 a 15 pessoas</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Pode ir a Floripa</span>
+          <span class="info-value orange">Preciso ajustar a agenda</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Investir R$100k</span>
+          <span class="info-value green">Claro! Quero imediatamente</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Score</span>
+          <span class="info-value gold">83 / 100</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Temperatura</span>
+          <span class="info-value" style="color:#f87171;">🔥 Fervendo</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Aplicação</span>
+          <span class="info-value">15/03/2026 às 02h11</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-title"><span class="icon">🏢</span> O Negócio — Skill Digital</div>
+      <div class="quote-block">
+        "Claro! Quero aplicar o AIOS imediatamente!" — Lukas sabe o que quer. Ele não está explorando — está decidido. Sua função na call é confirmar que o produto entrega o que ele espera e resolver a agenda de Floripa.
+      </div>
+
+      <div class="section-label">O que sabemos da Skill Digital</div>
+      <ul class="notes">
+        <li><strong>Email @skilldigital.com.br:</strong> empresa estruturada com domínio próprio — não é freelancer ou operação informal</li>
+        <li><strong>Faturamento R$1M–R$3M:</strong> empresa consolidada, com receita previsível — tem capacidade de investimento</li>
+        <li><strong>6 a 15 colaboradores:</strong> time médio — grande o suficiente para ter processos, pequeno o suficiente para sentir o gargalo de escalar</li>
+        <li><strong>Segmento digital:</strong> "Skill Digital" aponta para educação digital, marketing digital, ou agência — exatamente o perfil que mais se beneficia de AIOS</li>
+        <li><strong>DDD 62:</strong> região de Goiânia/GO — mercado em expansão, menos saturado que SP/RJ</li>
+      </ul>
+
+      <div class="section-label">O que mapear na call</div>
+      <ul class="notes">
+        <li>O que exatamente é a Skill Digital? (Produto, serviço, educação, agência?)</li>
+        <li>Qual processo hoje está limitando o crescimento?</li>
+        <li>Ele tem equipe técnica ou vai precisar de suporte para implantar?</li>
+        <li>Por que ele aplicou às 2h da manhã? (Urgência + o que desencadeou a decisão?)</li>
+      </ul>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-value">R$1–3M</div>
+        <div class="stat-label">Faturamento anual</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">83</div>
+        <div class="stat-label">Score qualificação</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">02h11</div>
+        <div class="stat-label">Aplicou de madrugada</div>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-top:24px;">
+      <div class="card-title"><span class="icon">⚡</span> Inteligência Estratégica — Onde o AIOS muda o jogo dele</div>
+
+      <div class="section-label">Se for agência/marketing digital</div>
+      <ul class="notes">
+        <li><strong>Agente de atendimento a clientes:</strong> relatórios automáticos, atualizações de campanha, suporte — libera a equipe para trabalho estratégico</li>
+        <li><strong>Agente de prospecção:</strong> identificar e qualificar novos clientes em escala — o que SDRs humanos fazem em semanas, agentes fazem em horas</li>
+        <li><strong>Agente de onboarding:</strong> novos clientes integrados automaticamente — briefing, acessos, primeiros entregáveis</li>
+      </ul>
+
+      <div class="section-label">Se for educação digital</div>
+      <ul class="notes">
+        <li><strong>Agente de suporte a alunos:</strong> dúvidas respondidas 24/7 — NPS sobe, churn cai</li>
+        <li><strong>Agente de engajamento:</strong> alunos que param de avançar recebem nudge personalizado automaticamente</li>
+        <li><strong>Agente de vendas:</strong> leads no funil são nutridos e convertidos sem intervenção humana</li>
+        <li><strong>Agente de conteúdo:</strong> reprocessa aulas e materiais em posts, newsletters, resumos</li>
+      </ul>
+
+      <div class="section-label">Em qualquer cenário com 6–15 pessoas</div>
+      <div class="success-block">
+        <strong>Com 6–15 colaboradores, cada pessoa vale muito.</strong> Um agente que assume tarefas repetitivas de 2 pessoas faz a empresa operar como se tivesse 20. O AIOS não substitui a equipe — multiplica o que ela consegue entregar.
+      </div>
+    </div>
+
+    <div class="card card-orange">
+      <div class="card-title"><span class="icon">🗓️</span> O Obstáculo Principal — Agenda de Floripa</div>
+      <div class="orange-block">
+        <strong>Ele disse "Preciso ajustar a agenda"</strong> — não disse "não posso". Isso é abertura. Os dias 19 e 20 estão próximos. A call precisa resolver isso: descobrir o conflito específico e trabalhar alternativas (ele pode trazer alguém do time na segunda cadeira enquanto resolve?).
+      </div>
+      <ul class="notes">
+        <li><strong>Pergunte diretamente:</strong> "Que compromisso você tem nos dias 19 e 20? É inamovível ou é questão de priorizar?"</li>
+        <li><strong>Ofereça a segunda cadeira:</strong> "Se você não puder estar fisicamente em um dos dias, pode vir um sócio ou gestor do seu time. Você recebe tudo depois."</li>
+        <li><strong>Urgência real:</strong> essa é a única edição presencial de 2026. Se ele perder, não há próxima data confirmada.</li>
+      </ul>
+    </div>
+
+    <div class="card card-red">
+      <div class="card-title"><span class="icon">⚠️</span> Pontos de Atenção</div>
+      <ul class="notes">
+        <li><strong>Perfil privado:</strong> não temos inteligência visual do negócio. A call é o único momento para mapear o contexto — faça perguntas abertas sobre o negócio antes de apresentar.</li>
+        <li><strong>Aplicou de madrugada:</strong> pode ser impulso emocional. Confirme o interesse logo no início da call — "Você ainda está animado com isso?"</li>
+        <li><strong>Agenda de Floripa é a principal barreira:</strong> se não resolver isso, não fecha. Prepare alternativas concretas.</li>
+        <li><strong>R$1M–3M:</strong> faturamento sólido mas não é o maior perfil da Imersão. Valide que R$100k não compromete o caixa operacional dele.</li>
+        <li><strong>Fone de Goiânia:</strong> pode ter menos contato com o ecossistema de IA que SP/RJ — aproveite para posicioná-lo como early mover na sua região.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- TAB: SCRIPT -->
+  <div class="tab-panel" id="tab-script">
+
+    <div class="success-block">
+      <strong>Esse é um lead quente.</strong> Ele quer. O script aqui é mais curto nas fases de problema/implicação e mais longo no fechamento. O foco é: entender o negócio, confirmar fit, resolver agenda, fechar.
+    </div>
+
+    <!-- FASE 1 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">1</div>
+          <div class="phase-info"><h3>Rapport & Abertura</h3><p>Validar o interesse e criar conexão</p></div>
+        </div>
+        <span class="phase-timer">3–5 min</span>
+      </div>
+      <div class="phase-content open">
+        <div class="script-block">
+          "Lukas, que bom falar com você! Vi que você aplicou de madrugada — isso me diz que estava pensando bastante nisso. O que te fez preencher o formulário?"
+        </div>
+        <div class="tip-block">
+          <strong>Objetivo:</strong> deixar ele contar a história dele. O que estava na cabeça às 2h da manhã é o dado mais valioso que você vai ter na call.
+        </div>
+        <div class="script-block">
+          "Antes de qualquer coisa: como está a Skill Digital hoje? Me conta um pouco do que vocês fazem."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">2</div>
+          <div class="phase-info"><h3>S — Situação</h3><p>Mapear o negócio: produto, equipe, operação atual</p></div>
+        </div>
+        <span class="phase-timer">7–10 min</span>
+      </div>
+      <div class="phase-content">
+        <ul class="question-list">
+          <li>A Skill Digital trabalha mais com serviço, produto digital, ou educação? Como está estruturado o negócio hoje?</li>
+          <li>Com 6 a 15 pessoas, como está dividida a equipe? Tem gente de tech, de ops, de vendas?</li>
+          <li>Como você está usando IA hoje — tem alguma coisa implementada ou é do zero?</li>
+          <li>Qual é o maior gargalo operacional que você enfrenta agora? O que consome mais tempo da equipe sem gerar retorno proporcional?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">3</div>
+          <div class="phase-info"><h3>P / I — Problema & Implicação</h3><p>Confirmar a dor e amplificar o custo de não agir</p></div>
+        </div>
+        <span class="phase-timer">5–7 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="tip-block">
+          <strong>Lukas já reconheceu a dor</strong> — ele aplicou por conta própria. Use essa fase para nomear e amplificar, não para convencer.
+        </div>
+        <ul class="question-list">
+          <li>Se você resolver o gargalo que mencionou — e sua equipe de [X pessoas] passar a entregar o dobro — o que muda nos seus números em 6 meses?</li>
+          <li>Você está crescendo hoje no ritmo que quer, ou tem alguma coisa te travando?</li>
+          <li>Se a Skill Digital entrar nisso 12 meses antes dos seus concorrentes em Goiânia, qual é a vantagem competitiva que isso te dá?</li>
+        </ul>
+        <div class="script-block">
+          "O que você descreveu é exatamente o padrão que vejo em empresas de R$1M a R$3M que não estão crescendo no ritmo que poderiam: o time está na capacidade máxima, o dono está em tudo, e cada novo cliente ou aluno aumenta o custo operacional proporcionalmente. O AIOS quebra esse padrão."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">4</div>
+          <div class="phase-info"><h3>N — Necessidade & Apresentação</h3><p>Conectar AIOS à Skill Digital especificamente</p></div>
+        </div>
+        <span class="phase-timer">8–10 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Lukas, o que a Imersão AIOS Squad faz é isso: você sai de Florianópolis com agentes instalados e operando na Skill Digital. Não é treinamento, não é teoria — é implantação ao vivo. Alan Nikolas e Thiago Finch trabalham com você nos dias 19 e 20 para construir os agentes específicos do seu negócio. Você escolhe onde eles entram primeiro: atendimento, vendas, onboarding, conteúdo."
+        </div>
+        <div class="script-block">
+          "Com 6 a 15 pessoas, você tem o tamanho perfeito para isso funcionar rápido. Não é grande demais para implementar, não é pequeno demais para sentir o impacto."
+        </div>
+        <div class="tip-block">
+          <strong>Mencione a segunda cadeira:</strong> "E você ainda pode levar uma segunda pessoa — sócio, gestor, head de produto. Os dois saem com os agentes configurados."
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 — AGENDA -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">5</div>
+          <div class="phase-info"><h3>Resolver a Agenda de Floripa</h3><p>O obstáculo central — tratar aqui, não deixar para depois</p></div>
+        </div>
+        <span class="phase-timer">5 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Lukas, você mencionou que precisa ajustar a agenda para Floripa. Me conta: o que você tem nos dias 19 e 20? É algo inamovível?"
+        </div>
+        <div class="tip-block">
+          <strong>Ouça o conflito específico.</strong> Dependendo da resposta:<br>
+          — Compromisso de trabalho: "Quem do seu time pode ir no seu lugar em um dos dias? Ou você consegue reagendar?"<br>
+          — Viagem/evento pessoal: "Isso é anterior à Imersão ou foi marcado depois?"<br>
+          — Incerteza: "Você quer que eu te envie o cronograma dos dois dias para você ver se consegue encaixar?"
+        </div>
+        <div class="warning-block">
+          <strong>Não deixe isso em aberto.</strong> Se sair da call sem data confirmada de Floripa, a chance de fechar cai muito. Trave um compromisso antes de mandar o contrato.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-left">
+          <div class="phase-number">6</div>
+          <div class="phase-info"><h3>Fechamento</h3><p>Colher decisão — Imersão ou CoHort</p></div>
+        </div>
+        <span class="phase-timer">5–8 min</span>
+      </div>
+      <div class="phase-content">
+        <div class="script-block">
+          "Lukas, com tudo que a gente viu hoje — a Skill Digital, o gargalo que você identificou, e os agentes que fariam sentido para vocês — faz sentido garantir sua vaga agora?"
+        </div>
+        <div class="script-block">
+          "O investimento é R$100.000 e inclui você mais um convidado. Os dias 19 e 20 são daqui a poucos dias — essa é a única edição presencial em 2026. Como você está vendo isso?"
+        </div>
+        <div class="tip-block">
+          <strong>Silêncio após a pergunta de fechamento.</strong> Ele quer — deixe ele confirmar.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: OBJEÇÕES -->
+  <div class="tab-panel" id="tab-objections">
+
+    <p>Clique na objeção para ver a resposta calibrada.</p>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Não consigo ir a Floripa nos dias 19 e 20"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Entendo. Duas opções: primeira, quem do seu time pode ir representando a Skill Digital? A segunda cadeira foi feita exatamente para isso. Segunda, você consegue reagendar o compromisso que tem? Me fala o que está travando — a gente resolve junto antes de perder a vaga."
+        </div>
+        <div class="objection-why">Não aceita o "não posso" como definitivo. Procura a solução antes de desistir.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"R$100k é muito para o meu caixa agora"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Me fala: se os agentes aumentarem a conversão do seu funil em 20% — quantos clientes a mais isso representa para a Skill Digital por mês? Com R$1M a R$3M de faturamento, esse número provavelmente cobre o investimento em menos de 60 dias. O problema não é o valor — é o timing do caixa. Tem como trabalhar o parcelamento com seu banco ou um parceiro financeiro?"
+        </div>
+        <div class="objection-why">Conecta ROI à realidade financeira dele. Não ignora a objeção — transforma em cálculo.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Quero ir mas preciso falar com meu sócio / time"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Faz sentido. Quando você fala com ele/ela? Consigo incluir numa call rápida de 15 minutos ainda hoje ou amanhã. A data está chegando — não quero que você perca a vaga por falta de tempo para alinhar internamente."
+        </div>
+        <div class="objection-why">Acelera o ciclo interno. Traz o decisor para a conversa antes que o lead esfrie.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"Preciso entender melhor o que vou construir lá"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Boa pergunta — e é exatamente por isso que a Imersão é presencial. Você não chega sabendo o que vai construir: você chega com o diagnóstico do seu negócio e o Alan e o Finch trabalham contigo para identificar onde os agentes geram mais impacto. No final do primeiro dia você já sabe exatamente o que está sendo construído para a Skill Digital."
+        </div>
+        <div class="objection-why">Transforma a incerteza em argumento a favor da Imersão presencial.</div>
+      </div>
+    </div>
+
+    <div class="objection">
+      <div class="objection-trigger" onclick="toggleObj(this)">
+        <span class="objection-label">"E se não funcionar para o meu segmento?"</span>
+        <span class="objection-arrow">▼</span>
+      </div>
+      <div class="objection-body">
+        <div class="objection-response">
+          "Lukas, educação digital e agências são os segmentos onde AIOS tem mais casos comprovados. Funil de vendas, onboarding de alunos, atendimento, retenção — tudo isso já está rodando em empresas parecidas com a Skill Digital. O risco não é 'não funcionar' — é você estar 12 meses atrás de quem já implementou."
+        </div>
+        <div class="objection-why">Prova social do segmento específico. Inverte o risco: o risco é NÃO fazer.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: FECHAMENTO -->
+  <div class="tab-panel" id="tab-fechamento">
+
+    <div class="card card-gold">
+      <div class="card-title"><span class="icon">✅</span> Checklist Pré-Fechamento</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Negócio mapeado — entendeu o que é a Skill Digital e onde está o gargalo</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>ROI calculado no contexto dele (faturamento R$1M–3M + equipe 6–15)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Conflito de agenda de Floripa resolvido ou alternativa apresentada</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Decisores alinhados (sócio incluído se houver)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Pergunta de fechamento feita + silêncio mantido</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🎯</span> Frases de Fechamento</div>
+      <div class="script-block">
+        <strong>Direto:</strong> "Lukas, com o que a gente viu hoje — faz sentido garantir sua vaga agora?"
+      </div>
+      <div class="script-block">
+        <strong>Urgência real:</strong> "Os dias 19 e 20 estão em 3 dias. Essa é a única edição presencial em 2026. A decisão precisa ser hoje."
+      </div>
+      <div class="script-block">
+        <strong>ROI personalizado:</strong> "Se os agentes fecharem mais 2 clientes por mês para a Skill Digital, o investimento volta em menos de 60 dias. Quanto vale um cliente médio para vocês?"
+      </div>
+      <div class="script-block">
+        <strong>Posicionamento regional:</strong> "Você vai ser uma das primeiras empresas em Goiânia com AIOS implementado. Isso é vantagem competitiva real, não só no produto — na atração de clientes e de equipe."
+      </div>
+    </div>
+
+    <div class="downsell-card">
+      <div class="card-title"><span class="icon">🔄</span> Downsell — CoHort AIOS Advanced</div>
+      <p style="color:var(--text);margin-bottom:16px;">Usar APENAS se o conflito de agenda de Floripa for absolutamente inamovível:</p>
+      <div class="script-block">
+        "Lukas, se Floripa realmente não der nesses dias, temos outra entrada: o CoHort AIOS Advanced começa em abril — 8 semanas online, você e seu time participam no ritmo de vocês. Mesmos agentes, sem viajar. O investimento é R$24.888. Faz sentido como primeiro passo enquanto você se prepara para a próxima edição presencial?"
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px;">
+        <div style="background:var(--bg3);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:20px;font-weight:700;color:var(--gold);">R$24.888</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;margin-top:4px;">ou 12x R$2.488</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:20px;font-weight:700;color:var(--gold);">8 sem</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;margin-top:4px;">Início 08/04/2026</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:20px;font-weight:700;color:var(--gold);">100%</div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;margin-top:4px;">Online · sem viajar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-green" style="margin-top:24px;">
+      <div class="card-title"><span class="icon">📋</span> Checklist Pós-Fechamento</div>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Contrato enviado no WhatsApp (Clicksign/DocuSign)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Link de pagamento enviado</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Confirmação de recebimento</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Boas-vindas — próximos passos (logística de Floripa, segunda cadeira)</li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div>Atualizar Supabase: call_realizada = true, comprou = true</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div><!-- /content -->
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+  function togglePhase(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    document.querySelectorAll('.phase-content').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.phase-header').forEach(h => h.classList.remove('active'));
+    if (!isOpen) { content.classList.add('open'); header.classList.add('active'); }
+  }
+  function toggleObj(trigger) {
+    const body = trigger.nextElementSibling;
+    const arrow = trigger.querySelector('.objection-arrow');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.objection-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.objection-arrow').forEach(a => a.style.transform = '');
+    if (!isOpen) { body.classList.add('open'); arrow.style.transform = 'rotate(180deg)'; }
+  }
+  function toggleCheck(box) { box.classList.toggle('checked'); }
+  let timerInterval, seconds = 3000;
+  function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      seconds--;
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      const el = document.getElementById('timer');
+      el.textContent = m + ':' + s;
+      if (seconds <= 300) el.style.color = '#ef4444';
+      else if (seconds <= 600) el.style.color = '#f97316';
+      else el.style.color = '#c9a227';
+      if (seconds <= 0) clearInterval(timerInterval);
+    }, 1000);
+  }
+  function resetTimer() {
+    clearInterval(timerInterval);
+    seconds = 3000;
+    document.getElementById('timer').textContent = '50:00';
+    document.getElementById('timer').style.color = '#c9a227';
+  }
+</script>
+</body>
+</html>
